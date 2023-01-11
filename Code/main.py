@@ -18,7 +18,7 @@ while running:
             running = False
 
     player1.update(pygame.time.get_ticks())
-    player1.draw(screen)
+    player1.draw()
 
     # Fill the background with white
     screen.fill((255, 255, 255))

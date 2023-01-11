@@ -20,5 +20,3 @@ class Character(pygame.sprite.Sprite):
         if(keys[pygame.K_d]):
             self.direction.x == 1
         self.pos += self.direction * self.speed * delta
-    def draw(self):
-        self.draw(self.surface)
