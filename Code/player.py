@@ -1,8 +1,8 @@
 import pygame
-class Character(pygame.sprite.sprite):
+class Character(pygame.sprite.Sprite):
     def __init__(self,InPos,color,surface,width,height):
         self.pos = InPos
-        self.velocity = pygame.Vector2(0,0)
+        self.direction = pygame.Vector2(0,0)
         self.jumpSpeed = 50
         self.gravity = 500
         self.speed = 0.0001
@@ -15,9 +15,9 @@ class Character(pygame.sprite.sprite):
     def move(self,delta):
         keys = pygame.key.get_pressed()
         if(keys[pygame.K_a]):
-            self.velocity.x == -1
+            self.direction.x == -1
         if(keys[pygame.K_d]):
-            self.velocity.x == 1
-        self.pos += self.velocity * self.speed * delta
+            self.direction.x == 1
+        self.pos += self.direction * self.speed * delta
     def draw(self):
         self.draw(self.surface)
