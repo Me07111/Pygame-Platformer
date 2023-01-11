@@ -18,12 +18,10 @@ while running:
             running = False
 
     player1.update(pygame.time.get_ticks())
+    player1.draw(screen)
 
     # Fill the background with white
     screen.fill((255, 255, 255))
-
-    # Draw a solid blue circle in the center
-    pygame.draw.circle(screen, (0, 0, 255), player1.pos, 75)
 
     # Flip the display
     pygame.display.flip()

@@ -1,5 +1,5 @@
 import pygame
-class Character:
+class Character(pygame.sprite.sprite):
     def __init__(self,InPos,color,surface,width,height):
         self.pos = InPos
         self.velocity = pygame.Vector2(0,0)
@@ -8,11 +8,10 @@ class Character:
         self.speed = 0.0001
         self.color = color
         self.surface = surface
-        self.rect = pygame.Rect(InPos,width,height)
+        self.image = pygame.image.load("../Graphics/2d-game-character-11563233908ryhxnpodm5.png")
     
     def update(self,delta):
         self.move(delta)
-        self.draw()
     def move(self,delta):
         keys = pygame.key.get_pressed()
         self.velocity = pygame.Vector2(0,0)
@@ -22,4 +21,4 @@ class Character:
             self.velocity.x += 1
         self.pos += self.velocity * self.speed * delta
     def draw(self):
-        pygame.draw.rect(self.surface,self.color,self.rect)
+        self.draw(self.surface)
