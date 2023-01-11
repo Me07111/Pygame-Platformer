@@ -7,7 +7,7 @@ height = 500
 # Set up the drawing window
 screen = pygame.display.set_mode([width, height])
 
-player1 = Character(pygame.math.Vector2(width/2, height/2),pygame.color(255,0,0,255),screen,20,50)
+player1 = Character(pygame.math.Vector2(width/2, height/2),pygame.Color(255,0,0,255),screen,20,50)
 # Run until the user asks to quit
 running = True
 while running:
