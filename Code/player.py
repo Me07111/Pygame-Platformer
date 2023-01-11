@@ -14,11 +14,10 @@ class Character(pygame.sprite.sprite):
         self.move(delta)
     def move(self,delta):
         keys = pygame.key.get_pressed()
-        self.velocity = pygame.Vector2(0,0)
         if(keys[pygame.K_a]):
-            self.velocity.x += -1
+            self.velocity.x == -1
         if(keys[pygame.K_d]):
-            self.velocity.x += 1
+            self.velocity.x == 1
         self.pos += self.velocity * self.speed * delta
     def draw(self):
         self.draw(self.surface)
