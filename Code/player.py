@@ -1,6 +1,7 @@
 import pygame
 class Character(pygame.sprite.Sprite):
     def __init__(self,InPos,color,surface,width,height):
+        super.__init__()
         self.pos = InPos
         self.direction = pygame.math.Vector2(0,0)
         self.jumpSpeed = 50
