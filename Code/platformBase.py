@@ -1,5 +1,5 @@
 import pygame
-class platformBase:
+class platformBase(pygame.sprite.Sprite):
     def __init__(self,InPos,width,height,color):
-        self.rect = pygame.Rect(InPos,width,height)
+        self.image = pygame.image.load()
         self.color = color
