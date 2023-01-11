@@ -2,7 +2,7 @@ import pygame
 class Character(pygame.sprite.Sprite):
     def __init__(self,InPos,color,surface,width,height):
         self.pos = InPos
-        self.direction = pygame.Vector2(0,0)
+        self.direction = pygame.math.Vector2(0,0)
         self.jumpSpeed = 50
         self.gravity = 500
         self.speed = 0.0001
