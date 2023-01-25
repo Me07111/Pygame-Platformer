@@ -1,14 +1,15 @@
 import pygame
-from player import Character
+from level import Level
 pygame.init()
-
+# Set up the drawing window
 width = 500
 height = 500
-# Set up the drawing window
 screen = pygame.display.set_mode([width, height])
 
-player1 = Character(pygame.math.Vector2(width/2, height/2),pygame.Color(255,0,0,255),screen,20,50)
 # Run until the user asks to quit
+
+currentLevel = Level(screen,width,height)
+currentLevel.setup()
 running = True
 while running:
 
@@ -17,12 +18,9 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    player1.update(pygame.time.get_ticks())
-    player1.draw()
-
-    # Fill the background with white
     screen.fill((255, 255, 255))
-
+    # Fill the background with white
+    currentLevel.update()
     # Flip the display
     pygame.display.flip()
 
