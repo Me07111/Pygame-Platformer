@@ -8,7 +8,7 @@ screen = pygame.display.set_mode([width, height])
 
 # Run until the user asks to quit
 
-currentLevel = Level(screen,width,height)
+currentLevel = Level(screen,width,height,0.0001)
 currentLevel.setup()
 running = True
 while running:
