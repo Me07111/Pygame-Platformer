@@ -13,14 +13,13 @@ class Level:
 
     def setup(self):
         self.PlayerGroup.add(self.player1)
-    def update(self):
+    def update(self,delta):
             keys = pygame.key.get_pressed()
-            delta = pygame.time.get_ticks()
             self.horizontalUpdate(delta,keys)
             self.verticalUpdate(delta,keys)
             self.player1.rect.center = self.player1.pos
             self.PlayerGroup.draw(self.screen)
-            print(self.player1.rect.center,keys[pygame.K_SPACE])
+            #print(self.player1.rect.center,keys[pygame.K_SPACE])
     def horizontalUpdate(self,delta,keys):
         self.player1.direction.x = 0
         if(keys[pygame.K_a]):
@@ -28,10 +27,12 @@ class Level:
         if(keys[pygame.K_d]):
             self.player1.direction.x = 1
         self.player1.pos.x += self.player1.direction.x * self.player1.speed * delta
+
     def verticalUpdate(self,delta,keys):
             if(keys[pygame.K_SPACE]):
                 if(self.player1.jumpIndex > 0):
                     self.player1.direction.y -= self.player1.jumpSpeed
                     self.player1.jumpIndex -= 1
             self.player1.direction.y += (self.player1.direction.y + self.gravity) * delta
-            self.player1.pos.y += self.player1.direction.y          
+            self.player1.pos.y += self.player1.direction.y    
+            print("delta = ",delta)

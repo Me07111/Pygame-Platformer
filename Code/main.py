@@ -5,10 +5,12 @@ pygame.init()
 width = 500
 height = 500
 screen = pygame.display.set_mode([width, height])
+clock = pygame.time.Clock()
+Framerate  = 60
 
 # Run until the user asks to quit
 
-currentLevel = Level(screen,width,height,0.0001)
+currentLevel = Level(screen,width,height,10)
 currentLevel.setup()
 running = True
 while running:
@@ -20,7 +22,8 @@ while running:
 
     screen.fill((255, 255, 255))
     # Fill the background with white
-    currentLevel.update()
+    delta = clock.tick(60) / 1000
+    currentLevel.update(delta)
     # Flip the display
     pygame.display.flip()
 
