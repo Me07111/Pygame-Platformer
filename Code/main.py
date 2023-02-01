@@ -2,8 +2,8 @@ import pygame
 from level import Level
 pygame.init()
 # Set up the drawing window
-width = 500
-height = 500
+width = 1280
+height = 720
 screen = pygame.display.set_mode([width, height])
 clock = pygame.time.Clock()
 Framerate  = 60
