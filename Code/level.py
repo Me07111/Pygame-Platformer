@@ -36,6 +36,7 @@ class Level:
         if(len(collidingPlatforms) > 0):
             self.player1.rect.center = oldPos
             self.player1.direction.x = 0
+            self.player1.jumpIndex = self.player1.maxJumps
             
 
 

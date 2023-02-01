@@ -12,7 +12,7 @@ gameTime = 0
 
 # Run until the user asks to quit
 
-currentLevel = Level(screen,width,height,10,clock)
+currentLevel = Level(screen,width,height,12,clock)
 currentLevel.setup()
 running = True
 while running:
