@@ -6,7 +6,9 @@ class Character(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2(0,0)
         self.jumpSpeed = 6
         self.jumpIndex = 1
-        self.maxJumps = 1
+        self.maxJumps = 2
+        self.jumpDelay = 0.35
+        self.lastJumpTime = -self.jumpDelay
         self.speed = 200
         self.color = color
         self.surface = surface

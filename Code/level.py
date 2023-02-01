@@ -4,8 +4,9 @@ from config import map,tileWidth,tileHeight
 from platformBase import PlatformBase
 
 class Level:
-    def __init__(self,screen,width,height,gravity):
+    def __init__(self,screen,width,height,gravity,clock):
         self.screen = screen
+        self.clock = clock
         self.PlayerGroup = pygame.sprite.GroupSingle()
         self.width = width
         self.height = height
@@ -16,10 +17,10 @@ class Level:
         self.PlayerGroup.add(self.player1)
         self.generatePlatforms()
 
-    def update(self,delta):
+    def update(self,delta,gametime):
         keys = pygame.key.get_pressed()
         self.horizontalUpdate(delta,keys)
-        self.verticalUpdate(delta,keys)
+        self.verticalUpdate(delta,keys,gametime)
         self.PlayerGroup.draw(self.screen)
         self.platforms.draw(self.screen)
 
@@ -38,11 +39,14 @@ class Level:
             
 
 
-    def verticalUpdate(self,delta,keys):
+    def verticalUpdate(self,delta,keys,gameTime):
         if(keys[pygame.K_SPACE]):
-            if(self.player1.jumpIndex > 0):
+            if(self.player1.jumpIndex > 0 and abs(gameTime-self.player1.lastJumpTime) > self.player1.jumpDelay):
+                self.player1.direction.y = 0
                 self.player1.direction.y -= self.player1.jumpSpeed
                 self.player1.jumpIndex -= 1
+                self.player1.lastJumpTime = gameTime
+
         self.player1.direction.y += (self.player1.direction.y + self.gravity) * delta
         oldPos = self.player1.rect.center
         self.player1.rect.centery += self.player1.direction.y
@@ -66,6 +70,4 @@ class Level:
                     print(pos)
                     platform = PlatformBase(pos,cellWidth,cellHeight,pygame.color.Color(255,255,255,255),self.screen)
                     self.platforms.add(platform)
-                     
-
-
+                    
