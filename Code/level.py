@@ -1,6 +1,6 @@
 import pygame
 from player import Character
-from config import map
+from config import map,tileWidth,tileHeight
 from platformBase import PlatformBase
 
 class Level:
@@ -44,13 +44,15 @@ class Level:
     def generatePlatforms(self):
         cellHeight = self.height/len(map)
         cellWidth = self.width/len(map[0])
-        for i, row in map:
-            for j, cell in row:
+        for i in range(len(map)):
+            row = map[i]
+            for j in range(len(row)):
+                cell = row[j]
                 if(cell == "o"):
                     continue
                 elif(cell == "x"):
-                    pos = pygame.math.Vector2(self.width/j,self.height/i)
-                    platform = PlatformBase(pos,cellWidth,cellHeight,pygame.color.Color(255,255,255,255))
+                    pos = pygame.math.Vector2(j*tileWidth,i*tileHeight)
+                    platform = PlatformBase(pos,cellWidth,cellHeight,pygame.color.Color(255,255,255,255),self.screen)
                     self.platforms.add(platform)
                      
 
