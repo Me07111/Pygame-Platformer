@@ -16,3 +16,18 @@ class Character(pygame.sprite.Sprite):
         self.leftKey = keys[0]
         self.rightKey = keys[1]
         self.jumpKey = keys[2]
+        self.maxHealth = 100
+        self.health = self.maxHealth
+    
+    def takeDamage(self,damage):
+        self.health -= damage
+        if(self.health <= 0):
+            self.die()
+            
+    def heal(self,healAmount):
+        self.health += healAmount
+        if(self.health > self.maxHealth):
+            self.health = self.maxHealth
+
+    def die(self):
+        print("dead")        

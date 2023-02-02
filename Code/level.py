@@ -1,6 +1,6 @@
 import pygame
 from player import Character
-from config import map,tileWidth,tileHeight,mappings,playerSize
+from config import map,tileWidth,tileHeight,mappings,healthBarPoses,healthBarSize,healthBarColors
 from platformBase import PlatformBase
 
 class Level:
@@ -23,6 +23,7 @@ class Level:
             self.verticalUpdate(delta,keys,gametime,player)
         self.PlayerGroup.draw(self.screen)
         self.platforms.draw(self.screen)
+        self.displayHealthBars()
 
     def horizontalUpdate(self,delta,keys,player):
         player.direction.x = 0
@@ -41,21 +42,21 @@ class Level:
 
 
     def verticalUpdate(self,delta,keys,gameTime,player):
-            if(keys[player.jumpKey]):
-                if(player.jumpIndex > 0 and abs(gameTime-player.lastJumpTime) > player.jumpDelay):
-                    player.direction.y = 0
-                    player.direction.y -= player.jumpSpeed
-                    player.jumpIndex -= 1
-                    player.lastJumpTime = gameTime
-
-            player.direction.y += (player.direction.y + self.gravity) * delta
-            oldPos = player.rect.center
-            player.rect.centery += player.direction.y
-            collidingPlatforms = pygame.sprite.spritecollide(player,self.platforms,False)
-            if(len(collidingPlatforms) > 0):
-                player.rect.center = oldPos
+        if(keys[player.jumpKey]):
+            if(player.jumpIndex > 0 and abs(gameTime-player.lastJumpTime) > player.jumpDelay):
                 player.direction.y = 0
-                player.jumpIndex = player.maxJumps
+                player.direction.y -= player.jumpSpeed
+                player.jumpIndex -= 1
+                player.lastJumpTime = gameTime
+
+        player.direction.y += (player.direction.y + self.gravity) * delta
+        oldPos = player.rect.center
+        player.rect.centery += player.direction.y
+        collidingPlatforms = pygame.sprite.spritecollide(player,self.platforms,False)
+        if(len(collidingPlatforms) > 0):
+            player.rect.center = oldPos
+            player.direction.y = 0
+            player.jumpIndex = player.maxJumps
 
     def generatePlatforms(self):
         playerAmount = 0
@@ -78,4 +79,10 @@ class Level:
                         self.players.append(player)
                         self.PlayerGroup.add(player)
                         playerAmount += 1
-                    
+    
+    def displayHealthBars(self):
+        for i in range(self.playerCount):
+            size = healthBarSize
+            size.x = size.x*(self.players[i].health/self.players[i].maxHealth)
+            rect = pygame.Rect(healthBarPoses[i].x,healthBarPoses[i].y,size.x,size.y)
+            pygame.draw.rect(self.screen,healthBarColors[i],rect)

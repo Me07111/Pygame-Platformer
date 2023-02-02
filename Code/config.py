@@ -31,4 +31,18 @@ mappings = [
     player2Mappings
 ]
 
-playerSize = pygame.math.Vector2(100,100)
+healthBarSize = pygame.math.Vector2(300,40)
+
+healthBarPoses = [
+    pygame.math.Vector2(40,40),
+    pygame.math.Vector2(940,40),
+    pygame.math.Vector2(40,240),
+    pygame.math.Vector2(940,240)
+]
+
+healthBarColors = [
+    pygame.color.Color(0,255,0,255),
+    pygame.color.Color(0,0,255,255),
+    pygame.color.Color(255,0,0,255),
+    pygame.color.Color(255,100,15,255)
+]
