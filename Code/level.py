@@ -1,74 +1,81 @@
 import pygame
 from player import Character
-from config import map,tileWidth,tileHeight
+from config import map,tileWidth,tileHeight,mappings,playerSize
 from platformBase import PlatformBase
 
 class Level:
-    def __init__(self,screen,width,height,gravity,clock):
+    def __init__(self,screen,width,height,gravity,clock,playercount):
         self.screen = screen
         self.clock = clock
-        self.PlayerGroup = pygame.sprite.GroupSingle()
+        self.PlayerGroup = pygame.sprite.Group()
         self.width = width
         self.height = height
-        self.player1 = Character(pygame.math.Vector2(self.width/2, self.height/2),pygame.Color(255,0,0,255),self.screen,20,50)
         self.gravity = gravity
         self.platforms = pygame.sprite.Group()
-    def setup(self):
-        self.PlayerGroup.add(self.player1)
+        self.playerCount = playercount
+        self.players = []
         self.generatePlatforms()
 
     def update(self,delta,gametime):
         keys = pygame.key.get_pressed()
-        self.horizontalUpdate(delta,keys)
-        self.verticalUpdate(delta,keys,gametime)
+        for player in self.players:
+            self.horizontalUpdate(delta,keys,player)
+            self.verticalUpdate(delta,keys,gametime,player)
         self.PlayerGroup.draw(self.screen)
         self.platforms.draw(self.screen)
 
-    def horizontalUpdate(self,delta,keys):
-        self.player1.direction.x = 0
-        if(keys[pygame.K_a]):
-            self.player1.direction.x = -1
-        if(keys[pygame.K_d]):
-            self.player1.direction.x = 1
-        oldPos = self.player1.rect.center
-        self.player1.rect.centerx += self.player1.direction.x * self.player1.speed * delta
-        collidingPlatforms = pygame.sprite.spritecollide(self.player1,self.platforms,False)
+    def horizontalUpdate(self,delta,keys,player):
+        player.direction.x = 0
+        if(keys[player.leftKey]):
+            player.direction.x = -1
+        if(keys[player.rightKey]):
+            player.direction.x = 1
+        oldPos = player.rect.center
+        player.rect.centerx += player.direction.x * player.speed * delta
+        collidingPlatforms = pygame.sprite.spritecollide(player,self.platforms,False)
         if(len(collidingPlatforms) > 0):
-            self.player1.rect.center = oldPos
-            self.player1.direction.x = 0
-            self.player1.jumpIndex = self.player1.maxJumps
+            player.rect.center = oldPos
+            player.direction.x = 0
+            player.jumpIndex = player.maxJumps
             
 
 
-    def verticalUpdate(self,delta,keys,gameTime):
-        if(keys[pygame.K_SPACE]):
-            if(self.player1.jumpIndex > 0 and abs(gameTime-self.player1.lastJumpTime) > self.player1.jumpDelay):
-                self.player1.direction.y = 0
-                self.player1.direction.y -= self.player1.jumpSpeed
-                self.player1.jumpIndex -= 1
-                self.player1.lastJumpTime = gameTime
+    def verticalUpdate(self,delta,keys,gameTime,player):
+        if(keys[player.jumpKey]):
+            if(player.jumpIndex > 0 and abs(gameTime-player.lastJumpTime) > player.jumpDelay):
+                player.direction.y = 0
+                player.direction.y -= player.jumpSpeed
+                player.jumpIndex -= 1
+                player.lastJumpTime = gameTime
 
-        self.player1.direction.y += (self.player1.direction.y + self.gravity) * delta
-        oldPos = self.player1.rect.center
-        self.player1.rect.centery += self.player1.direction.y
-        collidingPlatforms = pygame.sprite.spritecollide(self.player1,self.platforms,False)
-        if(len(collidingPlatforms) > 0):
-            self.player1.rect.center = oldPos
-            self.player1.direction.y = 0
-            self.player1.jumpIndex = self.player1.maxJumps
+            player.direction.y += (player.direction.y + self.gravity) * delta
+            oldPos = player.rect.center
+            player.rect.centery += player.direction.y
+            collidingPlatforms = pygame.sprite.spritecollide(player,self.platforms,False)
+            if(len(collidingPlatforms) > 0):
+                player.rect.center = oldPos
+                player.direction.y = 0
+                player.jumpIndex = player.maxJumps
 
     def generatePlatforms(self):
+        playerAmount = 0
         cellHeight = self.height/len(map)
         cellWidth = self.width/len(map[0])
         for i in range(len(map)):
             row = map[i]
             for j in range(len(row)):
                 cell = row[j]
+                pos = pygame.math.Vector2(j*tileWidth,i*tileHeight)
                 if(cell == "o"):
                     continue
                 elif(cell == "x"):
-                    pos = pygame.math.Vector2(j*tileWidth,i*tileHeight)
-                    print(pos)
                     platform = PlatformBase(pos,cellWidth,cellHeight,pygame.color.Color(255,255,255,255),self.screen)
                     self.platforms.add(platform)
+                elif(cell == "P"):
+                    if(playerAmount + 1 <= self.playerCount):
+                        PlayerPos = pygame.math.Vector2(pos.x + 40,pos.y + 40)
+                        player = Character(pos,self.screen,mappings[playerAmount])
+                        self.players.append(player)
+                        self.PlayerGroup.add(player)
+                        playerAmount += 1
                     

@@ -12,8 +12,7 @@ gameTime = 0
 
 # Run until the user asks to quit
 
-currentLevel = Level(screen,width,height,12,clock)
-currentLevel.setup()
+currentLevel = Level(screen,width,height,12,clock,2)
 running = True
 while running:
 
@@ -26,7 +25,6 @@ while running:
     # Fill the background with white
     delta = clock.tick(60) / 1000
     gameTime += delta
-    print(gameTime)
     currentLevel.update(delta,gameTime)
     # Flip the display
     pygame.display.flip()
