@@ -42,12 +42,12 @@ class Level:
 
 
     def verticalUpdate(self,delta,keys,gameTime,player):
-        if(keys[player.jumpKey]):
-            if(player.jumpIndex > 0 and abs(gameTime-player.lastJumpTime) > player.jumpDelay):
-                player.direction.y = 0
-                player.direction.y -= player.jumpSpeed
-                player.jumpIndex -= 1
-                player.lastJumpTime = gameTime
+            if(keys[player.jumpKey]):
+                if(player.jumpIndex > 0 and abs(gameTime-player.lastJumpTime) > player.jumpDelay):
+                    player.direction.y = 0
+                    player.direction.y -= player.jumpSpeed
+                    player.jumpIndex -= 1
+                    player.lastJumpTime = gameTime
 
             player.direction.y += (player.direction.y + self.gravity) * delta
             oldPos = player.rect.center
