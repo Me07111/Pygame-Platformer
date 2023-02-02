@@ -17,4 +17,4 @@ class Character(pygame.sprite.Sprite):
         self.leftKey = keys[0]
         self.rightKey = keys[1]
         self.jumpKey = keys[2]
-        
+        print(self.rect)
