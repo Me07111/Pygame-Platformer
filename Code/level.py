@@ -34,7 +34,6 @@ class Level:
         player.rect.centerx += player.direction.x * player.speed * delta
         collidingPlatforms = pygame.sprite.spritecollide(player,self.platforms,False)
         if(len(collidingPlatforms) > 0):
-            print("horizontalww Coll")
             player.rect.center = oldPos
             player.direction.x = 0
             player.jumpIndex = player.maxJumps
@@ -53,9 +52,7 @@ class Level:
             oldPos = player.rect.center
             player.rect.centery += player.direction.y
             collidingPlatforms = pygame.sprite.spritecollide(player,self.platforms,False)
-            print(len(collidingPlatforms))
             if(len(collidingPlatforms) > 0):
-                print("vertical Coll")
                 player.rect.center = oldPos
                 player.direction.y = 0
                 player.jumpIndex = player.maxJumps

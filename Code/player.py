@@ -13,8 +13,6 @@ class Character(pygame.sprite.Sprite):
         self.image = pygame.image.load("Graphics\Character.png")
         self.rect = self.image.get_rect()
         self.rect.center = InPos
-        print(self.rect)
         self.leftKey = keys[0]
         self.rightKey = keys[1]
         self.jumpKey = keys[2]
-        print(self.rect)
