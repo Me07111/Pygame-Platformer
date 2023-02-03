@@ -15,34 +15,25 @@ class Level:
         self.playerCount = playercount
         self.players = []
         self.generatePlatforms()
+        self.crap = True
 
     def update(self,delta,gametime):
+        if(gametime > 3 and self.crap):
+            self.players[1].launch(pygame.Vector2(1,1),6)
         keys = pygame.key.get_pressed()
         for player in self.players:
-            self.horizontalUpdate(delta,keys,player)
-            self.verticalUpdate(delta,keys,gametime,player)
+            self.movementUpdate(delta,keys,player,gametime)
         self.PlayerGroup.draw(self.screen)
         self.platforms.draw(self.screen)
-        self.players[0].takeDamage(1)
         self.displayHealthBars()
 
-    def horizontalUpdate(self,delta,keys,player):
+    def movementUpdate(self,delta,keys,player,gameTime):
+        #input
         player.direction.x = 0
         if(keys[player.leftKey]):
             player.direction.x = -1
         if(keys[player.rightKey]):
             player.direction.x = 1
-        oldPos = player.rect.center
-        player.rect.centerx += player.direction.x * player.speed * delta
-        collidingPlatforms = pygame.sprite.spritecollide(player,self.platforms,False)
-        if(len(collidingPlatforms) > 0):
-            player.rect.center = oldPos
-            player.direction.x = 0
-            player.jumpIndex = player.maxJumps
-            
-
-
-    def verticalUpdate(self,delta,keys,gameTime,player):
         if(keys[player.jumpKey]):
             if(player.jumpIndex > 0 and abs(gameTime-player.lastJumpTime) > player.jumpDelay):
                 player.direction.y = 0
@@ -50,14 +41,26 @@ class Level:
                 player.jumpIndex -= 1
                 player.lastJumpTime = gameTime
 
-        player.direction.y += (player.direction.y + self.gravity) * delta
+        #vertical update
         oldPos = player.rect.center
+        player.direction.y += (player.direction.y + self.gravity) * delta
         player.rect.centery += player.direction.y
-        collidingPlatforms = pygame.sprite.spritecollide(player,self.platforms,False)
-        if(len(collidingPlatforms) > 0):
+        collidingPlatformsVert = pygame.sprite.spritecollide(player,self.platforms,False)
+        if(len(collidingPlatformsVert) > 0):
             player.rect.center = oldPos
             player.direction.y = 0
             player.jumpIndex = player.maxJumps
+
+        #horizontal update
+        player.rect.centerx += player.direction.x * player.speed * delta
+        collidingPlatforms = pygame.sprite.spritecollide(player,self.platforms,False)
+        if(len(collidingPlatforms) > 0):
+            player.rect.center = oldPos
+            player.direction.x = 0
+            player.jumpIndex = player.maxJumps
+        
+        
+        
 
     def generatePlatforms(self):
         playerAmount = 0
@@ -83,7 +86,6 @@ class Level:
     
     def displayHealthBars(self):
         for i in range(self.playerCount):
-            print(self.players[i].health)
             rect = pygame.Rect(
             healthBarPoses[i].x,
             healthBarPoses[i].y,
