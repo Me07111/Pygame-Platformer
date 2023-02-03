@@ -23,6 +23,7 @@ class Level:
             self.verticalUpdate(delta,keys,gametime,player)
         self.PlayerGroup.draw(self.screen)
         self.platforms.draw(self.screen)
+        self.players[0].takeDamage(1)
         self.displayHealthBars()
 
     def horizontalUpdate(self,delta,keys,player):
@@ -82,7 +83,11 @@ class Level:
     
     def displayHealthBars(self):
         for i in range(self.playerCount):
-            size = healthBarSize
-            size.x = size.x*(self.players[i].health/self.players[i].maxHealth)
-            rect = pygame.Rect(healthBarPoses[i].x,healthBarPoses[i].y,size.x,size.y)
+            print(self.players[i].health)
+            rect = pygame.Rect(
+            healthBarPoses[i].x,
+            healthBarPoses[i].y,
+            healthBarSize.x*(self.players[i].health/self.players[i].maxHealth),
+            healthBarSize.y
+            )
             pygame.draw.rect(self.screen,healthBarColors[i],rect)

@@ -22,6 +22,7 @@ class Character(pygame.sprite.Sprite):
     def takeDamage(self,damage):
         self.health -= damage
         if(self.health <= 0):
+            self.health = 0
             self.die()
             
     def heal(self,healAmount):
