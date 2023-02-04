@@ -16,12 +16,20 @@ class Level:
         self.players = []
         self.generatePlatforms()
         self.crap = True
+        self.horizontalDrag = 0.1
+        self.GroundDrag = 0.1
+        self.AirDrag = 0.01
 
     def update(self,delta,gametime):
-        if(gametime > 3 and self.crap):
-            self.players[1].launch(pygame.Vector2(1,1),6)
+        if(gametime > 1 and self.crap == True):
+            self.players[1].launch(pygame.Vector2(-1,-4),100)
+            self.crap = False
         keys = pygame.key.get_pressed()
         for player in self.players:
+            if(player.isOnGround):
+                self.horizontalDrag = self.GroundDrag
+            else:
+                self.horizontalDrag = self.AirDrag
             self.movementUpdate(delta,keys,player,gametime)
         self.PlayerGroup.draw(self.screen)
         self.platforms.draw(self.screen)
@@ -29,7 +37,6 @@ class Level:
 
     def movementUpdate(self,delta,keys,player,gameTime):
         #input
-        player.direction.x = 0
         if(keys[player.leftKey]):
             player.direction.x = -1
         if(keys[player.rightKey]):
@@ -40,6 +47,12 @@ class Level:
                 player.direction.y -= player.jumpSpeed
                 player.jumpIndex -= 1
                 player.lastJumpTime = gameTime
+                player.isOnGround = False
+        #launch update
+        if(player.launched == True):
+            player.isOnGround = False
+            player.direction += player.launchVector * player.launchSpeed * delta
+            player.launched = False
 
         #vertical update
         oldPos = player.rect.center
@@ -50,17 +63,17 @@ class Level:
             player.rect.center = oldPos
             player.direction.y = 0
             player.jumpIndex = player.maxJumps
+            player.isOnGround = True
 
         #horizontal update
+        oldPos = player.rect.center
         player.rect.centerx += player.direction.x * player.speed * delta
+        player.direction.x = self.closerToZero(player.direction.x,self.horizontalDrag)
         collidingPlatforms = pygame.sprite.spritecollide(player,self.platforms,False)
         if(len(collidingPlatforms) > 0):
             player.rect.center = oldPos
             player.direction.x = 0
             player.jumpIndex = player.maxJumps
-        
-        
-        
 
     def generatePlatforms(self):
         playerAmount = 0
@@ -93,3 +106,13 @@ class Level:
             healthBarSize.y
             )
             pygame.draw.rect(self.screen,healthBarColors[i],rect)
+    
+    def closerToZero(self,numberToNegate,negateBy):
+        if(numberToNegate >= 0):
+            index = 1
+        else:
+            index = -1
+        if((abs(numberToNegate) - negateBy) < 0):
+            return 0
+        else:
+            return (abs(numberToNegate) - negateBy) * index

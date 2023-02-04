@@ -8,7 +8,7 @@ class Character(pygame.sprite.Sprite):
         self.jumpIndex = self.maxJumps
         self.jumpDelay = 0.35
         self.lastJumpTime = -self.jumpDelay
-        self.speed = 200
+        self.speed = 400
         self.surface = surface
         self.image = pygame.image.load("Graphics\Character.png")
         self.rect = self.image.get_rect()
@@ -19,6 +19,9 @@ class Character(pygame.sprite.Sprite):
         self.maxHealth = 100
         self.health = self.maxHealth
         self.launchVector = pygame.Vector2()
+        self.launchSpeed = 0
+        self.launched = False
+        self.isOnGround = True
     
     def takeDamage(self,damage):
         self.health -= damage
@@ -35,4 +38,7 @@ class Character(pygame.sprite.Sprite):
         print("dead")      
 
     def launch(self,direction,speed):
-        self.launchVector += direction * speed
+        print("launched")
+        self.launchVector = direction
+        self.launchSpeed = speed
+        self.launched = True
