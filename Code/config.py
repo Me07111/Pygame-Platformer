@@ -7,7 +7,7 @@ map = [
     ["o","o","o","o","o","o","o","o","o","o","o","o","o","o","o","o"],
     ["o","o","o","o","o","o","o","o","o","o","o","o","o","o","o","o"],
     ["o","o","o","o","o","o","o","o","o","o","o","o","o","o","o","o"],
-    ["o","o","o","o","o","o","o","o","o","o","o","o","P","o","o","o"],
+    ["o","o","w0","o","o","o","o","o","o","o","o","o","P","o","o","o"],
     ["x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x"]
 ]
 
@@ -45,4 +45,10 @@ healthBarColors = [
     pygame.color.Color(0,0,255,255),
     pygame.color.Color(255,0,0,255),
     pygame.color.Color(255,100,15,255)
+]
+
+#(name,imagePath,isPickedUp,inPos,bulletSpeed,bulletSize,bulletImagePath)
+weapons = [
+["pistol","Graphics/pistol",200,"Graphics/pistolBullet"],
+["Assoult Rifle","Graphics/ar",300,"Graphics/arBullet"]
 ]

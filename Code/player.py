@@ -22,6 +22,7 @@ class Character(pygame.sprite.Sprite):
         self.launchSpeed = 0
         self.launched = False
         self.isOnGround = True
+        self.weapon = None
     
     def takeDamage(self,damage):
         self.health -= damage

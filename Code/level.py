@@ -1,7 +1,8 @@
 import pygame
 from player import Character
-from config import map,tileWidth,tileHeight,mappings,healthBarPoses,healthBarSize,healthBarColors
+from config import map,tileWidth,tileHeight,mappings,healthBarPoses,healthBarSize,healthBarColors,weapons
 from platformBase import PlatformBase
+from weapon import Weapon
 
 class Level:
     def __init__(self,screen,width,height,gravity,clock,playercount):
@@ -19,10 +20,11 @@ class Level:
         self.horizontalDrag = 0.1
         self.GroundDrag = 0.1
         self.AirDrag = 0.01
+        self.OnGroundWeapons = []
 
     def update(self,delta,gametime):
         if(gametime > 1 and self.crap == True):
-            self.players[1].launch(pygame.Vector2(-1,-4),100)
+            self.players[1].launch(pygame.Vector2(-0.7,-8),100)
             self.crap = False
         keys = pygame.key.get_pressed()
         for player in self.players:
@@ -96,6 +98,10 @@ class Level:
                         self.players.append(player)
                         self.PlayerGroup.add(player)
                         playerAmount += 1
+                elif(cell[0] == "w"):
+                    type = weapons[int(cell[len(cell)-1])]
+                    weapon = Weapon(type[0],type[1],False,pos,type[2],type[3])
+                    self.OnGroundWeapons.append(weapon)
     
     def displayHealthBars(self):
         for i in range(self.playerCount):
