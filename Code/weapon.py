@@ -10,7 +10,3 @@ class Weapon(pygame.sprite.Sprite):
         self.showPickUpText = False
         self.bulletSpeed = bulletSpeed
         self.bulletImagePath = bulletImagePath
-    
-    def pickUp(self,player):
-        self.isPickedUp = True
-        player.weapon = self

@@ -8,34 +8,38 @@ class Level:
     def __init__(self,screen,width,height,gravity,clock,playercount):
         self.screen = screen
         self.clock = clock
-        self.PlayerGroup = pygame.sprite.Group()
         self.width = width
         self.height = height
         self.gravity = gravity
         self.platforms = pygame.sprite.Group()
         self.playerCount = playercount
         self.players = []
-        self.generatePlatforms()
-        self.crap = True
         self.horizontalDrag = 0.1
         self.GroundDrag = 0.1
         self.AirDrag = 0.01
-        self.OnGroundWeapons = []
+        self.onGroundWeapons = pygame.sprite.Group()
+        self.generatePlatforms()
 
     def update(self,delta,gametime):
-        if(gametime > 1 and self.crap == True):
-            self.players[1].launch(pygame.Vector2(-0.7,-8),100)
-            self.crap = False
         keys = pygame.key.get_pressed()
-        for player in self.players:
+        for i in range(len(self.players)):
+            player = self.players[i]
             if(player.isOnGround):
                 self.horizontalDrag = self.GroundDrag
             else:
                 self.horizontalDrag = self.AirDrag
             self.movementUpdate(delta,keys,player,gametime)
-        self.PlayerGroup.draw(self.screen)
+            self.updatePickup(player,i)
+            player.draw(self.screen)
         self.platforms.draw(self.screen)
+        self.onGroundWeapons.draw(self.screen)
         self.displayHealthBars()
+
+    def updatePickup(self,player,i):
+        collidingWeapons = pygame.sprite.spritecollide(player.sprite,self.onGroundWeapons,False)
+        if(len(collidingWeapons) > 0):
+            #player.add(collidingWeapons[0])
+            self.onGroundWeapons.remove(collidingWeapons[0])
 
     def movementUpdate(self,delta,keys,player,gameTime):
         #input
@@ -57,23 +61,23 @@ class Level:
             player.launched = False
 
         #vertical update
-        oldPos = player.rect.center
+        oldPos = player.sprite.rect.center
         player.direction.y += (player.direction.y + self.gravity) * delta
-        player.rect.centery += player.direction.y
-        collidingPlatformsVert = pygame.sprite.spritecollide(player,self.platforms,False)
+        player.sprite.rect.centery += player.direction.y
+        collidingPlatformsVert = pygame.sprite.spritecollide(player.sprite,self.platforms,False)
         if(len(collidingPlatformsVert) > 0):
-            player.rect.center = oldPos
+            player.sprite.rect.center = oldPos
             player.direction.y = 0
             player.jumpIndex = player.maxJumps
             player.isOnGround = True
 
         #horizontal update
-        oldPos = player.rect.center
-        player.rect.centerx += player.direction.x * player.speed * delta
+        oldPos = player.sprite.rect.center
+        player.sprite.rect.centerx += player.direction.x * player.speed * delta
         player.direction.x = self.closerToZero(player.direction.x,self.horizontalDrag)
-        collidingPlatforms = pygame.sprite.spritecollide(player,self.platforms,False)
+        collidingPlatforms = pygame.sprite.spritecollide(player.sprite,self.platforms,False)
         if(len(collidingPlatforms) > 0):
-            player.rect.center = oldPos
+            player.sprite.rect.center = oldPos
             player.direction.x = 0
             player.jumpIndex = player.maxJumps
 
@@ -96,12 +100,11 @@ class Level:
                         playerPos = pygame.math.Vector2(pos.x + 40,pos.y + 40)
                         player = Character(playerPos,self.screen,mappings[playerAmount])
                         self.players.append(player)
-                        self.PlayerGroup.add(player)
                         playerAmount += 1
                 elif(cell[0] == "w"):
                     type = weapons[int(cell[len(cell)-1])]
                     weapon = Weapon(type[0],type[1],False,pos,type[2],type[3])
-                    self.OnGroundWeapons.append(weapon)
+                    self.onGroundWeapons.add(weapon)
     
     def displayHealthBars(self):
         for i in range(self.playerCount):

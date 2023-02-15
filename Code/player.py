@@ -1,5 +1,5 @@
 import pygame
-class Character(pygame.sprite.Sprite):
+class Character(pygame.sprite.Group):
     def __init__(self,InPos,surface,keys):
         super().__init__()
         self.direction = pygame.math.Vector2(0,0)
@@ -10,9 +10,11 @@ class Character(pygame.sprite.Sprite):
         self.lastJumpTime = -self.jumpDelay
         self.speed = 400
         self.surface = surface
-        self.image = pygame.image.load("Graphics\Character.png")
-        self.rect = self.image.get_rect()
-        self.rect.center = InPos
+        self.sprite = pygame.sprite.Sprite()
+        self.sprite.image = pygame.image.load("Graphics\Character.png")
+        self.sprite.rect = self.sprite.image.get_rect()
+        self.sprite.rect.center = InPos
+        self.add(self.sprite)
         self.leftKey = keys[0]
         self.rightKey = keys[1]
         self.jumpKey = keys[2]
