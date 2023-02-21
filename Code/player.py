@@ -45,3 +45,7 @@ class Character(pygame.sprite.Group):
         self.launchVector = direction
         self.launchSpeed = speed
         self.launched = True
+
+    def setSpritesPos(self):
+        for sprite in self.sprites():
+            sprite.rect.center = self.sprite.rect.center

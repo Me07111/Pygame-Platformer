@@ -12,6 +12,7 @@ class Level:
         self.height = height
         self.gravity = gravity
         self.platforms = pygame.sprite.Group()
+        self.bullets = pygame.sprite.Group()
         self.playerCount = playercount
         self.players = []
         self.horizontalDrag = 0.1
@@ -30,15 +31,25 @@ class Level:
                 self.horizontalDrag = self.AirDrag
             self.movementUpdate(delta,keys,player,gametime)
             self.updatePickup(player,i)
+            player.setSpritesPos()
+            self.shootUpdate(player,keys,i,gametime)
             player.draw(self.screen)
         self.platforms.draw(self.screen)
         self.onGroundWeapons.draw(self.screen)
+        self.bullets.draw(self.screen)
         self.displayHealthBars()
+    
+    def shootUpdate(self,player,keys,i,gameTime):
+        if(keys[mappings[i][3]]):
+            if(pygame.Vector2.length(player.direction) > 0):
+                player.sprites()[1].shoot(pygame.Vector2.normalize(player.direction),self,gameTime)
+            else:
+                player.sprites()[1].shoot(pygame.Vector2(1,0),self,gameTime)
 
     def updatePickup(self,player,i):
         collidingWeapons = pygame.sprite.spritecollide(player.sprite,self.onGroundWeapons,False)
         if(len(collidingWeapons) > 0):
-            #player.add(collidingWeapons[0])
+            player.add(collidingWeapons[0])
             self.onGroundWeapons.remove(collidingWeapons[0])
 
     def movementUpdate(self,delta,keys,player,gameTime):
@@ -103,7 +114,7 @@ class Level:
                         playerAmount += 1
                 elif(cell[0] == "w"):
                     type = weapons[int(cell[len(cell)-1])]
-                    weapon = Weapon(type[0],type[1],False,pos,type[2],type[3])
+                    weapon = Weapon(type[0],type[1],False,pos,type[2],type[3],type[4])
                     self.onGroundWeapons.add(weapon)
     
     def displayHealthBars(self):
