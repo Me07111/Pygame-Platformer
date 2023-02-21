@@ -33,16 +33,42 @@ class Level:
             self.updatePickup(player,i)
             player.setSpritesPos()
             self.shootUpdate(player,keys,i,gametime)
+            self.lookDirUpdate(i,player,keys)
+            player.lookInDir()
             player.draw(self.screen)
+        for bullet in self.bullets:
+            self.bulletUpdate(bullet,delta)
         self.platforms.draw(self.screen)
         self.onGroundWeapons.draw(self.screen)
         self.bullets.draw(self.screen)
-        self.displayHealthBars()
-    
+        self.displayHealthBars()    
+
+    def bulletUpdate(self,bullet,delta):
+        bullet.rect.center = bullet.rect.center + bullet.velocity * delta
+
+    def lookDirUpdate(self,i,player,keys):
+        if(keys[mappings[i][0]]):
+            player.lookDir = pygame.Vector2(-1,0)
+        elif(keys[mappings[i][1]]):
+            player.lookDir = pygame.Vector2(1,0)
+        elif(keys[mappings[i][2]]):
+            player.lookDir = pygame.Vector2(0,-1)
+        elif(keys[mappings[i][3]]):
+            player.lookDir = pygame.Vector2(0,1)
+        if(keys[mappings[i][0]] and keys[mappings[i][2]]):
+            player.lookDir = pygame.Vector2(-1,-1)
+        elif(keys[mappings[i][0]] and keys[mappings[i][3]]):
+            player.lookDir = pygame.Vector2(-1,1)
+        elif(keys[mappings[i][1]] and keys[mappings[i][2]]):
+            player.lookDir = pygame.Vector2(1,1)
+        elif(keys[mappings[i][1]] and keys[mappings[i][3]]):
+            player.lookDir = pygame.Vector2(1,-1)
+        
+
     def shootUpdate(self,player,keys,i,gameTime):
-        if(keys[mappings[i][3]]):
-            if(pygame.Vector2.length(player.direction) > 0):
-                player.sprites()[1].shoot(pygame.Vector2.normalize(player.direction),self,gameTime)
+        if(keys[mappings[i][4]]):
+            if(pygame.Vector2.length(player.lookDir) > 0):
+                player.sprites()[1].shoot(pygame.Vector2.normalize(player.lookDir),self,gameTime)
             else:
                 player.sprites()[1].shoot(pygame.Vector2(1,0),self,gameTime)
 

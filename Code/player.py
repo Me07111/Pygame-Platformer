@@ -11,7 +11,8 @@ class Character(pygame.sprite.Group):
         self.speed = 400
         self.surface = surface
         self.sprite = pygame.sprite.Sprite()
-        self.sprite.image = pygame.image.load("Graphics\Character.png")
+        self.origImage = pygame.image.load("Graphics\Character.png")
+        self.sprite.image = self.origImage
         self.sprite.rect = self.sprite.image.get_rect()
         self.sprite.rect.center = InPos
         self.add(self.sprite)
@@ -25,6 +26,7 @@ class Character(pygame.sprite.Group):
         self.launched = False
         self.isOnGround = True
         self.weapon = None
+        self.lookDir = pygame.Vector2(0,0)
     
     def takeDamage(self,damage):
         self.health -= damage
@@ -49,3 +51,28 @@ class Character(pygame.sprite.Group):
     def setSpritesPos(self):
         for sprite in self.sprites():
             sprite.rect.center = self.sprite.rect.center
+    
+    def lookInDir(self):
+        if(self.lookDir.x == -1):
+            self.sprites()[0].image = pygame.transform.flip(self.origImage,True,False)
+        elif(self.lookDir.x == 1):
+            self.sprites()[0].image = self.origImage
+        if(len(self.sprites()) >= 2):
+            if(self.lookDir.x == 1 and self.lookDir.y == 1):
+                self.sprites()[1].image = pygame.transform.rotate(self.sprites()[1].origImage,45)
+            elif(self.lookDir.x == -1 and self.lookDir.y == 1):
+                self.sprites()[1].image = pygame.transform.rotate(pygame.transform.flip(self.sprites()[1].origImage,True,False),45)
+            elif(self.lookDir.x == -1 and self.lookDir.y == -1):
+                self.sprites()[1].image = pygame.transform.rotate(pygame.transform.flip(self.sprites()[1].origImage,True,False),-45)
+            elif(self.lookDir.x == 1 and self.lookDir.y == -1):
+                self.sprites()[1].image = pygame.transform.rotate(self.sprites()[1].origImage,-45)
+            elif(self.lookDir.x == -1):
+                self.sprites()[1].image = pygame.transform.flip(self.sprites()[1].origImage,True,False)
+            elif(self.lookDir.x == 1):
+                self.sprites()[1].image = self.sprites()[1].origImage
+            elif(self.lookDir.y == -1):
+                self.sprites()[1].image = pygame.transform.rotate(self.sprites()[1].origImage,90)
+            elif(self.lookDir.y == 1):
+                self.sprites()[1].image = pygame.transform.rotate(self.sprites()[1].origImage,-90)
+            
+        
