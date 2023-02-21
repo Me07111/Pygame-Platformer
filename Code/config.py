@@ -53,6 +53,6 @@ healthBarColors = [
 
 #(name,imagePath,isPickedUp,inPos,bulletSpeed,bulletSize,bulletImagePath)
 weapons = [
-["pistol","Graphics/pistol.png",200,"Graphics/pistolBullet.png",300],
-["Assault Rifle","Graphics/ar.png",300,"Graphics/arBullet.png", 600]
+["pistol","Graphics/pistol.png",600,"Graphics/pistolBullet.png",300,10,10],
+["Assault Rifle","Graphics/ar.png",300,"Graphics/arBullet.png", 600,1,7]
 ]

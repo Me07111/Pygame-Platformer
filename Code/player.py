@@ -25,7 +25,6 @@ class Character(pygame.sprite.Group):
         self.launchSpeed = 0
         self.launched = False
         self.isOnGround = True
-        self.weapon = None
         self.lookDir = pygame.Vector2(0,0)
     
     def takeDamage(self,damage):
@@ -59,13 +58,13 @@ class Character(pygame.sprite.Group):
             self.sprites()[0].image = self.origImage
         if(len(self.sprites()) >= 2):
             if(self.lookDir.x == 1 and self.lookDir.y == 1):
-                self.sprites()[1].image = pygame.transform.rotate(self.sprites()[1].origImage,45)
+                self.sprites()[1].image = pygame.transform.rotate(self.sprites()[1].origImage,-45)
             elif(self.lookDir.x == -1 and self.lookDir.y == 1):
                 self.sprites()[1].image = pygame.transform.rotate(pygame.transform.flip(self.sprites()[1].origImage,True,False),45)
             elif(self.lookDir.x == -1 and self.lookDir.y == -1):
                 self.sprites()[1].image = pygame.transform.rotate(pygame.transform.flip(self.sprites()[1].origImage,True,False),-45)
             elif(self.lookDir.x == 1 and self.lookDir.y == -1):
-                self.sprites()[1].image = pygame.transform.rotate(self.sprites()[1].origImage,-45)
+                self.sprites()[1].image = pygame.transform.rotate(self.sprites()[1].origImage,45)
             elif(self.lookDir.x == -1):
                 self.sprites()[1].image = pygame.transform.flip(self.sprites()[1].origImage,True,False)
             elif(self.lookDir.x == 1):

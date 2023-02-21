@@ -19,7 +19,7 @@ class Level:
         self.GroundDrag = 0.1
         self.AirDrag = 0.01
         self.onGroundWeapons = pygame.sprite.Group()
-        self.generatePlatforms()
+        self.generateMap()
 
     def update(self,delta,gametime):
         keys = pygame.key.get_pressed()
@@ -44,8 +44,15 @@ class Level:
         self.displayHealthBars()    
 
     def bulletUpdate(self,bullet,delta):
+        oldPos = bullet.rect.center
+        bullet.velocity.y += self.gravity * bullet.gravMul * delta
         bullet.rect.center = bullet.rect.center + bullet.velocity * delta
-
+        if(len(pygame.sprite.spritecollide(bullet,self.platforms,False)) > 0):
+            self.bullets.remove(bullet)
+        for player in self.players:
+            if(len(pygame.sprite.spritecollide(bullet,player,False)) > 0 and player != bullet.ignored):
+                player.takeDamage(bullet.damage)
+                self.bullets.remove(bullet)
     def lookDirUpdate(self,i,player,keys):
         if(keys[mappings[i][0]]):
             player.lookDir = pygame.Vector2(-1,0)
@@ -60,17 +67,16 @@ class Level:
         elif(keys[mappings[i][0]] and keys[mappings[i][3]]):
             player.lookDir = pygame.Vector2(-1,1)
         elif(keys[mappings[i][1]] and keys[mappings[i][2]]):
-            player.lookDir = pygame.Vector2(1,1)
-        elif(keys[mappings[i][1]] and keys[mappings[i][3]]):
             player.lookDir = pygame.Vector2(1,-1)
+        elif(keys[mappings[i][1]] and keys[mappings[i][3]]):
+            player.lookDir = pygame.Vector2(1,1)
         
-
     def shootUpdate(self,player,keys,i,gameTime):
-        if(keys[mappings[i][4]]):
+        if(keys[mappings[i][4]] and len(player.sprites()) >= 2):
             if(pygame.Vector2.length(player.lookDir) > 0):
-                player.sprites()[1].shoot(pygame.Vector2.normalize(player.lookDir),self,gameTime)
+                player.sprites()[1].shoot(pygame.Vector2.normalize(player.lookDir),self,gameTime,player)
             else:
-                player.sprites()[1].shoot(pygame.Vector2(1,0),self,gameTime)
+                player.sprites()[1].shoot(pygame.Vector2(1,0),self,gameTime,player)
 
     def updatePickup(self,player,i):
         collidingWeapons = pygame.sprite.spritecollide(player.sprite,self.onGroundWeapons,False)
@@ -118,7 +124,7 @@ class Level:
             player.direction.x = 0
             player.jumpIndex = player.maxJumps
 
-    def generatePlatforms(self):
+    def generateMap(self):
         playerAmount = 0
         cellHeight = self.height/len(map)
         cellWidth = self.width/len(map[0])
@@ -140,7 +146,7 @@ class Level:
                         playerAmount += 1
                 elif(cell[0] == "w"):
                     type = weapons[int(cell[len(cell)-1])]
-                    weapon = Weapon(type[0],type[1],False,pos,type[2],type[3],type[4])
+                    weapon = Weapon(type[0],type[1],False,pos,type[2],type[3],type[4],type[5],type[6])
                     self.onGroundWeapons.add(weapon)
     
     def displayHealthBars(self):
