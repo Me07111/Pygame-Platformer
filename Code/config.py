@@ -55,6 +55,8 @@ weaponUiPoses= [
 
 weaponUitextSize = int(healthBarSize.y)
 
+uiFontType = "timesnewroman"
+
 healthBarColors = [
     pygame.color.Color(0,255,0,255),
     pygame.color.Color(0,0,255,255),

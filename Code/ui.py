@@ -1,4 +1,4 @@
-from config import healthBarColors,healthBarPoses,healthBarSize,weaponUiPoses,weaponUitextSize
+from config import healthBarColors,healthBarPoses,healthBarSize,weaponUiPoses,weaponUitextSize,uiFontType
 import pygame
 class Ui():
     def __init__(self,screen):
@@ -16,7 +16,10 @@ class Ui():
             pygame.draw.rect(self.screen,healthBarColors[i],rect)
             if(len(players[i].sprites()) > 1):
                 text = f"{players[i].sprites()[1].ammo}"
-                font = pygame.font.SysFont("timesnewroman",weaponUitextSize)
-                image = pygame.font.Font.render(font,text,False,healthBarColors[i])
-                self.screen.blit(image,weaponUiPoses[i])
+                self.renderText(self.screen,text,uiFontType,weaponUitextSize,healthBarColors[i],weaponUiPoses[i])
+    
+    def renderText(self,surface,text,fontType,size,color,pos,backGroundColor = None):
+        font = pygame.font.SysFont(fontType,size)
+        image = pygame.font.Font.render(font,text,False,color,backGroundColor)
+        surface.blit(image,pos)
         
