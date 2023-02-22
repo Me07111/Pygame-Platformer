@@ -1,6 +1,7 @@
 import pygame
 from level import Level
 pygame.init()
+pygame.font.init()
 # Set up the drawing window
 width = 1280
 height = 720

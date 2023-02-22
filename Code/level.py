@@ -3,11 +3,13 @@ from player import Character
 from config import map,tileWidth,tileHeight,mappings,healthBarPoses,healthBarSize,healthBarColors,weapons
 from platformBase import PlatformBase
 from weapon import Weapon
+from ui import Ui
 
 class Level:
     def __init__(self,screen,width,height,gravity,clock,playercount):
         self.screen = screen
         self.clock = clock
+        self.ui = Ui(screen)
         self.width = width
         self.height = height
         self.gravity = gravity
@@ -41,7 +43,7 @@ class Level:
         self.platforms.draw(self.screen)
         self.onGroundWeapons.draw(self.screen)
         self.bullets.draw(self.screen)
-        self.displayHealthBars()    
+        self.ui.update(self.players)
 
     def bulletUpdate(self,bullet,delta):
         oldPos = bullet.rect.center
@@ -53,6 +55,7 @@ class Level:
             if(len(pygame.sprite.spritecollide(bullet,player,False)) > 0 and player != bullet.ignored):
                 player.takeDamage(bullet.damage)
                 self.bullets.remove(bullet)
+
     def lookDirUpdate(self,i,player,keys):
         if(keys[mappings[i][0]]):
             player.lookDir = pygame.Vector2(-1,0)
@@ -81,6 +84,8 @@ class Level:
     def updatePickup(self,player,i):
         collidingWeapons = pygame.sprite.spritecollide(player.sprite,self.onGroundWeapons,False)
         if(len(collidingWeapons) > 0):
+            if(len(player.sprites()) == 2):
+                player.sprites()[1] = None
             player.add(collidingWeapons[0])
             self.onGroundWeapons.remove(collidingWeapons[0])
 
@@ -146,18 +151,8 @@ class Level:
                         playerAmount += 1
                 elif(cell[0] == "w"):
                     type = weapons[int(cell[len(cell)-1])]
-                    weapon = Weapon(type[0],type[1],False,pos,type[2],type[3],type[4],type[5],type[6])
+                    weapon = Weapon(type[0],type[1],False,pos,type[2],type[3],type[4],type[5],type[6],type[7])
                     self.onGroundWeapons.add(weapon)
-    
-    def displayHealthBars(self):
-        for i in range(self.playerCount):
-            rect = pygame.Rect(
-            healthBarPoses[i].x,
-            healthBarPoses[i].y,
-            healthBarSize.x*(self.players[i].health/self.players[i].maxHealth),
-            healthBarSize.y
-            )
-            pygame.draw.rect(self.screen,healthBarColors[i],rect)
     
     def closerToZero(self,numberToNegate,negateBy):
         if(numberToNegate >= 0):
