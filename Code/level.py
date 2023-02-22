@@ -75,11 +75,14 @@ class Level:
             player.lookDir = pygame.Vector2(1,1)
         
     def shootUpdate(self,player,keys,i,gameTime):
-        if(keys[mappings[i][4]] and len(player.sprites()) >= 2):
-            if(pygame.Vector2.length(player.lookDir) > 0):
-                player.sprites()[1].shoot(pygame.Vector2.normalize(player.lookDir),self,gameTime,player)
+        if(len(player.sprites()) >= 2):
+            if(keys[mappings[i][4]]):
+                if(pygame.Vector2.length(player.lookDir) > 0):
+                    player.sprites()[1].shoot(pygame.Vector2.normalize(player.lookDir),self,gameTime,player)
+                else:
+                    player.sprites()[1].shoot(pygame.Vector2(1,0),self,gameTime,player)
             else:
-                player.sprites()[1].shoot(pygame.Vector2(1,0),self,gameTime,player)
+                player.sprites()[1].wasShotReleased = True
 
     def pickupUpdate(self,player,i):
         collidingWeapons = pygame.sprite.spritecollide(player.sprite,self.onGroundWeapons,False)
@@ -156,7 +159,7 @@ class Level:
                         playerAmount += 1
                 elif(cell[0] == "w"):
                     type = weapons[int(cell[len(cell)-1])]
-                    weapon = Weapon(type[0],type[1],False,pos,type[2],type[3],type[4],type[5],type[6],type[7])
+                    weapon = Weapon(type[0],type[1],False,pos,type[2],type[3],type[4],type[5],type[6],type[7],type[8])
                     self.onGroundWeapons.add(weapon)
     
     def closerToZero(self,numberToNegate,negateBy):

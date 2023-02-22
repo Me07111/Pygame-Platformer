@@ -26,7 +26,6 @@ class Character(pygame.sprite.Group):
         self.launched = False
         self.isOnGround = True
         self.lookDir = pygame.Vector2(0,0)
-    
     def takeDamage(self,damage):
         self.health -= damage
         if(self.health <= 0):

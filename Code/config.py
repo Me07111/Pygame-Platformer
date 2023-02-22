@@ -7,7 +7,7 @@ map = [
     ["o","o","o","o","o","o","o","o","o","o","o","o","o","o","o","o"],
     ["o","o","o","o","o","o","o","o","o","o","o","o","o","o","o","o"],
     ["o","o","o","o","o","o","o","o","o","o","o","o","o","o","o","o"],
-    ["o","o","w0","o","o","o","o","o","o","w0","o","o","P","o","o","o"],
+    ["o","o","w0","o","o","o","o","o","o","w1","o","o","P","o","o","o"],
     ["x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x"]
 ]
 
@@ -66,6 +66,6 @@ healthBarColors = [
 
 #(name,imagePath,isPickedUp,inPos,bulletSpeed,bulletSize,bulletImagePath,fireRate,bulletRelGrav,damage,maxAmmo)
 weapons = [
-["pistol","Graphics/pistol.png",600,"Graphics/pistolBullet.png",300,10,10,12],
-["Assault Rifle","Graphics/ar.png",300,"Graphics/arBullet.png", 600,1,7,30]
+["pistol","Graphics/pistol.png",600,"Graphics/pistolBullet.png",300,10,10,12,False],
+["Assault Rifle","Graphics/ar.png",300,"Graphics/arBullet.png", 600,1,7,30,True]
 ]
