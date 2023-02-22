@@ -1,5 +1,4 @@
 import pygame
-from level import Level
 from mainMenu import MainMenu
 from levelhandler import LevelHandler
 pygame.init()
@@ -14,8 +13,8 @@ Framerate  = 60
 gameTime = 0
 
 # Run until the user asks to quit
-Level1 = Level(screen,width,height,25,clock,2,0,Level(screen,width,height,50,clock,2,0,MainMenu(screen,None)))
-levelHandler = LevelHandler(MainMenu(screen,Level1))
+mainMenu = MainMenu(screen,width,height,clock)
+levelHandler = LevelHandler(mainMenu)
 running = True
 while running:
 

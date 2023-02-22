@@ -6,7 +6,7 @@ from weapon import Weapon
 from ui import Ui
 
 class Level:
-    def __init__(self,screen,width,height,gravity,clock,playercount,map,nextMap):
+    def __init__(self,screen,width,height,gravity,clock,playercount,map):
         self.screen = screen
         self.clock = clock
         self.ui = Ui(screen)
@@ -21,7 +21,6 @@ class Level:
         self.GroundDrag = 0.1
         self.AirDrag = 0.01
         self.onGroundWeapons = pygame.sprite.Group()
-        self.nextMap = nextMap
         self.generateMap(map)
 
     def update(self,delta,gametime,levelHandler):
@@ -51,10 +50,7 @@ class Level:
 
     def checkWinCondition(self,player,levelHandler):
         if(player.health <= 0):
-            if(self.nextMap != None):
-                levelHandler.setLevel(self.nextMap)
-            else:
-                pygame.quit
+                levelHandler.backToMenu()
 
     def bulletUpdate(self,bullet,delta):
         bullet.velocity.y += self.gravity * bullet.gravMul * delta
