@@ -14,8 +14,8 @@ class Ui():
             healthBarSize.y
             )
             pygame.draw.rect(self.screen,healthBarColors[i],rect)
-            if(len(players[i].sprites()) > 1):
-                text = f"{players[i].sprites()[1].ammo}"
+            if(players[i].weapon != None):
+                text = f"{players[i].weapon.ammo}"
                 self.renderText(self.screen,text,uiFontType,weaponUitextSize,healthBarColors[i],weaponUiPoses[i])
     
     def renderText(self,surface,text,fontType,size,color,pos,backGroundColor = None):

@@ -37,7 +37,9 @@ class Level:
             self.shootUpdate(player,keys,i,gametime)
             self.lookDirUpdate(i,player,keys)
             player.lookInDir()
-            player.draw(self.screen)
+            self.screen.blit(player.image,player.rect.topleft)
+            if(player.weapon != None):
+                self.screen.blit(player.weapon.image,player.weapon.rect.topleft)
         for bullet in self.bullets:
             self.bulletUpdate(bullet,delta)
         self.platforms.draw(self.screen)
@@ -52,7 +54,7 @@ class Level:
         if(len(pygame.sprite.spritecollide(bullet,self.platforms,False)) > 0):
             self.bullets.remove(bullet)
         for player in self.players:
-            if(len(pygame.sprite.spritecollide(bullet,player,False)) > 0 and player != bullet.ignored):
+            if(pygame.sprite.collide_rect(bullet,player) > 0 and player != bullet.ignored):
                 player.takeDamage(bullet.damage)
                 self.bullets.remove(bullet)
 
@@ -75,26 +77,26 @@ class Level:
             player.lookDir = pygame.Vector2(1,1)
         
     def shootUpdate(self,player,keys,i,gameTime):
-        if(len(player.sprites()) >= 2):
+        if(player.weapon != None):
             if(keys[mappings[i][4]]):
                 if(pygame.Vector2.length(player.lookDir) > 0):
-                    player.sprites()[1].shoot(pygame.Vector2.normalize(player.lookDir),self,gameTime,player)
+                   player.weapon.shoot(pygame.Vector2.normalize(player.lookDir),self,gameTime,player)
                 else:
-                    player.sprites()[1].shoot(pygame.Vector2(1,0),self,gameTime,player)
+                   player.weapon.shoot(pygame.Vector2(1,0),self,gameTime,player)
             else:
-                player.sprites()[1].wasShotReleased = True
+               player.weapon.wasShotReleased = True
 
     def pickupUpdate(self,player,i):
-        collidingWeapons = pygame.sprite.spritecollide(player.sprite,self.onGroundWeapons,False)
+        collidingWeapons = pygame.sprite.spritecollide(player,self.onGroundWeapons,False)
         if(len(collidingWeapons) > 0):
-            if(len(player.sprites()) == 2):
-                if(player.sprites()[1].name == collidingWeapons[0].name):
-                    player.sprites()[1].ammo += player.sprites()[1].maxAmmo
+            if(player.weapon != None):
+                if(player.weapon.name == collidingWeapons[0].name):
+                   player.weapon.ammo +=player.weapon.maxAmmo
                 else:
-                    player.sprites()[1] = None
-                    player.add(collidingWeapons[0])
+                    player.weapon = None
+                    player.weapon = collidingWeapons[0]
             else:
-                player.add(collidingWeapons[0])
+                player.weapon = collidingWeapons[0]
             self.onGroundWeapons.remove(collidingWeapons[0])
 
     def movementUpdate(self,delta,keys,player,gameTime):
@@ -117,23 +119,23 @@ class Level:
             player.launched = False
 
         #vertical update
-        oldPos = player.sprite.rect.center
+        oldPos = player.rect.center
         player.direction.y += (player.direction.y + self.gravity) * delta
-        player.sprite.rect.centery += player.direction.y
-        collidingPlatformsVert = pygame.sprite.spritecollide(player.sprite,self.platforms,False)
+        player.rect.centery += player.direction.y
+        collidingPlatformsVert = pygame.sprite.spritecollide(player,self.platforms,False)
         if(len(collidingPlatformsVert) > 0):
-            player.sprite.rect.center = oldPos
+            player.rect.center = oldPos
             player.direction.y = 0
             player.jumpIndex = player.maxJumps
             player.isOnGround = True
 
         #horizontal update
-        oldPos = player.sprite.rect.center
-        player.sprite.rect.centerx += player.direction.x * player.speed * delta
+        oldPos = player.rect.center
+        player.rect.centerx += player.direction.x * player.speed * delta
         player.direction.x = self.closerToZero(player.direction.x,self.horizontalDrag)
-        collidingPlatforms = pygame.sprite.spritecollide(player.sprite,self.platforms,False)
+        collidingPlatforms = pygame.sprite.spritecollide(player,self.platforms,False)
         if(len(collidingPlatforms) > 0):
-            player.sprite.rect.center = oldPos
+            player.rect.center = oldPos
             player.direction.x = 0
             player.jumpIndex = player.maxJumps
 
