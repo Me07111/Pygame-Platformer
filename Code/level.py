@@ -1,12 +1,12 @@
 import pygame
 from player import Character
-from config import map,tileWidth,tileHeight,mappings,healthBarPoses,healthBarSize,healthBarColors,weapons
+from config import maps,tileWidth,tileHeight,mappings,healthBarPoses,healthBarSize,healthBarColors,weapons
 from platformBase import PlatformBase
 from weapon import Weapon
 from ui import Ui
 
 class Level:
-    def __init__(self,screen,width,height,gravity,clock,playercount):
+    def __init__(self,screen,width,height,gravity,clock,playercount,map,nextMap):
         self.screen = screen
         self.clock = clock
         self.ui = Ui(screen)
@@ -21,9 +21,10 @@ class Level:
         self.GroundDrag = 0.1
         self.AirDrag = 0.01
         self.onGroundWeapons = pygame.sprite.Group()
-        self.generateMap()
+        self.nextMap = nextMap
+        self.generateMap(map)
 
-    def update(self,delta,gametime):
+    def update(self,delta,gametime,levelHandler):
         keys = pygame.key.get_pressed()
         for i in range(len(self.players)):
             player = self.players[i]
@@ -36,6 +37,7 @@ class Level:
             player.setSpritesPos()
             self.shootUpdate(player,keys,i,gametime)
             self.lookDirUpdate(i,player,keys)
+            self.checkWinCondition(player,levelHandler)
             player.lookInDir()
             self.screen.blit(player.image,player.rect.topleft)
             if(player.weapon != None):
@@ -47,8 +49,14 @@ class Level:
         self.bullets.draw(self.screen)
         self.ui.update(self.players)
 
+    def checkWinCondition(self,player,levelHandler):
+        if(player.health <= 0):
+            if(self.nextMap != None):
+                levelHandler.setLevel(self.nextMap)
+            else:
+                pygame.quit
+
     def bulletUpdate(self,bullet,delta):
-        oldPos = bullet.rect.center
         bullet.velocity.y += self.gravity * bullet.gravMul * delta
         bullet.rect.center = bullet.rect.center + bullet.velocity * delta
         if(len(pygame.sprite.spritecollide(bullet,self.platforms,False)) > 0):
@@ -139,8 +147,9 @@ class Level:
             player.direction.x = 0
             player.jumpIndex = player.maxJumps
 
-    def generateMap(self):
+    def generateMap(self,mapIndex):
         playerAmount = 0
+        map = maps[mapIndex]
         cellHeight = self.height/len(map)
         cellWidth = self.width/len(map[0])
         for i in range(len(map)):

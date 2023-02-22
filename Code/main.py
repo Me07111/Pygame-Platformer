@@ -1,5 +1,7 @@
 import pygame
 from level import Level
+from mainMenu import MainMenu
+from levelhandler import LevelHandler
 pygame.init()
 pygame.font.init()
 # Set up the drawing window
@@ -12,8 +14,8 @@ Framerate  = 60
 gameTime = 0
 
 # Run until the user asks to quit
-
-currentLevel = Level(screen,width,height,25,clock,2)
+Level1 = Level(screen,width,height,25,clock,2,0,Level(screen,width,height,50,clock,2,0,MainMenu(screen,None)))
+levelHandler = LevelHandler(MainMenu(screen,Level1))
 running = True
 while running:
 
@@ -26,9 +28,12 @@ while running:
     # Fill the background with white
     delta = clock.tick(60) / 1000
     gameTime += delta
-    currentLevel.update(delta,gameTime)
+    levelHandler.update(delta,gameTime)
     # Flip the display
     pygame.display.flip()
 
 # Done! Time to quit.
 pygame.quit()
+
+def setLevel(level):
+    currentLevel = level

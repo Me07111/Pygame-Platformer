@@ -31,15 +31,11 @@ class Character(pygame.sprite.Sprite):
         self.health -= damage
         if(self.health <= 0):
             self.health = 0
-            self.die()
             
     def heal(self,healAmount):
         self.health += healAmount
         if(self.health > self.maxHealth):
             self.health = self.maxHealth
-
-    def die(self):
-        print("dead")      
 
     def launch(self,direction,speed):
         print("launched")

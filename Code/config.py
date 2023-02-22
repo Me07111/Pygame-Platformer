@@ -1,5 +1,6 @@
 import pygame
-map = [
+maps = [
+    [
     ["o","o","o","o","o","o","o","o","o","o","o","o","o","o","o","o"],
     ["o","o","o","o","o","o","o","o","o","o","o","o","o","o","o","o"],
     ["o","o","o","o","o","o","o","o","o","o","o","o","o","o","o","o"],
@@ -9,7 +10,9 @@ map = [
     ["o","o","o","o","o","o","o","o","o","o","o","o","o","o","o","o"],
     ["o","o","w0","o","o","o","o","o","o","w1","o","o","P","o","o","o"],
     ["x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x"]
+    ]
 ]
+
 
 tileWidth = 80
 tileHeight = 80
@@ -69,3 +72,8 @@ weapons = [
 ["pistol","Graphics/pistol.png",600,"Graphics/pistolBullet.png",300,10,10,12,False],
 ["Assault Rifle","Graphics/ar.png",300,"Graphics/arBullet.png", 600,1,7,30,True]
 ]
+
+def renderText(surface,text,fontType,size,color,pos,backGroundColor = None):
+    font = pygame.font.SysFont(fontType,size)
+    image = pygame.font.Font.render(font,text,False,color,backGroundColor)
+    surface.blit(image,pos)
