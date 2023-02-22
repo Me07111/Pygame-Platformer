@@ -32,7 +32,7 @@ class Level:
             else:
                 self.horizontalDrag = self.AirDrag
             self.movementUpdate(delta,keys,player,gametime)
-            self.updatePickup(player,i)
+            self.pickupUpdate(player,i)
             player.setSpritesPos()
             self.shootUpdate(player,keys,i,gametime)
             self.lookDirUpdate(i,player,keys)
@@ -81,12 +81,17 @@ class Level:
             else:
                 player.sprites()[1].shoot(pygame.Vector2(1,0),self,gameTime,player)
 
-    def updatePickup(self,player,i):
+    def pickupUpdate(self,player,i):
         collidingWeapons = pygame.sprite.spritecollide(player.sprite,self.onGroundWeapons,False)
         if(len(collidingWeapons) > 0):
             if(len(player.sprites()) == 2):
-                player.sprites()[1] = None
-            player.add(collidingWeapons[0])
+                if(player.sprites()[1].name == collidingWeapons[0].name):
+                    player.sprites()[1].ammo += player.sprites()[1].maxAmmo
+                else:
+                    player.sprites()[1] = None
+                    player.add(collidingWeapons[0])
+            else:
+                player.add(collidingWeapons[0])
             self.onGroundWeapons.remove(collidingWeapons[0])
 
     def movementUpdate(self,delta,keys,player,gameTime):
