@@ -16,4 +16,4 @@ class LevelSelect:
         for i in range(len(self.buttons)):
             button = self.buttons[i]
             if(button.update(self.screen)):
-                levelHandler.setLevel(Level)
+                levelHandler.setLevel(self.levels[i])
