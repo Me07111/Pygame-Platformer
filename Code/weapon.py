@@ -1,7 +1,7 @@
 import pygame
 from bullet import Bullet
 class Weapon(pygame.sprite.Sprite):
-    def __init__(self,name,imagePath,isPickedUp,inPos,bulletSpeed,bulletImagePath,fireRate,bulletGravityMultipierl,damage,maxAmmo,isFullAuto):
+    def __init__(self,name,imagePath,isPickedUp,inPos,bulletSpeed,bulletImagePath,fireRate,bulletGravityMultipierl,damage,maxAmmo,isFullAuto,offsets):
         super().__init__()
         self.name = name
         self.origImage = pygame.image.load(imagePath)
@@ -21,6 +21,7 @@ class Weapon(pygame.sprite.Sprite):
         self.ammo = self.maxAmmo
         self.wasShotReleased = True
         self.isFullAuto = isFullAuto
+        self.offsets = offsets
 
     def shoot(self,direction,level,gameTime,player):
         if(self.canShoot(gameTime)):

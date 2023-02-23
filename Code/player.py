@@ -66,4 +66,5 @@ class Character(pygame.sprite.Sprite):
             elif(self.lookDir.y == 1):
                 self.weapon.image = pygame.transform.rotate(self.weapon.origImage,-90)
         if(self.weapon != None):
-                self.weapon.rect.center = self.rect.center
+                lookDir = (self.lookDir.x,self.lookDir.y)
+                self.weapon.rect.center = (self.rect.centerx + self.weapon.offsets[lookDir][0],self.rect.centery + self.weapon.offsets[lookDir][1])

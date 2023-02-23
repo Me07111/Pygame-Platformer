@@ -165,7 +165,7 @@ class Level:
                         playerAmount += 1
                 elif(cell[0] == "w"):
                     type = weapons[int(cell[len(cell)-1])]
-                    weapon = Weapon(type[0],type[1],False,pos,type[2],type[3],type[4],type[5],type[6],type[7],type[8])
+                    weapon = Weapon(type[0],type[1],False,pos,type[2],type[3],type[4],type[5],type[6],type[7],type[8],type[9])
                     self.onGroundWeapons.add(weapon)
     
     def closerToZero(self,numberToNegate,negateBy):
