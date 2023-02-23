@@ -19,7 +19,7 @@ maps = [
     ["o","o","x","x","x","o","o","o","o","o","o","o","o","o","o","o"],
     ["o","o","o","o","o","o","o","o","o","o","o","o","o","o","o","o"],
     ["o","o","o","o","o","o","o","o","o","o","o","o","o","o","o","o"],
-    ["o","o","w0","o","o","o","o","o","o","w1","o","o","P","o","o","o"],
+    ["o","o","w0","o","o","o","o","o","o","w3","o","o","P","o","o","o"],
     ["x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x"]
     ]
 ]
@@ -82,7 +82,8 @@ healthBarColors = [
 weapons = [
 ["pistol","Graphics/pistol.png",600,"Graphics/pistolBullet.png",300,10,10,12,False],
 ["Assault Rifle","Graphics/ar.png",300,"Graphics/arBullet.png", 600,1,7,30,True],
-["Sniper","Graphics/Sniper.png",800,"Graphics/sniperBullet.png",30,1,30,5,False]
+["Sniper","Graphics/Sniper.png",800,"Graphics/sniperBullet.png",30,1,30,5,False],
+["Sniper","Graphics/shotgun.png",800,"Graphics/slug.png",200,1,20,6,False]
 ]
 
 def renderText(surface,text,fontType,size,color,pos,backGroundColor = None):
