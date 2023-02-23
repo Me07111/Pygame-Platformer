@@ -1,5 +1,5 @@
 import pygame
-class LevelHandler():
+class LevelHandler:
     def __init__(self,menu):
         self.mainMenu = menu
         self.currentLevel = menu

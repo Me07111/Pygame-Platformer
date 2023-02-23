@@ -1,6 +1,6 @@
 from config import healthBarColors,healthBarPoses,healthBarSize,weaponUiPoses,weaponUitextSize,uiFontType
 import pygame
-class Ui():
+class Ui:
     def __init__(self,screen):
         self.screen = screen
 

@@ -1,6 +1,6 @@
 import pygame
 from config import renderText
-class Button():
+class Button:
     def __init__(self,pos,size,text,color = pygame.Color(255,255,255),textSize = 20,textColor = pygame.Color(0,0,0),hoveredColor = pygame.Color(0,0,0,50),pressedColor = pygame.Color(0,0,0)):
         super().__init__()
         self.rect = pygame.Rect(pos,size)
