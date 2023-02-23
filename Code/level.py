@@ -33,7 +33,6 @@ class Level:
                 self.horizontalDrag = self.AirDrag
             self.movementUpdate(delta,keys,player,gametime)
             self.pickupUpdate(player,i)
-            player.setSpritesPos()
             self.shootUpdate(player,keys,i,gametime)
             self.lookDirUpdate(i,player,keys)
             self.checkWinCondition(player,levelHandler)

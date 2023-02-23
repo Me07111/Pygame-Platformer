@@ -42,10 +42,6 @@ class Character(pygame.sprite.Sprite):
         self.launchVector = direction
         self.launchSpeed = speed
         self.launched = True
-
-    def setSpritesPos(self):
-        if(self.weapon != None):
-            self.weapon.rect.center = self.rect.center
     
     def lookInDir(self):
         if(self.lookDir.x == -1):
@@ -69,5 +65,5 @@ class Character(pygame.sprite.Sprite):
                 self.weapon.image = pygame.transform.rotate(self.weapon.origImage,90)
             elif(self.lookDir.y == 1):
                 self.weapon.image = pygame.transform.rotate(self.weapon.origImage,-90)
-            
-        
+        if(self.weapon != None):
+                self.weapon.rect.center = self.rect.center
