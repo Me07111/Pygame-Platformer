@@ -1,7 +1,7 @@
 import pygame
 from bullet import Bullet
 class Weapon(pygame.sprite.Sprite):
-    def __init__(self,name,imagePath,isPickedUp,inPos,bulletSpeed,bulletImagePath,fireRate,bulletGravityMultipierl,damage,maxAmmo,isFullAuto,offsets):
+    def __init__(self,name,imagePath,isPickedUp,inPos,bulletSpeed,bulletImagePath,fireRate,bulletGravityMultipierl,damage,maxAmmo,isFullAuto,offsets,muzzleDist):
         super().__init__()
         self.name = name
         self.origImage = pygame.image.load(imagePath)
@@ -22,17 +22,22 @@ class Weapon(pygame.sprite.Sprite):
         self.wasShotReleased = True
         self.isFullAuto = isFullAuto
         self.offsets = offsets
+        self.muzzleDist = muzzleDist
+        self.rotation = 0
 
     def shoot(self,direction,level,gameTime,player):
         if(self.canShoot(gameTime)):
-            bullet = Bullet(self.bulletSpeed,self.bulletImagePath,self.getMuzzlePos(),direction,self.bulGravMul,self.damage)
+            bullet = Bullet(self.bulletSpeed,self.bulletImagePath,self.getMuzzlePos(player),direction,self.bulGravMul,self.damage)
             bullet.ignored = player
             level.bullets.add(bullet)
             self.lastTimeShot = gameTime
             self.ammo -= 1
             self.wasShotReleased = False
     
-    def getMuzzlePos(self):
+    def getMuzzlePos(self,player):
+        selfPosVect = pygame.Vector2(self.rect.topleft)
+        print(pygame.Vector2.rotate(self.muzzleDist,self.rotation))
+        offset = selfPosVect  + pygame.Vector2.rotate(self.muzzleDist,self.rotation) 
         return self.rect.center
 
     
