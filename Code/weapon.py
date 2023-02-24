@@ -24,6 +24,7 @@ class Weapon(pygame.sprite.Sprite):
         self.offsets = offsets
         self.muzzleDist = muzzleDist
         self.rotation = 0
+        self.isFlipped = False
 
     def shoot(self,direction,level,gameTime,player):
         if(self.canShoot(gameTime)):
@@ -37,8 +38,12 @@ class Weapon(pygame.sprite.Sprite):
     def getMuzzlePos(self,player):
         selfPosVect = pygame.Vector2(self.rect.topleft)
         print(pygame.Vector2.rotate(self.muzzleDist,self.rotation))
-        offset = selfPosVect  + pygame.Vector2.rotate(self.muzzleDist,self.rotation) 
-        return self.rect.center
+        if(self.isFlipped):
+            offset = pygame.Vector2.rotate(pygame.Vector2(self.origImage.get_width() - self.muzzleDist.x,self.muzzleDist.y),self.rotation)
+            print(offset)
+        else:
+            offset = pygame.Vector2.rotate(self.muzzleDist,self.rotation) 
+        return selfPosVect + offset
 
     
     def canShoot(self,gameTime):

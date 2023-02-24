@@ -49,21 +49,25 @@ class Character(pygame.sprite.Sprite):
         elif(self.lookDir.x == 1):
             self.image = self.origImage
         if(self.weapon != None):
+            if(self.lookDir.x == -1):
+                self.weapon.isFlipped = True
+            else:
+                self.weapon.isFlipped = False
             if(self.lookDir.x == 1 and self.lookDir.y == 1):
                 self.weapon.image = pygame.transform.rotate(self.weapon.origImage,-45)
                 self.weapon.rotation = -45
             elif(self.lookDir.x == -1 and self.lookDir.y == 1):
                 self.weapon.image = pygame.transform.rotate(pygame.transform.flip(self.weapon.origImage,True,False),45)
-                self.weapon.rotation = 225
+                self.weapon.rotation = 45
             elif(self.lookDir.x == -1 and self.lookDir.y == -1):
                 self.weapon.image = pygame.transform.rotate(pygame.transform.flip(self.weapon.origImage,True,False),-45)
-                self.weapon.rotation = 135
+                self.weapon.rotation = -45
             elif(self.lookDir.x == 1 and self.lookDir.y == -1):
                 self.weapon.image = pygame.transform.rotate(self.weapon.origImage,45)
                 self.weapon.rotation = 45
             elif(self.lookDir.x == -1):
                 self.weapon.image = pygame.transform.flip(self.weapon.origImage,True,False)
-                self.weapon.rotation = 180
+                self.weapon.rotation = 0
             elif(self.lookDir.x == 1):
                 self.weapon.image = self.weapon.origImage
                 self.weapon.rotation = 0
