@@ -14,7 +14,7 @@ class Weapon(pygame.sprite.Sprite):
         self.bulletImagePath = bulletImagePath
         self.fireRate = fireRate
         self.fireDelay = 1/(self.fireRate/60)
-        self.lastTimeShot = self.fireDelay
+        self.lastTimeShot = -self.fireDelay
         self.bulGravMul = bulletGravityMultipierl
         self.damage = damage
         self.maxAmmo = maxAmmo

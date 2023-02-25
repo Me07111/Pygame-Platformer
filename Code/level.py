@@ -60,6 +60,7 @@ class Level:
             if(pygame.sprite.collide_rect(bullet,player) > 0 and player != bullet.ignored):
                 player.takeDamage(bullet.damage)
                 self.bullets.remove(bullet)
+        bullet.updateRot()
 
     def lookDirUpdate(self,i,player,keys):
         if(keys[mappings[i][0]]):

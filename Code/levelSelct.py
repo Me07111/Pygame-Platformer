@@ -5,7 +5,8 @@ class LevelSelect:
         self.screen = screen
         self.levels = [
             Level(screen,width,height,25,clock,playerCount,0),
-            Level(screen,width,height,25,clock,playerCount,1)
+            Level(screen,width,height,25,clock,playerCount,1),
+            Level(screen,width,height,25,clock,playerCount,2)
         ]
         self.buttons = []
         for i in range(len(self.levels)):
