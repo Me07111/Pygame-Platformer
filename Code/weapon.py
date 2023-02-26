@@ -28,22 +28,16 @@ class Weapon(pygame.sprite.Sprite):
 
     def shoot(self,direction,level,gameTime,player):
         if(self.canShoot(gameTime)):
-            bullet = Bullet(self.bulletSpeed,self.bulletImagePath,self.getMuzzlePos(player),direction,self.bulGravMul,self.damage)
+            bullet = Bullet(self.bulletSpeed,self.bulletImagePath,self.getMuzzlePos(),direction,self.bulGravMul,self.damage)
             bullet.ignored = player
             level.bullets.add(bullet)
             self.lastTimeShot = gameTime
             self.ammo -= 1
             self.wasShotReleased = False
     
-    def getMuzzlePos(self,player):
-        selfPosVect = pygame.Vector2(self.rect.topleft)
-        print(pygame.Vector2.rotate(self.muzzleDist,self.rotation))
-        if(self.isFlipped):
-            offset = pygame.Vector2.rotate(pygame.Vector2(self.origImage.get_width() - self.muzzleDist.x,self.muzzleDist.y),self.rotation)
-            print(offset)
-        else:
-            offset = pygame.Vector2.rotate(self.muzzleDist,self.rotation) 
-        return selfPosVect + offset
+    def getMuzzlePos(self):
+        selfPosVect = pygame.Vector2(self.rect.center)
+        return selfPosVect
 
     
     def canShoot(self,gameTime):
