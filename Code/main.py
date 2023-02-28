@@ -17,7 +17,6 @@ mainMenu = MainMenu(screen,width,height,clock)
 levelHandler = LevelHandler(mainMenu)
 running = True
 while running:
-
     # Did the user click the window close button?
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

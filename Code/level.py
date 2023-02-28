@@ -27,6 +27,8 @@ class Level:
         keys = pygame.key.get_pressed()
         for i in range(len(self.players)):
             player = self.players[i]
+            if(player.health == 0):
+                continue
             if(player.isOnGround):
                 self.horizontalDrag = self.GroundDrag
             else:
@@ -35,21 +37,23 @@ class Level:
             self.pickupUpdate(player,i)
             self.shootUpdate(player,keys,i,gametime)
             self.lookDirUpdate(i,player,keys)
-            self.checkWinCondition(player,levelHandler)
             player.lookInDir()
-            self.screen.blit(player.image,player.rect.topleft)
-            if(player.weapon != None):
-                self.screen.blit(player.weapon.image,player.weapon.rect.topleft)
+            player.draw(self.screen)
         for bullet in self.bullets:
             self.bulletUpdate(bullet,delta)
         self.platforms.draw(self.screen)
         self.onGroundWeapons.draw(self.screen)
         self.bullets.draw(self.screen)
         self.ui.update(self.players)
+        self.checkWinCondition(player,levelHandler)
 
     def checkWinCondition(self,player,levelHandler):
-        if(player.health <= 0):
-                levelHandler.backToMenu()
+        alivePlayers = []
+        for player in self.players:
+            if(player.health > 0):
+                alivePlayers.append(player)
+        if(len(alivePlayers) <= 1 ):
+            levelHandler.backToMenu(alivePlayers[0].name)
 
     def bulletUpdate(self,bullet,delta):
         bullet.velocity.y += self.gravity * bullet.gravMul * delta
@@ -161,7 +165,7 @@ class Level:
                 elif(cell == "P"):
                     if(playerAmount + 1 <= self.playerCount):
                         playerPos = pygame.math.Vector2(pos.x + 40,pos.y + 40)
-                        player = Character(playerPos,self.screen,mappings[playerAmount])
+                        player = Character(playerPos,self.screen,mappings[playerAmount],f"Player {len(self.players) + 1}")
                         self.players.append(player)
                         playerAmount += 1
                 elif(cell[0] == "w"):

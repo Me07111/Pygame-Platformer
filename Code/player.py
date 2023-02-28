@@ -1,6 +1,7 @@
 import pygame
+from config import renderText
 class Character(pygame.sprite.Sprite):
-    def __init__(self,InPos,surface,keys):
+    def __init__(self,InPos,surface,keys,name):
         super().__init__()
         self.direction = pygame.math.Vector2(0,0)
         self.jumpSpeed = 10
@@ -26,6 +27,7 @@ class Character(pygame.sprite.Sprite):
         self.isOnGround = True
         self.lookDir = pygame.Vector2(0,0)
         self.weapon = None
+        self.name = name
 
     def takeDamage(self,damage):
         self.health -= damage
@@ -80,3 +82,9 @@ class Character(pygame.sprite.Sprite):
         if(self.weapon != None):
                 lookDir = (self.lookDir.x,self.lookDir.y)
                 self.weapon.rect.center = (self.rect.centerx + self.weapon.offsets[lookDir][0],self.rect.centery + self.weapon.offsets[lookDir][1])
+
+    def draw(self,screen):
+        screen.blit(self.image,self.rect.topleft)
+        renderText(screen,self.name,"timesnewroman",20,pygame.color.Color(0,0,0),(self.rect.topleft[0],self.rect.topleft[1] - 20))
+        if(self.weapon != None):
+            screen.blit(self.weapon.image,self.weapon.rect.topleft)

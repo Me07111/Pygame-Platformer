@@ -12,5 +12,6 @@ class LevelHandler:
             pygame.quit()
         self.currentLevel = level
 
-    def backToMenu(self):
+    def backToMenu(self,winner):
+        self.mainMenu.winnerText = f"{winner} won! Another round?"
         self.setLevel(self.mainMenu)
