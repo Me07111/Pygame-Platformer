@@ -36,7 +36,7 @@ class Weapon(pygame.sprite.Sprite):
             self.wasShotReleased = False
     
     def getMuzzlePos(self):
-        return self.rect.center
+        #return self.rect.center
         selfPosVect = pygame.Vector2(self.rect.center)
         rotation = self.rotation
         if(self.isFlipped):

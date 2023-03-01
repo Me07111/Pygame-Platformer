@@ -83,6 +83,8 @@ class Character(pygame.sprite.Sprite):
                 lookDir = (self.lookDir.x,self.lookDir.y)
                 self.weapon.rect.center = (self.rect.centerx + self.weapon.offsets[lookDir][0],self.rect.centery + self.weapon.offsets[lookDir][1])
                 print(self.weapon.rect)
+                self.weapon.rect.width = self.weapon.image.get_width()
+                self.weapon.rect.height = self.weapon.image.get_height()
 
     def draw(self,screen):
         screen.blit(self.image,self.rect.topleft)
