@@ -25,8 +25,7 @@ class Level:
 
     def update(self,delta,gametime,levelHandler):
         keys = pygame.key.get_pressed()
-        for i in range(len(self.players)):
-            player = self.players[i]
+        for i, player in enumerate(self.players):
             if(player.health == 0):
                 continue
             if(player.isOnGround):
@@ -152,10 +151,8 @@ class Level:
         map = maps[mapIndex]
         cellHeight = self.height/len(map)
         cellWidth = self.width/len(map[0])
-        for i in range(len(map)):
-            row = map[i]
-            for j in range(len(row)):
-                cell = row[j]
+        for i, row in enumerate(map):
+            for j, cell in enumerate(row):
                 pos = pygame.math.Vector2(j*tileWidth,i*tileHeight)
                 if(cell == "o"):
                     continue
