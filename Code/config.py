@@ -99,11 +99,11 @@ weapons = [
     (1,0) : (0,0),
     (1,1) : (0,0),
     (1,-1) : (-10,-20),
-    (-1,0) : (-30,0),
+    (-1,0) : (-40,0),
     (-1,1) : (-40,0),
     (-1,-1) : (-25,-20)
 },
-pygame.Vector2(37,11)
+pygame.Vector2(15,-12)
 ],
 ["Assault Rifle","Graphics/ar.png",300,"Graphics/arBullet.png", 600,1,7,30,True,
 {
