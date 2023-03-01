@@ -1,6 +1,6 @@
 import pygame
 from player import Character
-from config import maps,tileWidth,tileHeight,mappings,healthBarPoses,healthBarSize,healthBarColors,weapons
+from config import maps,tileWidth,tileHeight,mappings,weapons
 from platformBase import PlatformBase
 from weapon import Weapon
 from ui import Ui

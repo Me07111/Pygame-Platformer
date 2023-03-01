@@ -14,7 +14,6 @@ class LevelSelect:
             self.buttons.append(button)
 
     def update(self,delta,gametime,levelHandler):
-        for i in range(len(self.buttons)):
-            button = self.buttons[i]
-            if(button.update(self.screen)):
+        for i, button in enumerate(self.buttons):
+            if(button.update(self.screen,gametime)):
                 levelHandler.setLevel(self.levels[i])
