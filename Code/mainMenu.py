@@ -20,7 +20,7 @@ class MainMenu:
         renderText(self.screen,"Menu","timesnewroman",100,pygame.Color(255,0,0),(self.width/2 - 130,20))
         renderText(self.screen,self.winnerText,"timesnewroman",30,pygame.Color(0,255,0),(self.width/2 - 170,self.height/2 - 200))
         renderText(self.screen,f"{self.playerCount}","timesnewroman",50,pygame.Color(0,255,0),(self.width/2 - 10,self.height/2 - 50))
-        renderText(self.screen,f"Players","timesnewroman",40,pygame.Color(0,255,0),(self.width/2 - 50,self.height/2 - 80))
+        renderText(self.screen,"Players","timesnewroman",40,pygame.Color(0,255,0),(self.width/2 - 50,self.height/2 - 90))
         if(self.quit.update(self.screen,gametime)):
             pygame.quit()
         if(self.play.update(self.screen,gametime)):
