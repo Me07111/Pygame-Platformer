@@ -1,7 +1,8 @@
 import pygame
 from bullet import Bullet
+import random
 class Weapon(pygame.sprite.Sprite):
-    def __init__(self,name,imagePath,isPickedUp,inPos,bulletSpeed,bulletImagePath,fireRate,bulletGravityMultipierl,damage,maxAmmo,isFullAuto,offsets,muzzleDist):
+    def __init__(self,name,imagePath,isPickedUp,inPos,bulletSpeed,bulletImagePath,fireRate,bulletGravityMultipierl,damage,maxAmmo,isFullAuto,offsets,muzzleDist,angle,bulletAmount):
         super().__init__()
         self.name = name
         self.origImage = pygame.image.load(imagePath)
@@ -25,13 +26,17 @@ class Weapon(pygame.sprite.Sprite):
         self.muzzleDist = muzzleDist
         self.rotation = 0
         self.isFlipped = False
+        self.angle = angle
+        self.bulletAmount = bulletAmount
 
     def shoot(self,direction,level,gameTime,player):
         if(self.canShoot(gameTime)):
-            bullet = Bullet(self.bulletSpeed,self.bulletImagePath,self.getMuzzlePos(),direction,self.bulGravMul,self.damage)
-            bullet.ignored = player
-            level.bullets.add(bullet)
-            self.lastTimeShot = gameTime
+            for i in range(self.bulletAmount):
+                direction = pygame.Vector2.rotate(direction,random.randint(-self.angle,self.angle))
+                bullet = Bullet(self.bulletSpeed,self.bulletImagePath,self.getMuzzlePos(),direction,self.bulGravMul,self.damage)
+                bullet.ignored = player
+                level.bullets.add(bullet)
+                self.lastTimeShot = gameTime
             self.ammo -= 1
             self.wasShotReleased = False
     

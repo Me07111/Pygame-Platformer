@@ -30,7 +30,7 @@ maps = [
     ["o","o","x","x","x","o","o","o","o","o","o","o","o","o","o","o"],
     ["o","o","o","o","o","o","o","o","o","o","o","o","o","o","o","o"],
     ["o","o","o","o","o","o","o","o","o","o","o","o","o","o","o","o"],
-    ["o","o","w5","o","o","o","o","o","o","w6","o","o","P","o","o","o"],
+    ["o","o","w3","o","o","o","o","o","o","w6","o","o","P","o","o","o"],
     ["x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x"]
     ]
 ]
@@ -103,7 +103,8 @@ weapons = [
     (-1,1) : (-40,0),
     (-1,-1) : (-25,-20)
 },
-pygame.Vector2(15,-12)
+pygame.Vector2(15,-12),
+0,1
 ],
 ["Assault Rifle","Graphics/ar.png",300,"Graphics/arBullet.png", 600,1,7,30,True,
 {
@@ -117,7 +118,8 @@ pygame.Vector2(15,-12)
     (-1,1) : (-5,-10),
     (-1,-1) : (10,-25)
 },
-pygame.Vector2()
+pygame.Vector2(),
+0,1
 ],
 ["Sniper","Graphics/Sniper.png",800,"Graphics/sniperBullet.png",30,1,30,5,False,
 {
@@ -131,9 +133,10 @@ pygame.Vector2()
     (-1,1) : (0,0),
     (-1,-1) : (0,0)
 },
-pygame.Vector2()
+pygame.Vector2(),
+0,1
 ],
-["Sniper","Graphics/shotgun.png",800,"Graphics/slug.png",200,1,20,6,False,
+["Shotgun","Graphics/shotgun.png",800,"Graphics/slug.png",200,1,20,6,False,
 {
     (0,0) : (0,0),
     (0,1) : (0,0),
@@ -145,7 +148,8 @@ pygame.Vector2()
     (-1,1) : (0,0),
     (-1,-1) : (0,0)
 },
-pygame.Vector2()
+pygame.Vector2(),
+45,6
 ],
 ["Rpg-7","Graphics/rpg7.png",300,"Graphics/rpg7rocket.png",12,1,50,3,False,
 {
@@ -159,7 +163,8 @@ pygame.Vector2()
     (-1,1) : (0,0),
     (-1,-1) : (0,0)
 },
-pygame.Vector2()
+pygame.Vector2(),
+0,1
 ],
 ["MCX","Graphics/MCX.png",600,"Graphics/arBullet.png",600,1,6,30,True,
 {
@@ -173,7 +178,8 @@ pygame.Vector2()
     (-1,1) : (0,0),
     (-1,-1) : (0,0)
 },
-pygame.Vector2()
+pygame.Vector2(),
+0,1
 ],
 ["desert Eagle","Graphics/deagle.png",500,"Graphics/pistolBullet.png",120,4,20,7,False,
 {
@@ -187,7 +193,8 @@ pygame.Vector2()
     (-1,1) : (0,0),
     (-1,-1) : (0,0)
 },
-pygame.Vector2()
+pygame.Vector2(),
+0,1
 ]
 ]
 
