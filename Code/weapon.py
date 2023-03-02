@@ -32,7 +32,7 @@ class Weapon(pygame.sprite.Sprite):
     def shoot(self,direction,level,gameTime,player):
         if(self.canShoot(gameTime)):
             for i in range(self.bulletAmount):
-                direction = pygame.Vector2.rotate(direction,random.randint(-self.angle,self.angle))
+                direction = pygame.Vector2.rotate(direction,random.randint(int(-self.angle/2),int(self.angle/2)))
                 bullet = Bullet(self.bulletSpeed,self.bulletImagePath,self.getMuzzlePos(),direction,self.bulGravMul,self.damage)
                 bullet.ignored = player
                 level.bullets.add(bullet)

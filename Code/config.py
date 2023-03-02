@@ -118,7 +118,7 @@ pygame.Vector2(15,-12),
     (-1,1) : (-5,-10),
     (-1,-1) : (10,-25)
 },
-pygame.Vector2(),
+pygame.Vector2(42,0),
 0,1
 ],
 ["Sniper","Graphics/Sniper.png",800,"Graphics/sniperBullet.png",30,1,30,5,False,
@@ -149,7 +149,7 @@ pygame.Vector2(),
     (-1,-1) : (0,0)
 },
 pygame.Vector2(),
-45,6
+5,6
 ],
 ["Rpg-7","Graphics/rpg7.png",300,"Graphics/rpg7rocket.png",12,1,50,3,False,
 {
