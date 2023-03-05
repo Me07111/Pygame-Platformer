@@ -5,8 +5,12 @@ pygame.init()
 pygame.font.init()
 # Set up the drawing window
 displayInfo = pygame.display.Info()
-height = displayInfo.current_h
-width = height / 9 * 16
+if(displayInfo.current_w < displayInfo.current_h / 9 * 16):
+    width = displayInfo.current_w
+    height = width / 16 * 9
+else:
+    height = displayInfo.current_h
+    width = height / 9 * 16
 screen = pygame.display.set_mode([width, height])
 clock = pygame.time.Clock()
 Framerate  = 60
