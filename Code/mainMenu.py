@@ -17,10 +17,10 @@ class MainMenu:
         self.playerCount = 2
     
     def update(self,delta,gametime,levelHandler):
-        renderText(self.screen,"Menu","timesnewroman",scaleValue(100),pygame.Color(255,0,0),scaleRect(self.height,(self.width/2 - 130,20)))
-        renderText(self.screen,self.winnerText,"timesnewroman",scaleValue(30),pygame.Color(0,255,0),scaleRect(self.height,(self.width/2 - 170,self.height/2 - 200)))
-        renderText(self.screen,f"{self.playerCount}","timesnewroman",scaleValue(50),pygame.Color(0,255,0),scaleRect(self.height,(self.width/2 - 10,self.height/2 - 50)))
-        renderText(self.screen,"Players","timesnewroman",scaleValue(40),pygame.Color(0,255,0),scaleRect(self.height,(self.width/2 - 50,self.height/2 - 90)))
+        renderText(self.screen,"Menu","timesnewroman",scaleValue(self.height,100),pygame.Color(255,0,0),scaleRect(self.height,(self.width/2 - 130,20)))
+        renderText(self.screen,self.winnerText,"timesnewroman",scaleValue(self.height30),pygame.Color(0,255,0),scaleRect(self.height,(self.width/2 - 170,self.height/2 - 200)))
+        renderText(self.screen,f"{self.playerCount}","timesnewroman",scaleValue(self.height,50),pygame.Color(0,255,0),scaleRect(self.height,(self.width/2 - 10,self.height/2 - 50)))
+        renderText(self.screen,"Players","timesnewroman",scaleValue(self.height,40),pygame.Color(0,255,0),scaleRect(self.height,(self.width/2 - 50,self.height/2 - 90)))
         if(self.quit.update(self.screen,gametime)):
             pygame.quit()
         if(self.play.update(self.screen,gametime)):
