@@ -220,4 +220,4 @@ def scaleRect(height,rect):
 
 def scaleValue(height,value):
     scaler = height / 720
-    return value * scaler
+    return int(value * scaler)
