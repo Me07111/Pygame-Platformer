@@ -218,3 +218,6 @@ def scaleRect(height,rect):
     scaler = height / 720
     return (rect[0] * scaler, rect[1] * scaler)
 
+def scaleValue(height,value):
+    scaler = height / 720
+    return value * scaler

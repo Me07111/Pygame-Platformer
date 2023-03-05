@@ -1,15 +1,15 @@
 import pygame
-from config import renderText,scaleRect
+from config import renderText,scaleRect,scaleValue
 class Character(pygame.sprite.Sprite):
     def __init__(self,InPos,surface,keys,name,height):
         super().__init__()
         self.direction = pygame.math.Vector2(0,0)
-        self.jumpSpeed = 10
+        self.jumpSpeed = scaleValue(height,10)
         self.maxJumps = 2
         self.jumpIndex = self.maxJumps
         self.jumpDelay = 0.35
         self.lastJumpTime = -self.jumpDelay
-        self.speed = 400
+        self.speed = scaleValue(height,400)
         self.surface = surface
         self.origImage =pygame.transform.scale(pygame.image.load("Graphics\Character.png"),scaleRect(height,(60,80)))
         self.image = self.origImage
