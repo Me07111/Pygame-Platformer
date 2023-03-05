@@ -4,8 +4,9 @@ from levelhandler import LevelHandler
 pygame.init()
 pygame.font.init()
 # Set up the drawing window
-width = 1280
-height = 720
+displayInfo = pygame.display.Info()
+width = displayInfo.current_w
+height = displayInfo.current_h
 screen = pygame.display.set_mode([width, height])
 clock = pygame.time.Clock()
 Framerate  = 60

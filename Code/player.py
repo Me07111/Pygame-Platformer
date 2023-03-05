@@ -1,7 +1,7 @@
 import pygame
-from config import renderText
+from config import renderText,scaleRect
 class Character(pygame.sprite.Sprite):
-    def __init__(self,InPos,surface,keys,name):
+    def __init__(self,InPos,surface,keys,name,height):
         super().__init__()
         self.direction = pygame.math.Vector2(0,0)
         self.jumpSpeed = 10
@@ -11,7 +11,7 @@ class Character(pygame.sprite.Sprite):
         self.lastJumpTime = -self.jumpDelay
         self.speed = 400
         self.surface = surface
-        self.origImage = pygame.image.load("Graphics\Character.png")
+        self.origImage =pygame.transform.scale(pygame.image.load("Graphics\Character.png"),scaleRect(height,(60,80)))
         self.image = self.origImage
         self.rect = self.image.get_rect()
         print(self.rect)
@@ -28,6 +28,7 @@ class Character(pygame.sprite.Sprite):
         self.lookDir = pygame.Vector2(0,0)
         self.weapon = None
         self.name = name
+        self.height = height
 
     def takeDamage(self,damage):
         self.health -= damage

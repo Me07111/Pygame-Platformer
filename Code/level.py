@@ -1,6 +1,6 @@
 import pygame
 from player import Character
-from config import maps,tileWidth,tileHeight,mappings,weapons
+from config import maps,mappings,weapons
 from platformBase import PlatformBase
 from weapon import Weapon
 from ui import Ui
@@ -153,7 +153,7 @@ class Level:
         cellWidth = self.width/len(map[0])
         for i, row in enumerate(map):
             for j, cell in enumerate(row):
-                pos = pygame.math.Vector2(j*tileWidth,i*tileHeight)
+                pos = pygame.math.Vector2(j*cellWidth,i*cellHeight)
                 if(cell == "o"):
                     continue
                 elif(cell == "x"):
@@ -161,13 +161,14 @@ class Level:
                     self.platforms.add(platform)
                 elif(cell == "P"):
                     if(playerAmount + 1 <= self.playerCount):
-                        playerPos = pygame.math.Vector2(pos.x + 40,pos.y + 40)
-                        player = Character(playerPos,self.screen,mappings[playerAmount],f"Player {len(self.players) + 1}")
+                        playerPos = pygame.math.Vector2(pos.x + cellWidth/2,pos.y + cellHeight/2)
+                        player = Character(playerPos,self.screen,mappings[playerAmount],f"Player {len(self.players) + 1}",self.height)
                         self.players.append(player)
                         playerAmount += 1
                 elif(cell[0] == "w"):
                     type = weapons[int(cell[len(cell)-1])]
-                    weapon = Weapon(type[0],type[1],False,pos,type[2],type[3],type[4],type[5],type[6],type[7],type[8],type[9],type[10],type[11],type[12],type[13])
+                    weaponPos = pygame.math.Vector2(pos.x + cellWidth/2,pos.y + cellHeight/2)
+                    weapon = Weapon(type[0],type[1],False,weaponPos,type[2],type[3],type[4],type[5],type[6],type[7],type[8],type[9],type[10],type[11],type[12],type[13],self.height)
                     self.onGroundWeapons.add(weapon)
     
     def closerToZero(self,numberToNegate,negateBy):

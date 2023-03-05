@@ -1,11 +1,12 @@
 import pygame
 from bullet import Bullet
-import random
+from config import scaleRect
 class Weapon(pygame.sprite.Sprite):
-    def __init__(self,name,imagePath,isPickedUp,inPos,bulletSpeed,bulletImagePath,fireRate,bulletGravityMultipierl,damage,maxAmmo,isFullAuto,offsets,muzzleDist,angle,bulletAmount,soundPath):
+    def __init__(self,name,imagePath,isPickedUp,inPos,bulletSpeed,bulletImagePath,fireRate,bulletGravityMultipierl,damage,maxAmmo,isFullAuto,offsets,muzzleDist,angle,bulletAmount,soundPath,height):
         super().__init__()
         self.name = name
-        self.origImage = pygame.image.load(imagePath)
+        size = (pygame.image.load(imagePath).get_rect().width,pygame.image.load(imagePath).get_rect().height)
+        self.origImage = pygame.transform.scale(pygame.image.load(imagePath),scaleRect(height,size)) 
         self.image = self.origImage
         self.isPickedUp = isPickedUp
         self.rect = self.image.get_rect()
@@ -29,12 +30,13 @@ class Weapon(pygame.sprite.Sprite):
         self.angle = angle
         self.bulletAmount = bulletAmount
         self.sound = pygame.mixer.Sound(soundPath)
+        self.height = height
 
     def shoot(self,direction,level,gameTime,player):
         if(self.canShoot(gameTime)):
             for i in range(self.bulletAmount):
                 direction = pygame.Vector2.rotate(direction,-self.angle/4 + i*(self.angle/self.bulletAmount))
-                bullet = Bullet(self.bulletSpeed,self.bulletImagePath,self.getMuzzlePos(),direction,self.bulGravMul,self.damage)
+                bullet = Bullet(self.bulletSpeed,self.bulletImagePath,self.getMuzzlePos(),direction,self.bulGravMul,self.damage,player.height)
                 bullet.ignored = player
                 level.bullets.add(bullet)
                 self.lastTimeShot = gameTime

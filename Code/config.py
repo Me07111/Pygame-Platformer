@@ -8,7 +8,7 @@ maps = [
     ["o","o","o","o","o","o","o","o","o","o","o","o","o","o","o","o"],
     ["o","o","o","o","o","o","o","o","o","o","o","o","o","o","o","o"],
     ["o","o","o","o","o","o","o","o","o","o","o","o","o","o","o","o"],
-    ["o","o","w2","o","o","o","o","o","o","w1","o","o","P","o","o","o"],
+    ["o","w2","o","o","o","o","o","o","o","w1","o","o","P","o","o","o"],
     ["x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x"]
     ],
     [
@@ -34,10 +34,6 @@ maps = [
     ["x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x"]
     ]
 ]
-
-
-tileWidth = 80
-tileHeight = 80
 
 player1Mappings = [
 pygame.K_a,
@@ -217,3 +213,8 @@ def renderText(surface,text,fontType,size,color,pos,backGroundColor = None):
     font = pygame.font.SysFont(fontType,size)
     image = pygame.font.Font.render(font,text,False,color,backGroundColor)
     surface.blit(image,pos)
+
+def scaleRect(height,rect):
+    scaler = height / 720
+    return (rect[0] * scaler, rect[1] * scaler)
+

@@ -1,8 +1,11 @@
 import pygame
+from config import scaleRect
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self,speed,imagePath,pos,dir,gravityMultiplier,damage):
+    def __init__(self,speed,imagePath,pos,dir,gravityMultiplier,damage,height):
         super().__init__()
-        self.OrigImage = pygame.image.load(imagePath)
+        image = pygame.image.load(imagePath)
+        size = (image.get_rect().width,image.get_rect().height)
+        self.OrigImage = pygame.transform.scale(pygame.image.load(imagePath),scaleRect(height,size))
         self.image = self.OrigImage
         self.rect = self.image.get_rect()
         self.rect.center = pos
