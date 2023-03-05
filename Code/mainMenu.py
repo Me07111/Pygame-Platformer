@@ -5,7 +5,7 @@ from config import mappings,renderText,scaleRect,scaleValue
 class MainMenu:
     def __init__(self,screen,width,height,clock):
         self.height = height
-        self.width = height
+        self.width = width
         self.quit = Button((width/2-200-50,height/2+100),(200,50),"Quit",pygame.Color(255,0,0),20,pygame.Color(0,0,0))
         self.play = Button((width/2 + 250,height/2+100),(200,50),"Play",pygame.Color(0,255,0),20,pygame.Color(0,0,0))
         self.plus = Button((width/2 + 100,height/2-50),(50,50),"+",pygame.Color(0,255,0),20,pygame.Color(0,0,0))
