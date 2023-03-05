@@ -4,7 +4,7 @@ from config import scaleValue,scaleRect
 import pygame
 import math
 class LevelSelect:
-    def __init__(self,screen,width,height,clock,playerCount):
+    def __init__(self,screen,width : float,height : float,clock,playerCount : int):
         self.screen = screen
         self.levels = [
             Level(screen,width,height,25,clock,playerCount,0),
@@ -21,7 +21,7 @@ class LevelSelect:
                     button = Button(scaleRect(height,(200 + 270*j,100 + i * 200)),scaleRect(height,(200,50)),f"Level {i*4 + j +1}",pygame.Color(255,255,255),scaleValue(height,20))
                     self.buttons.append(button)
 
-    def update(self,delta,gametime,levelHandler):
+    def update(self,delta : float,gametime : float,levelHandler):
         for i, button in enumerate(self.buttons):
             if(button.update(self.screen,gametime)):
                 levelHandler.setLevel(self.levels[i])

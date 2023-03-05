@@ -6,7 +6,7 @@ from weapon import Weapon
 from ui import Ui
 
 class Level:
-    def __init__(self,screen,width,height,gravity,clock,playercount,map):
+    def __init__(self,screen : pygame.Surface ,width : int,height : int,gravity : float,clock : pygame.time.Clock,playercount : int,map : list):
         self.screen = screen
         self.clock = clock
         self.ui = Ui(screen)
@@ -23,7 +23,7 @@ class Level:
         self.onGroundWeapons = pygame.sprite.Group()
         self.generateMap(map)
 
-    def update(self,delta,gametime,levelHandler):
+    def update(self,delta : float,gametime : float,levelHandler):
         keys = pygame.key.get_pressed()
         for i, player in enumerate(self.players):
             if(player.health == 0):
@@ -54,7 +54,7 @@ class Level:
         if(len(alivePlayers) <= 1 ):
             levelHandler.backToMenu(alivePlayers[0].name)
 
-    def bulletUpdate(self,bullet,delta):
+    def bulletUpdate(self,bullet,delta : float):
         bullet.velocity.y += self.gravity * bullet.gravMul * delta
         bullet.rect.center = bullet.rect.center + bullet.velocity * delta
         if(len(pygame.sprite.spritecollide(bullet,self.platforms,False)) > 0):
@@ -65,7 +65,7 @@ class Level:
                 self.bullets.remove(bullet)
         bullet.updateRot()
 
-    def lookDirUpdate(self,i,player,keys):
+    def lookDirUpdate(self,i : int,player,keys):
         if(keys[mappings[i][0]]):
             player.lookDir = pygame.Vector2(-1,0)
         elif(keys[mappings[i][1]]):
@@ -83,7 +83,7 @@ class Level:
         elif(keys[mappings[i][1]] and keys[mappings[i][3]]):
             player.lookDir = pygame.Vector2(1,1)
         
-    def shootUpdate(self,player,keys,i,gameTime):
+    def shootUpdate(self,player,keys,i : int,gameTime : float):
         if(player.weapon != None):
             if(keys[mappings[i][4]]):
                 if(pygame.Vector2.length(player.lookDir) > 0):
@@ -106,7 +106,7 @@ class Level:
                 player.weapon = collidingWeapons[0]
             self.onGroundWeapons.remove(collidingWeapons[0])
 
-    def movementUpdate(self,delta,keys,player,gameTime):
+    def movementUpdate(self,delta : float,keys,player,gameTime : float):
         #input
         if(keys[player.leftKey]):
             player.direction.x = -1
@@ -146,7 +146,7 @@ class Level:
             player.direction.x = 0
             player.jumpIndex = player.maxJumps
 
-    def generateMap(self,mapIndex):
+    def generateMap(self,mapIndex : int):
         playerAmount = 0
         map = maps[mapIndex]
         cellHeight = self.height/len(map)
@@ -171,7 +171,7 @@ class Level:
                     weapon = Weapon(type[0],type[1],False,weaponPos,type[2],type[3],type[4],type[5],type[6],type[7],type[8],type[9],type[10],type[11],type[12],type[13],self.height)
                     self.onGroundWeapons.add(weapon)
     
-    def closerToZero(self,numberToNegate,negateBy):
+    def closerToZero(self,numberToNegate : float,negateBy : float):
         if(numberToNegate >= 0):
             index = 1
         else:

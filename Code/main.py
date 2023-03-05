@@ -36,6 +36,3 @@ while running:
 
 # Done! Time to quit.
 pygame.quit()
-
-def setLevel(level):
-    currentLevel = level

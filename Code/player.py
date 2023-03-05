@@ -1,7 +1,7 @@
 import pygame
 from config import renderText,scaleRect,scaleValue
 class Character(pygame.sprite.Sprite):
-    def __init__(self,InPos,surface,keys,name,height):
+    def __init__(self,InPos,surface,keys,name : str,height : int):
         super().__init__()
         self.direction = pygame.math.Vector2(0,0)
         self.jumpSpeed = scaleValue(height,10)
@@ -30,17 +30,17 @@ class Character(pygame.sprite.Sprite):
         self.name = name
         self.height = height
 
-    def takeDamage(self,damage):
+    def takeDamage(self,damage : float):
         self.health -= damage
         if(self.health <= 0):
             self.health = 0
             
-    def heal(self,healAmount):
+    def heal(self,healAmount : float):
         self.health += healAmount
         if(self.health > self.maxHealth):
             self.health = self.maxHealth
 
-    def launch(self,direction,speed):
+    def launch(self,direction : tuple,speed : float):
         print("launched")
         self.launchVector = direction
         self.launchSpeed = speed

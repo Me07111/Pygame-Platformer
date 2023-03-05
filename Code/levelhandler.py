@@ -4,7 +4,7 @@ class LevelHandler:
         self.mainMenu = menu
         self.currentLevel = menu
 
-    def update(self,delta,gametime):
+    def update(self,delta : float,gametime : float):
         self.currentLevel.update(delta,gametime,self)
 
     def setLevel(self,level):
@@ -12,6 +12,6 @@ class LevelHandler:
             pygame.quit()
         self.currentLevel = level
 
-    def backToMenu(self,winner):
+    def backToMenu(self,winner : str):
         self.mainMenu.winnerText = f"{winner} won! Another round?"
         self.setLevel(self.mainMenu)

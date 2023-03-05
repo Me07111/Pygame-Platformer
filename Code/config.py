@@ -209,15 +209,15 @@ pygame.Vector2(),
 ]
 ]
 
-def renderText(surface,text,fontType,size,color,pos,backGroundColor = None):
+def renderText(surface : pygame.surface.Surface,text : str,fontType : str,size : tuple,color :pygame.Color,pos : tuple,backGroundColor :pygame.Color = None):
     font = pygame.font.SysFont(fontType,size)
     image = pygame.font.Font.render(font,text,False,color,backGroundColor)
     surface.blit(image,pos)
 
-def scaleRect(height,rect):
+def scaleRect(height : int,rect : tuple):
     scaler = height / 720
     return (rect[0] * scaler, rect[1] * scaler)
 
-def scaleValue(height,value):
+def scaleValue(height : int,value : int):
     scaler = height / 720
     return int(value * scaler)

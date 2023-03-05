@@ -1,7 +1,7 @@
 import pygame
 from config import scaleRect,scaleValue
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self,speed,imagePath,pos,dir,gravityMultiplier,damage,height):
+    def __init__(self,speed : float,imagePath : str,pos,dir,gravityMultiplier : float,damage : float,height : int):
         super().__init__()
         image = pygame.image.load(imagePath)
         size = (image.get_rect().width,image.get_rect().height)
