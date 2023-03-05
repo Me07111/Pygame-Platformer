@@ -1,6 +1,6 @@
 import pygame
 from player import Character
-from config import maps,mappings,weapons
+from config import maps,mappings,weapons,scaleValue
 from platformBase import PlatformBase
 from weapon import Weapon
 from ui import Ui
@@ -12,7 +12,7 @@ class Level:
         self.ui = Ui(screen)
         self.width = width
         self.height = height
-        self.gravity = gravity
+        self.gravity = scaleValue(height,gravity) 
         self.platforms = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
         self.playerCount = playercount

@@ -1,5 +1,5 @@
 import pygame
-from config import scaleRect
+from config import scaleRect,scaleValue
 class Bullet(pygame.sprite.Sprite):
     def __init__(self,speed,imagePath,pos,dir,gravityMultiplier,damage,height):
         super().__init__()
@@ -9,7 +9,7 @@ class Bullet(pygame.sprite.Sprite):
         self.image = self.OrigImage
         self.rect = self.image.get_rect()
         self.rect.center = pos
-        self.velocity = dir * speed
+        self.velocity = dir * scaleValue(height,speed) 
         self.gravMul = gravityMultiplier
         self.ignored = None
         self.damage = damage

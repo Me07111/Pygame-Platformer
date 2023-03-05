@@ -1,13 +1,13 @@
 import pygame
 from button import Button
 from levelSelct import LevelSelect
-from config import mappings, renderText
+from config import mappings,renderText,scaleRect,scaleValue
 class MainMenu:
     def __init__(self,screen,width,height,clock):
-        self.quit = Button((width/2-200-50,height/2+100),(200,50),"Quit",pygame.Color(255,0,0),20,pygame.Color(0,0,0))
-        self.play = Button((width/2 + 250,height/2+100),(200,50),"Play",pygame.Color(0,255,0),20,pygame.Color(0,0,0))
-        self.plus = Button((width/2 + 100,height/2-50),(50,50),"+",pygame.Color(0,255,0),20,pygame.Color(0,0,0))
-        self.minus = Button((width/2 - 100,height/2-50),(50,50),"-",pygame.Color(0,255,0),20,pygame.Color(0,0,0))
+        self.quit = Button(scaleRect(height,(width/2-200-50,height/2+100)),scaleRect(height,(200,50)),"Quit",pygame.Color(255,0,0),20,pygame.Color(0,0,0))
+        self.play = Button(scaleRect(height,(width/2 + 250,height/2+100)),scaleRect(height,(200,50)),"Play",pygame.Color(0,255,0),20,pygame.Color(0,0,0))
+        self.plus = Button(scaleRect(height,(width/2 + 100,height/2-50)),scaleRect(height,(50,50)),"+",pygame.Color(0,255,0),20,pygame.Color(0,0,0))
+        self.minus = Button(scaleRect(height,(width/2 - 100,height/2-50)),scaleRect(height,(50,50)),"-",pygame.Color(0,255,0),20,pygame.Color(0,0,0))
         self.winnerText = ""
         self.screen = screen
         self.width = width
@@ -17,10 +17,10 @@ class MainMenu:
         self.playerCount = 2
     
     def update(self,delta,gametime,levelHandler):
-        renderText(self.screen,"Menu","timesnewroman",100,pygame.Color(255,0,0),(self.width/2 - 130,20))
-        renderText(self.screen,self.winnerText,"timesnewroman",30,pygame.Color(0,255,0),(self.width/2 - 170,self.height/2 - 200))
-        renderText(self.screen,f"{self.playerCount}","timesnewroman",50,pygame.Color(0,255,0),(self.width/2 - 10,self.height/2 - 50))
-        renderText(self.screen,"Players","timesnewroman",40,pygame.Color(0,255,0),(self.width/2 - 50,self.height/2 - 90))
+        renderText(self.screen,"Menu","timesnewroman",scaleValue(100),pygame.Color(255,0,0),scaleRect(self.height,(self.width/2 - 130,20)))
+        renderText(self.screen,self.winnerText,"timesnewroman",scaleValue(30),pygame.Color(0,255,0),scaleRect(self.height,(self.width/2 - 170,self.height/2 - 200)))
+        renderText(self.screen,f"{self.playerCount}","timesnewroman",scaleValue(50),pygame.Color(0,255,0),scaleRect(self.height,(self.width/2 - 10,self.height/2 - 50)))
+        renderText(self.screen,"Players","timesnewroman",scaleValue(40),pygame.Color(0,255,0),scaleRect(self.height,(self.width/2 - 50,self.height/2 - 90)))
         if(self.quit.update(self.screen,gametime)):
             pygame.quit()
         if(self.play.update(self.screen,gametime)):
