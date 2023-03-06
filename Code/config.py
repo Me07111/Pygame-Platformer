@@ -58,6 +58,8 @@ mappings = [
     player2Mappings
 ]
 
+spriteSheetPaths = ["Graphics/Character.png","Graphics/PlayerRunningSpriteSheet.png"]
+
 healthBarSize = pygame.math.Vector2(300,40)
 
 healthBarPoses = [

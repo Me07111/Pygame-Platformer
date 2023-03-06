@@ -1,5 +1,5 @@
 import pygame
-from config import renderText,scaleRect,scaleValue
+from config import renderText,scaleRect,scaleValue, spriteSheetPaths
 class Character(pygame.sprite.Sprite):
     def __init__(self,InPos,surface,keys,name : str,height : int):
         super().__init__()
@@ -11,10 +11,12 @@ class Character(pygame.sprite.Sprite):
         self.lastJumpTime = -self.jumpDelay
         self.speed = scaleValue(height,400)
         self.surface = surface
-        self.origImage =pygame.transform.scale(pygame.image.load("Graphics\Character.png"),scaleRect(height,(60,80)))
+        self.spriteSheets = []
+        for spriteSheet in spriteSheetPaths:
+            self.spriteSheets.append(pygame.image.load(spriteSheet))
+        self.origImage =pygame.transform.scale(pygame.image.load("Graphics\Character.png"),scaleRect(height,(70,80)))
         self.image = self.origImage
         self.rect = self.image.get_rect()
-        print(self.rect)
         self.rect.center = InPos
         self.leftKey = keys[0]
         self.rightKey = keys[1]
