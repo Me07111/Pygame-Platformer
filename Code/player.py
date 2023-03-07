@@ -1,4 +1,5 @@
 import pygame
+from animator import Animator
 from config import renderText,scaleRect,scaleValue, spriteSheetPaths
 class Character(pygame.sprite.Sprite):
     def __init__(self,InPos,surface,keys,name : str,height : int):
@@ -14,7 +15,8 @@ class Character(pygame.sprite.Sprite):
         self.spriteSheets = []
         for spriteSheet in spriteSheetPaths:
             self.spriteSheets.append(pygame.image.load(spriteSheet))
-        self.origImage =pygame.transform.scale(pygame.image.load("Graphics\Character.png"),scaleRect(height,(70,80)))
+        self.animator = Animator(self.spriteSheets,(70,80),0.125)
+        self.origImage = pygame.transform.scale(self.animator.animate(0,0),scaleRect(height,(70,80)))
         self.image = self.origImage
         self.rect = self.image.get_rect()
         self.rect.center = InPos
@@ -49,6 +51,7 @@ class Character(pygame.sprite.Sprite):
         self.launched = True
     
     def lookInDir(self):
+        self.origImage = pygame.transform.scale(self.origImage,scaleRect(self.height,(70,80)))
         if(self.lookDir.x == -1):
             self.image = pygame.transform.flip(self.origImage,True,False)
         elif(self.lookDir.x == 1):
@@ -85,9 +88,14 @@ class Character(pygame.sprite.Sprite):
         if(self.weapon != None):
                 lookDir = (self.lookDir.x,self.lookDir.y)
                 self.weapon.rect.center = (self.rect.centerx + self.weapon.offsets[lookDir][0],self.rect.centery + self.weapon.offsets[lookDir][1])
-                print(self.weapon.rect)
                 self.weapon.rect.width = self.weapon.image.get_width()
                 self.weapon.rect.height = self.weapon.image.get_height()
+
+    def animate(self,delta):
+        if(self.isOnGround and abs(self.direction.x) > 0):
+            self.origImage = self.animator.animate(1,delta)
+        else: 
+            self.origImage = self.animator.animate(0,delta)
 
     def draw(self,screen):
         screen.blit(self.image,self.rect.topleft)

@@ -36,6 +36,7 @@ class Level:
             self.pickupUpdate(player,i)
             self.shootUpdate(player,keys,i,gametime)
             self.lookDirUpdate(i,player,keys)
+            player.animate(delta)
             player.lookInDir()
             player.draw(self.screen)
         for bullet in self.bullets:
