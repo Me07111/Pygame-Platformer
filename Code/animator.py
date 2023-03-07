@@ -10,7 +10,8 @@ class Animator:
         self.previousAnim = animations[0]
         self.animLengths = []
         for anim in animations:
-            self.animLengths.append(anim.get_width() / frameSize[0])
+            self.animLengths.append(int(anim.get_width() / frameSize[0]))
+        print(self.animLengths)
 
     def animate(self,animIndex,delta) -> pygame.Surface:
         anim = self.animations[animIndex]
@@ -19,15 +20,15 @@ class Animator:
         if(anim != self.previousAnim):
             self.frameIndex = 0
             self.TimeSinceLastFrame = 0
-
-        self.TimeSinceLastFrame += delta
-
+        else:
+            self.TimeSinceLastFrame += delta
+        
+        self.previousAnim = anim
         if(self.TimeSinceLastFrame >= self.animSpeed):
-            if(self.frameIndex <= animLength):
+            if(self.frameIndex < animLength -1):
                 self.frameIndex += 1
             else:
                 self.frameIndex = 0
-
         return self.clip(self.animations[animIndex],self.frameIndex*self.frameSize[0],0,self.frameSize[0],self.frameSize[1])
         
     
