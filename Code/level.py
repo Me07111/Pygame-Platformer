@@ -120,6 +120,7 @@ class Level:
                 player.jumpIndex -= 1
                 player.lastJumpTime = gameTime
                 player.isOnGround = False
+                player.animator.playAnim(2)
         #launch update
         if(player.launched == True):
             player.isOnGround = False
