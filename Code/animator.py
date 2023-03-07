@@ -1,17 +1,16 @@
 import pygame
 
 class Animator:
-    def __init__(self,animations : list[pygame.Surface] ,frameSize : tuple, animSpeed : int):
+    def __init__(self,animations : list[pygame.Surface] ,frameSize : tuple, animSpeeds : list[int]):
         self.animations = animations
         self.frameIndex = 0
         self.frameSize = frameSize
-        self.animSpeed = animSpeed
+        self.animSpeeds = animSpeeds
         self.TimeSinceLastFrame = 0
         self.previousAnim = animations[0]
         self.animLengths = []
         for anim in animations:
             self.animLengths.append(int(anim.get_width() / frameSize[0]))
-        print(self.animLengths)
 
     def animate(self,animIndex,delta) -> pygame.Surface:
         anim = self.animations[animIndex]
@@ -24,7 +23,7 @@ class Animator:
             self.TimeSinceLastFrame += delta
         
         self.previousAnim = anim
-        if(self.TimeSinceLastFrame >= self.animSpeed):
+        if(self.TimeSinceLastFrame >= self.animSpeeds[animIndex]):
             if(self.frameIndex < animLength -1):
                 self.frameIndex += 1
             else:

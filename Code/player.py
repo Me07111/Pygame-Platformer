@@ -15,7 +15,7 @@ class Character(pygame.sprite.Sprite):
         self.spriteSheets = []
         for spriteSheet in spriteSheetPaths:
             self.spriteSheets.append(pygame.image.load(spriteSheet))
-        self.animator = Animator(self.spriteSheets,(70,80),0.1)
+        self.animator = Animator(self.spriteSheets,(70,80),[0.1,0.1])
         self.origImage = pygame.transform.scale(self.animator.animate(0,0),scaleRect(height,(70,80)))
         self.image = self.origImage
         self.rect = self.image.get_rect()
