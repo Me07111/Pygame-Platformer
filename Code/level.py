@@ -133,7 +133,6 @@ class Level:
         if(len(collidingPlatformsVert) > 0):
             player.rect.center = oldPos
             player.direction.y = 0
-            player.jumpIndex = player.maxJumps
 
         #horizontal update
         oldPos = player.rect.center
@@ -148,6 +147,7 @@ class Level:
         index = rect.collidelist(self.platforms.sprites())
         if(index != -1):
             player.isOnGround = True
+            player.jumpIndex = player.maxJumps
         else:
             player.isOnGround = False
 
