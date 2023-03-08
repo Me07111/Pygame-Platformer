@@ -24,7 +24,6 @@ class Animator:
         if(animIndex != self.previousAnim):
             self.frameIndex = 0
             self.TimeSinceLastFrame = 0
-            print("animChanged")
         else:
             self.TimeSinceLastFrame += delta
         
@@ -38,7 +37,6 @@ class Animator:
                     self.frameIndex = 0
             else:
                 self.frameIndex = 0
-        print(self.frameIndex*self.frameSize[0],anim.get_width())
         return self.clip(self.animations[animIndex],self.frameIndex*self.frameSize[0],0,self.frameSize[0],self.frameSize[1])
         
     

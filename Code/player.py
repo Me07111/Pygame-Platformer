@@ -99,7 +99,6 @@ class Character(pygame.sprite.Sprite):
                 self.weapon.rect.height = self.weapon.image.get_height()
 
     def animate(self,delta):
-        #print(self.isOnGround)
         if(self.isOnGround == False):
             self.origImage = self.animator.animate(3,delta)
         elif(self.isOnGround and abs(self.direction.x) > 0):
