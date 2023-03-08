@@ -119,8 +119,6 @@ class Level:
                 player.direction.y -= player.jumpSpeed
                 player.jumpIndex -= 1
                 player.lastJumpTime = gameTime
-                #player.animator.playAnim(2)
-                print("jumpCalled")
         #launch update
         if(player.launched == True):
             player.direction += player.launchVector * player.launchSpeed * delta
@@ -151,8 +149,6 @@ class Level:
             player.jumpIndex = player.maxJumps
         else:
             player.isOnGround = False
-
-        print(player.isOnGround)
 
     def generateMap(self,mapIndex : int):
         playerAmount = 0

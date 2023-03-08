@@ -33,6 +33,7 @@ class Character(pygame.sprite.Sprite):
         self.weapon = None
         self.name = name
         self.height = height
+        self.lastFlip = False
 
     def takeDamage(self,damage : float):
         self.health -= damage
@@ -53,8 +54,15 @@ class Character(pygame.sprite.Sprite):
         self.origImage = pygame.transform.scale(self.origImage,scaleRect(self.height,(70,80)))
         if(self.lookDir.x == -1):
             self.image = pygame.transform.flip(self.origImage,True,False)
+            self.lastFlip = True
         elif(self.lookDir.x == 1):
             self.image = self.origImage
+            self.lastFlip = False
+        else:
+            if(self.lastFlip == False):
+                self.image = self.origImage
+            else:
+                self.image = pygame.transform.flip(self.origImage,True,False)
         if(self.weapon != None):
             if(self.lookDir.x == -1):
                 self.weapon.isFlipped = True
@@ -93,8 +101,7 @@ class Character(pygame.sprite.Sprite):
     def animate(self,delta):
         #print(self.isOnGround)
         if(self.isOnGround == False):
-             self.origImage = self.animator.animate(3,delta)
-             print("jumping")
+            self.origImage = self.animator.animate(3,delta)
         elif(self.isOnGround and abs(self.direction.x) > 0):
             self.origImage = self.animator.animate(1,delta)
         else: 
