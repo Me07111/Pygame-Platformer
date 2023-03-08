@@ -145,13 +145,14 @@ class Level:
         
         rect = pygame.Rect(player.rect.bottomleft,(player.rect.width,3))
         index = rect.collidelist(self.platforms.sprites())
+        print(index)
         if(index != -1):
             player.isOnGround = True
             player.jumpIndex = player.maxJumps
         else:
             player.isOnGround = False
 
-        print(player.rect.center)
+        print(player.isOnGround)
 
     def generateMap(self,mapIndex : int):
         playerAmount = 0
