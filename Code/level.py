@@ -52,7 +52,7 @@ class Level:
         for player in self.players:
             if(player.health > 0):
                 alivePlayers.append(player)
-        if(len(alivePlayers) <= 1 ):
+        if(len(alivePlayers) <= 0 ):
             levelHandler.backToMenu(alivePlayers[0].name)
 
     def bulletUpdate(self,bullet,delta : float):
@@ -115,15 +115,13 @@ class Level:
             player.direction.x = 1
         if(keys[player.jumpKey]):
             if(player.jumpIndex > 0 and abs(gameTime-player.lastJumpTime) > player.jumpDelay):
-                player.direction.y = 0
+                player.direction.y = -0.1
                 player.direction.y -= player.jumpSpeed
                 player.jumpIndex -= 1
                 player.lastJumpTime = gameTime
-                player.isOnGround = False
                 player.animator.playAnim(2)
         #launch update
         if(player.launched == True):
-            player.isOnGround = False
             player.direction += player.launchVector * player.launchSpeed * delta
             player.launched = False
 
@@ -136,7 +134,6 @@ class Level:
             player.rect.center = oldPos
             player.direction.y = 0
             player.jumpIndex = player.maxJumps
-            player.isOnGround = True
 
         #horizontal update
         oldPos = player.rect.center
@@ -146,7 +143,15 @@ class Level:
         if(len(collidingPlatforms) > 0):
             player.rect.center = oldPos
             player.direction.x = 0
-            player.jumpIndex = player.maxJumps
+        
+        rect = pygame.Rect(player.rect.bottomleft,(player.rect.width,3))
+        index = rect.collidelist(self.platforms.sprites())
+        if(index != -1):
+            player.isOnGround = True
+        else:
+            player.isOnGround = False
+
+        print(player.rect.center)
 
     def generateMap(self,mapIndex : int):
         playerAmount = 0

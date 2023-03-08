@@ -36,7 +36,6 @@ class Animator:
                     self.frameIndex = 0
             else:
                 self.frameIndex = 0
-        print(self.frameIndex)
         return self.clip(self.animations[animIndex],self.frameIndex*self.frameSize[0],0,self.frameSize[0],self.frameSize[1])
         
     

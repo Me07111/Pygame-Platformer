@@ -5,7 +5,7 @@ class Character(pygame.sprite.Sprite):
     def __init__(self,InPos,surface,keys,name : str,height : int):
         super().__init__()
         self.direction = pygame.math.Vector2(0,0)
-        self.jumpSpeed = scaleValue(height,10)
+        self.jumpSpeed = scaleValue(height,13)
         self.maxJumps = 2
         self.jumpIndex = self.maxJumps
         self.jumpDelay = 0.35
@@ -91,12 +91,12 @@ class Character(pygame.sprite.Sprite):
                 self.weapon.rect.height = self.weapon.image.get_height()
 
     def animate(self,delta):
-        print(self.isOnGround)
+        #print(self.isOnGround)
         if(self.isOnGround and abs(self.direction.x) > 0):
             self.origImage = self.animator.animate(1,delta)
         elif(self.isOnGround == False):
              self.origImage = self.animator.animate(3,delta)
-             print("jumping")
+             #print("jumping")
         else: 
             self.origImage = self.animator.animate(0,delta)
 
