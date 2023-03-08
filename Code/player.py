@@ -101,7 +101,7 @@ class Character(pygame.sprite.Sprite):
     def animate(self,delta):
         if(self.isOnGround == False):
             self.origImage = self.animator.animate(3,delta)
-        elif(self.isOnGround and abs(self.direction.x) > 0):
+        elif(self.isOnGround and self.direction.x != 0):
             self.origImage = self.animator.animate(1,delta)
         else: 
             self.origImage = self.animator.animate(0,delta)

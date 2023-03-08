@@ -52,7 +52,7 @@ class Level:
         for player in self.players:
             if(player.health > 0):
                 alivePlayers.append(player)
-        if(len(alivePlayers) <= 0 ):
+        if(len(alivePlayers) <= 1 ):
             levelHandler.backToMenu(alivePlayers[0].name)
 
     def bulletUpdate(self,bullet,delta : float):

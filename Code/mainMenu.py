@@ -30,6 +30,6 @@ class MainMenu:
             if(self.playerCount + 1 <= self.maxPlayers):
                 self.playerCount += 1
         if(self.minus.update(self.screen,gametime)):
-            if(self.playerCount - 1 >= 1):
+            if(self.playerCount - 1 >= 2):
                 self.playerCount -= 1
         
