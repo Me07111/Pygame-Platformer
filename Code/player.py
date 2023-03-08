@@ -94,7 +94,7 @@ class Character(pygame.sprite.Sprite):
         #print(self.isOnGround)
         if(self.isOnGround == False):
              self.origImage = self.animator.animate(3,delta)
-             #print("jumping")
+             print("jumping")
         elif(self.isOnGround and abs(self.direction.x) > 0):
             self.origImage = self.animator.animate(1,delta)
         else: 

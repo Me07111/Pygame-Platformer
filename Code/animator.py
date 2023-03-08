@@ -21,13 +21,15 @@ class Animator:
             anim = self.animations[self.animIndexOverride]
             animLength = self.animLengths[self.animIndexOverride]
 
-        if(anim != self.previousAnim):
+        if(animIndex != self.previousAnim):
             self.frameIndex = 0
             self.TimeSinceLastFrame = 0
+            print("animChanged")
         else:
             self.TimeSinceLastFrame += delta
         
-        self.previousAnim = anim
+        self.previousAnim = animIndex
+
         if(self.TimeSinceLastFrame >= self.animSpeeds[animIndex]):
             if(self.frameIndex < animLength - 1):
                 self.frameIndex += 1
@@ -36,6 +38,7 @@ class Animator:
                     self.frameIndex = 0
             else:
                 self.frameIndex = 0
+        print(self.frameIndex*self.frameSize[0],anim.get_width())
         return self.clip(self.animations[animIndex],self.frameIndex*self.frameSize[0],0,self.frameSize[0],self.frameSize[1])
         
     

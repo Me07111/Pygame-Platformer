@@ -119,7 +119,8 @@ class Level:
                 player.direction.y -= player.jumpSpeed
                 player.jumpIndex -= 1
                 player.lastJumpTime = gameTime
-                player.animator.playAnim(2)
+                #player.animator.playAnim(2)
+                print("jumpCalled")
         #launch update
         if(player.launched == True):
             player.direction += player.launchVector * player.launchSpeed * delta
@@ -145,7 +146,6 @@ class Level:
         
         rect = pygame.Rect(player.rect.bottomleft,(player.rect.width,3))
         index = rect.collidelist(self.platforms.sprites())
-        print(index)
         if(index != -1):
             player.isOnGround = True
             player.jumpIndex = player.maxJumps
