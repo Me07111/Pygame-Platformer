@@ -5,18 +5,18 @@ class Character(pygame.sprite.Sprite):
     def __init__(self,InPos,surface,keys,name : str,height : int):
         super().__init__()
         self.direction = pygame.math.Vector2(0,0)
-        self.jumpSpeed = scaleValue(height,13)
+        self.jumpSpeed = scaleValue(height,6.5)
         self.maxJumps = 2
         self.jumpIndex = self.maxJumps
         self.jumpDelay = 0.35
         self.lastJumpTime = -self.jumpDelay
-        self.speed = scaleValue(height,400)
+        self.speed = scaleValue(height,200)
         self.surface = surface
         self.spriteSheets = []
         for spriteSheet in spriteSheetPaths:
             self.spriteSheets.append(pygame.image.load(spriteSheet))
         self.animator = Animator(self.spriteSheets,(70,80),[0.1,0.1,1,0.1])
-        self.origImage = pygame.transform.smoothscale(self.animator.animate(0,0),scaleRect(height,(70,80)))
+        self.origImage = pygame.transform.smoothscale(self.animator.animate(0,0),scaleRect(height,(35,40)))
         self.image = self.origImage
         self.rect = self.image.get_rect()
         self.rect.center = InPos
@@ -51,7 +51,7 @@ class Character(pygame.sprite.Sprite):
         self.launched = True
     
     def lookInDir(self):
-        self.origImage = pygame.transform.smoothscale(self.origImage,scaleRect(self.height,(70,80)))
+        self.origImage = pygame.transform.smoothscale(self.origImage,scaleRect(self.height,(35,40)))
         if(self.lookDir.x == -1):
             self.image = pygame.transform.flip(self.origImage,True,False)
             self.lastFlip = True

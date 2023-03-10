@@ -5,7 +5,7 @@ class Weapon(pygame.sprite.Sprite):
     def __init__(self,name : str,imagePath : str,isPickedUp : bool,inPos : tuple,bulletSpeed : int,bulletImagePath : str,fireRate : int,bulletGravityMultipierl : float,damage : float,maxAmmo : int,isFullAuto : bool,offsets,muzzleDist,angle : float,bulletAmount : int,soundPath : str,height : int):
         super().__init__()
         self.name = name
-        size = (pygame.image.load(imagePath).get_rect().width,pygame.image.load(imagePath).get_rect().height)
+        size = (pygame.image.load(imagePath).get_rect().width/2,pygame.image.load(imagePath).get_rect().height/2)
         self.origImage = pygame.transform.smoothscale(pygame.image.load(imagePath),scaleRect(height,size)) 
         self.image = self.origImage
         self.isPickedUp = isPickedUp

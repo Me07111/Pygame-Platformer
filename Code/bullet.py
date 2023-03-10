@@ -4,7 +4,7 @@ class Bullet(pygame.sprite.Sprite):
     def __init__(self,speed : float,imagePath : str,pos,dir,gravityMultiplier : float,damage : float,height : int):
         super().__init__()
         image = pygame.image.load(imagePath)
-        size = (image.get_rect().width,image.get_rect().height)
+        size = (image.get_rect().width/2,image.get_rect().height/2)
         self.OrigImage = pygame.transform.smoothscale(pygame.image.load(imagePath),scaleRect(height,size))
         self.image = self.OrigImage
         self.rect = self.image.get_rect()
