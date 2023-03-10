@@ -6,7 +6,7 @@ class Weapon(pygame.sprite.Sprite):
         super().__init__()
         self.name = name
         size = (pygame.image.load(imagePath).get_rect().width,pygame.image.load(imagePath).get_rect().height)
-        self.origImage = pygame.transform.scale(pygame.image.load(imagePath),scaleRect(height,size)) 
+        self.origImage = pygame.transform.smoothscale(pygame.image.load(imagePath),scaleRect(height,size)) 
         self.image = self.origImage
         self.isPickedUp = isPickedUp
         self.rect = self.image.get_rect()

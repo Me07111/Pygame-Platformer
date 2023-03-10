@@ -16,7 +16,7 @@ class Character(pygame.sprite.Sprite):
         for spriteSheet in spriteSheetPaths:
             self.spriteSheets.append(pygame.image.load(spriteSheet))
         self.animator = Animator(self.spriteSheets,(70,80),[0.1,0.1,1,0.1])
-        self.origImage = pygame.transform.scale(self.animator.animate(0,0),scaleRect(height,(70,80)))
+        self.origImage = pygame.transform.smoothscale(self.animator.animate(0,0),scaleRect(height,(70,80)))
         self.image = self.origImage
         self.rect = self.image.get_rect()
         self.rect.center = InPos
@@ -51,7 +51,7 @@ class Character(pygame.sprite.Sprite):
         self.launched = True
     
     def lookInDir(self):
-        self.origImage = pygame.transform.scale(self.origImage,scaleRect(self.height,(70,80)))
+        self.origImage = pygame.transform.smoothscale(self.origImage,scaleRect(self.height,(70,80)))
         if(self.lookDir.x == -1):
             self.image = pygame.transform.flip(self.origImage,True,False)
             self.lastFlip = True

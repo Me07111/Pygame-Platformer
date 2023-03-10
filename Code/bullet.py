@@ -5,7 +5,7 @@ class Bullet(pygame.sprite.Sprite):
         super().__init__()
         image = pygame.image.load(imagePath)
         size = (image.get_rect().width,image.get_rect().height)
-        self.OrigImage = pygame.transform.scale(pygame.image.load(imagePath),scaleRect(height,size))
+        self.OrigImage = pygame.transform.smoothscale(pygame.image.load(imagePath),scaleRect(height,size))
         self.image = self.OrigImage
         self.rect = self.image.get_rect()
         self.rect.center = pos
