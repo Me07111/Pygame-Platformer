@@ -95,7 +95,7 @@ class LevelEditor:
             cellstr = self.blockType + str(self.weaponType)
         cellRect = pygame.Rect((220,25),self.cellSize)
         self.displayBlock(cellstr,cellRect)
-        renderText(self.screen,f"Map to save to:{self.slotIndex}","timesnewroman",20,pygame.Color(0,0,0),(965,45))
+        renderText(self.screen,f"Map to save to:{self.slotIndex+1}","timesnewroman",20,pygame.Color(0,0,0),(965,45))
                     
     def incType(self):
         if(self.blockType == "o"):

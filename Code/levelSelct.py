@@ -25,7 +25,7 @@ class LevelSelect:
             Level(screen,width,height,25,clock,playerCount,12,self.saveHandler),
             Level(screen,width,height,25,clock,playerCount,13,self.saveHandler),
             Level(screen,width,height,25,clock,playerCount,14,self.saveHandler),
-            LevelEditor((32,18),height,screen,self.saveHandler,1)
+            LevelEditor((32,18),height,screen,self.saveHandler,0)
         ]
         self.buttons = []
         for i in range(math.ceil(len(self.levels) / 4)):
