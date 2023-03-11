@@ -1,12 +1,12 @@
 import pygame
 from player import Character
-from config import maps,mappings,weapons,scaleValue
+from config import mappings,weapons,scaleValue
 from platformBase import PlatformBase
 from weapon import Weapon
 from ui import Ui
 
 class Level:
-    def __init__(self,screen : pygame.Surface ,width : int,height : int,gravity : float,clock : pygame.time.Clock,playercount : int,map : list):
+    def __init__(self,screen : pygame.Surface ,width : int,height : int,gravity : float,clock : pygame.time.Clock,playercount : int,map : list, saveHandler):
         self.screen = screen
         self.clock = clock
         self.ui = Ui(screen)
@@ -21,6 +21,7 @@ class Level:
         self.GroundDrag = 0.1
         self.AirDrag = 0.01
         self.onGroundWeapons = pygame.sprite.Group()
+        self.saveHandler = saveHandler
         self.generateMap(map)
 
     def update(self,delta : float,gametime : float,levelHandler):
@@ -152,7 +153,7 @@ class Level:
 
     def generateMap(self,mapIndex : int):
         playerAmount = 0
-        map = maps[mapIndex]
+        map = self.saveHandler.loadMap(mapIndex)
         cellHeight = self.height/len(map)
         cellWidth = self.width/len(map[0])
         for i, row in enumerate(map):

@@ -1,24 +1,28 @@
 import pygame
 from platformBase import PlatformBase
 from button import Button
-from config import scaleRect, incDecInt, weapons, maps
+from config import scaleRect, incDecInt, weapons
 class LevelEditor: 
-    def __init__(self,mapSize : tuple[int,int],height : int ,screen : pygame.Surface,loaded : int = -1,):
+    def __init__(self,mapSize : tuple[int,int],height : int ,screen : pygame.Surface,saveHandler,levelHandler,index : int,loaded : int = -1):
         if(loaded == -1):
             self.map = []
-            for i in range(mapSize[0]):
+            for i in range(mapSize[1]):
                 row = []
-                for j in range(mapSize[1]):
+                for j in range(mapSize[0]):
                     row.append("o")
                 self.map.append(row)
         else:
-            self.map = maps[loaded]
+            self.map = saveHandler.loadMap(loaded)
         
+        self.index = index
+        self.saveHandler = saveHandler
         self.cellSize = ()
         self.blockType = "x"
         self.weaponType = 0
         self.typeButton = Button(scaleRect(height,(100,100)),scaleRect(height,(300,50)),"change type")
         self.weaponTypeButton = Button(scaleRect(height,(100,200)),scaleRect(height,(300,50)),"change weapon type")
+        self.quitButton = Button(scaleRect(height,(880,100)),scaleRect(height,(300,50)),"Quit (doesnt save)")
+        self.saveButton = Button(scaleRect(height,(880,200)),scaleRect(height,(300,50)),"Save")
         self.screen = screen
         self.height = height
         self.width = self.height/9*16
@@ -30,7 +34,7 @@ class LevelEditor:
         self.playerimage = pygame.transform.smoothscale(pygame.image.load("Graphics/Character.png"),self.cellSize)
         self.weaponImages = []
         for weapon in weapons:
-            self.weaponImages.append(pygame.image.load(weapon[1]))
+            self.weaponImages.append(pygame.transform.smoothscale(pygame.image.load(weapon[1]),self.cellSize))
         self.timeSincePressed = 10
 
     def update(self,delta : float,gametime : float,levelHandler):
@@ -41,19 +45,25 @@ class LevelEditor:
             wepaponTypeButtonPressed = self.weaponTypeButton.update(self.screen,gametime)
         else:
             wepaponTypeButtonPressed = (False,False)
-        isButtonHovered = typeButtonPressed[1] or wepaponTypeButtonPressed[1]
+        saveButtonPressed = self.saveButton.update(self.screen,gametime)
+        quitButtonPressed = self.quitButton.update(self.screen,gametime)
+        isButtonHovered = typeButtonPressed[1] or wepaponTypeButtonPressed[1] or saveButtonPressed[1] or quitButtonPressed[1]
         if(typeButtonPressed[0]):
             self.incType()
         elif(wepaponTypeButtonPressed[0]):
             self.weaponType = incDecInt(self.weaponType,1,len(weapons))
+        elif(saveButtonPressed[0]):
+            self.saveHandler.saveMap(self.map, self.index)
+        elif(quitButtonPressed[0]):
+            levelHandler.backToMenu("")
         elif(isButtonHovered):
             pass
         elif(pygame.mouse.get_pressed()[0]):
             if(self.blockType == "w"):
-                self.map[mapArrayCoord[0]][mapArrayCoord[1]] = f"{self.blockType}{self.weaponType}"
+                self.map[mapArrayCoord[1]][mapArrayCoord[0]] = f"{self.blockType}{self.weaponType}"
             else:
                 print(mapArrayCoord)
-                self.map[mapArrayCoord[0]][mapArrayCoord[1]] = self.blockType
+                self.map[mapArrayCoord[1]][mapArrayCoord[0]] = self.blockType
         else:
             pos = (mapArrayCoord[0]*self.cellSize[0],mapArrayCoord[1]*self.cellSize[1])
             rect = pygame.Rect(pos,self.cellSize)
@@ -63,10 +73,9 @@ class LevelEditor:
     
 
     def display(self):
-        print(self.map)
         for i, row in enumerate(self.map):
             for j, cell in enumerate(row):
-                pos = (i*self.cellWidth,j*self.cellHeight)
+                pos = (j*self.cellWidth,i*self.cellHeight)
                 rect = pygame.Rect(pos,self.cellSize)
                 if(cell == "o"):
                     continue
