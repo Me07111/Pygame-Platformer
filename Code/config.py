@@ -232,3 +232,11 @@ def scaleRect(height : int,rect : tuple):
 def scaleValue(height : int,value : int):
     scaler = height / 720
     return int(value * scaler)
+
+def incDecInt(value : int,change : int,max : int):
+    if(value + change > max):
+        return 0
+    elif(value + change < 0):
+        return max
+    else:
+        return value + change

@@ -3,6 +3,7 @@ from button import Button
 from config import scaleValue,scaleRect
 import pygame
 import math
+from levelEditor import LevelEditor
 class LevelSelect:
     def __init__(self,screen,width : float,height : float,clock,playerCount : int):
         self.screen = screen
@@ -10,9 +11,7 @@ class LevelSelect:
             Level(screen,width,height,25,clock,playerCount,0),
             Level(screen,width,height,25,clock,playerCount,1),
             Level(screen,width,height,25,clock,playerCount,2),
-            Level(screen,width,height,25,clock,playerCount,0),
-            Level(screen,width,height,25,clock,playerCount,1),
-            Level(screen,width,height,25,clock,playerCount,2)
+            LevelEditor((32,18),height,screen,-1)
         ]
         self.buttons = []
         for i in range(math.ceil(len(self.levels) / 4)):

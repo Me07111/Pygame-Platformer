@@ -26,7 +26,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    screen.fill((255, 255, 255))
+    screen.fill((200, 200, 200))
     # Fill the background with white
     delta = clock.tick(60) / 1000
     gameTime += delta
