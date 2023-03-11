@@ -177,7 +177,7 @@ pygame.Vector2(),
 ]
 ]
 
-def renderText(surface : pygame.surface.Surface,text : str,fontType : str,size : tuple,color :pygame.Color,pos : tuple,backGroundColor :pygame.Color = None):
+def renderText(surface : pygame.surface.Surface,text : str,fontType : str,size : int,color :pygame.Color,pos : tuple,backGroundColor :pygame.Color = None):
     font = pygame.font.SysFont(fontType,size)
     image = pygame.font.Font.render(font,text,False,color,backGroundColor)
     surface.blit(image,pos)

@@ -18,7 +18,7 @@ Framerate  = 60
 gameTime = 0
 # Run until the user asks to quit
 mainMenu = MainMenu(screen,width,height,clock)
-levelHandler = LevelHandler(mainMenu)
+levelHandler = LevelHandler(mainMenu,screen)
 running = True
 while running:
     # Did the user click the window close button?
