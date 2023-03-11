@@ -51,7 +51,7 @@ class LevelEditor:
         if(typeButtonPressed[0]):
             self.incType()
         elif(wepaponTypeButtonPressed[0]):
-            self.weaponType = incDecInt(self.weaponType,1,len(weapons))
+            self.weaponType = incDecInt(self.weaponType,1,len(weapons) - 1)
         elif(saveButtonPressed[0]):
             self.saveHandler.saveMap(self.map, self.index)
         elif(quitButtonPressed[0]):
@@ -78,6 +78,13 @@ class LevelEditor:
                 pos = (j*self.cellWidth,i*self.cellHeight)
                 rect = pygame.Rect(pos,self.cellSize)
                 self.displayBlock(cell,rect)
+        
+        if(self.blockType != "w"):
+            cellstr = self.blockType
+        else:
+            cellstr = self.blockType + str(self.weaponType)
+        cellRect = pygame.Rect((220,25),self.cellSize)
+        self.displayBlock(cellstr,cellRect)
                     
     def incType(self):
         if(self.blockType == "o"):
