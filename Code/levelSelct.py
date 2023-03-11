@@ -13,19 +13,19 @@ class LevelSelect:
             Level(screen,width,height,25,clock,playerCount,0,self.saveHandler),
             Level(screen,width,height,25,clock,playerCount,1,self.saveHandler),
             Level(screen,width,height,25,clock,playerCount,2,self.saveHandler),
-            Level(screen,width,height,25,clock,playerCount,0,self.saveHandler),
-            Level(screen,width,height,25,clock,playerCount,1,self.saveHandler),
-            Level(screen,width,height,25,clock,playerCount,2,self.saveHandler),
-            Level(screen,width,height,25,clock,playerCount,0,self.saveHandler),
-            Level(screen,width,height,25,clock,playerCount,1,self.saveHandler),
-            Level(screen,width,height,25,clock,playerCount,2,self.saveHandler),
-            Level(screen,width,height,25,clock,playerCount,0,self.saveHandler),
-            Level(screen,width,height,25,clock,playerCount,1,self.saveHandler),
-            Level(screen,width,height,25,clock,playerCount,2,self.saveHandler),
-            Level(screen,width,height,25,clock,playerCount,0,self.saveHandler),
-            Level(screen,width,height,25,clock,playerCount,1,self.saveHandler),
-            Level(screen,width,height,25,clock,playerCount,2,self.saveHandler),
-            LevelEditor((32,18),height,screen,self.saveHandler,1,-1)
+            Level(screen,width,height,25,clock,playerCount,3,self.saveHandler),
+            Level(screen,width,height,25,clock,playerCount,4,self.saveHandler),
+            Level(screen,width,height,25,clock,playerCount,5,self.saveHandler),
+            Level(screen,width,height,25,clock,playerCount,6,self.saveHandler),
+            Level(screen,width,height,25,clock,playerCount,7,self.saveHandler),
+            Level(screen,width,height,25,clock,playerCount,8,self.saveHandler),
+            Level(screen,width,height,25,clock,playerCount,9,self.saveHandler),
+            Level(screen,width,height,25,clock,playerCount,10,self.saveHandler),
+            Level(screen,width,height,25,clock,playerCount,11,self.saveHandler),
+            Level(screen,width,height,25,clock,playerCount,12,self.saveHandler),
+            Level(screen,width,height,25,clock,playerCount,13,self.saveHandler),
+            Level(screen,width,height,25,clock,playerCount,14,self.saveHandler),
+            LevelEditor((32,18),height,screen,self.saveHandler,1)
         ]
         self.buttons = []
         for i in range(math.ceil(len(self.levels) / 4)):

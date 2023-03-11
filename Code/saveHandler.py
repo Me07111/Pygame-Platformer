@@ -2,6 +2,7 @@ import json
 class SaveHandler:
     def __init__(self):
         self.maps = self.loadMaps(False)
+        print(len(self.maps))
 
     def loadMaps(self,save : bool) -> list[list[list[str]]]:
         loadedMap = open("save.json")

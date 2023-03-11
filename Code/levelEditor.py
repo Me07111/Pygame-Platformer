@@ -3,7 +3,7 @@ from platformBase import PlatformBase
 from button import Button
 from config import scaleRect, incDecInt, weapons
 class LevelEditor: 
-    def __init__(self,mapSize : tuple[int,int],height : int ,screen : pygame.Surface,saveHandler,levelHandler,index : int,loaded : int = -1):
+    def __init__(self,mapSize : tuple[int,int],height : int ,screen : pygame.Surface,saveHandler,slotIndex : int,loaded : int = -1):
         if(loaded == -1):
             self.map = []
             for i in range(mapSize[1]):
@@ -14,7 +14,7 @@ class LevelEditor:
         else:
             self.map = saveHandler.loadMap(loaded)
         
-        self.index = index
+        self.slotIndex = slotIndex
         self.saveHandler = saveHandler
         self.cellSize = ()
         self.blockType = "x"
@@ -23,6 +23,7 @@ class LevelEditor:
         self.weaponTypeButton = Button(scaleRect(height,(100,150)),scaleRect(height,(300,50)),"change weapon type")
         self.quitButton = Button(scaleRect(height,(1180,50)),scaleRect(height,(200,50)),"Quit(noSave)")
         self.saveButton = Button(scaleRect(height,(1180,150)),scaleRect(height,(200,50)),"Save")
+        self.slotIndexButton = Button(scaleRect(height,(1070,50)),scaleRect(height,(50,50)),f"{self.slotIndex + 1}")
         self.screen = screen
         self.height = height
         self.width = self.height/9*16
@@ -47,15 +48,19 @@ class LevelEditor:
             wepaponTypeButtonPressed = (False,False)
         saveButtonPressed = self.saveButton.update(self.screen,gametime)
         quitButtonPressed = self.quitButton.update(self.screen,gametime)
-        isButtonHovered = typeButtonPressed[1] or wepaponTypeButtonPressed[1] or saveButtonPressed[1] or quitButtonPressed[1]
+        saveIndexButtonPressed = self.slotIndexButton.update(self.screen,gametime)
+        isButtonHovered = typeButtonPressed[1] or wepaponTypeButtonPressed[1] or saveButtonPressed[1] or quitButtonPressed[1] or saveIndexButtonPressed[1]
         if(typeButtonPressed[0]):
             self.incType()
         elif(wepaponTypeButtonPressed[0]):
             self.weaponType = incDecInt(self.weaponType,1,len(weapons) - 1)
         elif(saveButtonPressed[0]):
-            self.saveHandler.saveMap(self.map, self.index)
+            self.saveHandler.saveMap(self.map, self.slotIndex)
         elif(quitButtonPressed[0]):
             levelHandler.backToMenu("")
+        elif(saveIndexButtonPressed[0]):
+            self.slotIndex = incDecInt(self.slotIndex,1,14)
+            self.slotIndexButton.text = f"{self.slotIndex + 1}"
         elif(isButtonHovered):
             pass
         elif(pygame.mouse.get_pressed()[0]):
