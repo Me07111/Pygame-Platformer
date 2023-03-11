@@ -14,16 +14,20 @@ class Button:
         self.cooldown = cooldown
         self.lastTimePressed = -cooldown
     
-    def update(self,screen,gameTime : float):
+    def update(self,screen,gameTime : float) -> tuple[bool,bool]:
         mousePos = pygame.mouse.get_pos()
         if(pygame.Rect.collidepoint(self.rect,mousePos[0],mousePos[1])):
             if(pygame.mouse.get_pressed(3)[0] and gameTime - self.lastTimePressed > self.cooldown):
                 self.lastTimePressed = gameTime
                 pygame.draw.rect(screen,self.pressedColor,self.rect)
-                return True
+                renderText(screen,self.text,"timesnewroman",self.textSize,self.textColor,(self.rect.centerx - 20,self.rect.centery))
+                return (True,True)
             else:
                 pygame.draw.rect(screen,self.hoveredColor,self.rect)
+                renderText(screen,self.text,"timesnewroman",self.textSize,self.textColor,(self.rect.centerx - 20,self.rect.centery))
+                return (False,True)
+                
         else:
             pygame.draw.rect(screen,self.color,self.rect)
         renderText(screen,self.text,"timesnewroman",self.textSize,self.textColor,(self.rect.centerx - 20,self.rect.centery))
-        return False
+        return (False,False)

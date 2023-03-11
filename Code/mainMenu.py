@@ -22,14 +22,14 @@ class MainMenu:
         renderText(self.screen,self.winnerText,"timesnewroman",scaleValue(self.height,30),pygame.Color(0,255,0),(self.width/2 - scaleValue(self.height,170),self.height/2 - scaleValue(self.height,200)))
         renderText(self.screen,f"{self.playerCount}","timesnewroman",scaleValue(self.height,50),pygame.Color(0,255,0),(self.width/2 - scaleValue(self.height,10),self.height/2 - scaleValue(self.height,50)))
         renderText(self.screen,"Players","timesnewroman",scaleValue(self.height,40),pygame.Color(0,255,0),(self.width/2 - scaleValue(self.height,50),self.height/2 - scaleValue(self.height,90)))
-        if(self.quit.update(self.screen,gametime)):
+        if(self.quit.update(self.screen,gametime)[0]):
             pygame.quit()
-        if(self.play.update(self.screen,gametime)):
+        if(self.play.update(self.screen,gametime)[0]):
             levelHandler.setLevel(LevelSelect(self.screen,self.width,self.height,self.clock,self.playerCount))
-        if(self.plus.update(self.screen,gametime)):
+        if(self.plus.update(self.screen,gametime)[0]):
             if(self.playerCount + 1 <= self.maxPlayers):
                 self.playerCount += 1
-        if(self.minus.update(self.screen,gametime)):
+        if(self.minus.update(self.screen,gametime)[0]):
             if(self.playerCount - 1 >= 2):
                 self.playerCount -= 1
         

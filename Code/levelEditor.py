@@ -28,16 +28,26 @@ class LevelEditor:
         self.highlightedSquarePic = pygame.transform.smoothscale(pygame.image.load("Graphics/outline.png"),self.cellSize)
         self.platformImage = pygame.transform.smoothscale(pygame.image.load("Graphics/Platform.png"),self.cellSize)
         self.playerimage = pygame.transform.smoothscale(pygame.image.load("Graphics/Character.png"),self.cellSize)
+        self.weaponImages = []
+        for weapon in weapons:
+            self.weaponImages.append(pygame.image.load(weapon[1]))
+        self.timeSincePressed = 10
 
     def update(self,delta : float,gametime : float,levelHandler):
         mousePos = pygame.mouse.get_pos()
         mapArrayCoord = (int(mousePos[0]//self.cellSize[0]),int(mousePos[1]//self.cellSize[1]))
         typeButtonPressed = self.typeButton.update(self.screen,gametime)
-        wepaponTypeButtonPressed = self.weaponTypeButton.update(self.screen,gametime)
-        if(typeButtonPressed):
+        if(self.blockType == "w"):
+            wepaponTypeButtonPressed = self.weaponTypeButton.update(self.screen,gametime)
+        else:
+            wepaponTypeButtonPressed = (False,False)
+        isButtonHovered = typeButtonPressed[1] or wepaponTypeButtonPressed[1]
+        if(typeButtonPressed[0]):
             self.incType()
-        elif(wepaponTypeButtonPressed):
+        elif(wepaponTypeButtonPressed[0]):
             self.weaponType = incDecInt(self.weaponType,1,len(weapons))
+        elif(isButtonHovered):
+            pass
         elif(pygame.mouse.get_pressed()[0]):
             if(self.blockType == "w"):
                 self.map[mapArrayCoord[0]][mapArrayCoord[1]] = f"{self.blockType}{self.weaponType}"
@@ -53,21 +63,20 @@ class LevelEditor:
     
 
     def display(self):
+        print(self.map)
         for i, row in enumerate(self.map):
             for j, cell in enumerate(row):
                 pos = (i*self.cellWidth,j*self.cellHeight)
+                rect = pygame.Rect(pos,self.cellSize)
                 if(cell == "o"):
                     continue
                 elif(cell == "x"):
-                    rect = pygame.Rect(pos,self.cellSize)
                     self.screen.blit(self.platformImage,rect)
                 elif(cell == "P"):
-                    rect = pygame.Rect(pos,self.cellSize)
                     self.screen.blit(self.playerimage,rect)
                 elif(cell[0] == "w"):
-                    self.weapons.append(pos)
-
-
+                    self.screen.blit(self.weaponImages[int(cell[1])],rect)
+                    
     def incType(self):
         if(self.blockType == "o"):
             self.blockType = "x"
