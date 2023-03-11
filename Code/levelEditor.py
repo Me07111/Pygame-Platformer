@@ -19,10 +19,10 @@ class LevelEditor:
         self.cellSize = ()
         self.blockType = "x"
         self.weaponType = 0
-        self.typeButton = Button(scaleRect(height,(100,100)),scaleRect(height,(300,50)),"change type")
-        self.weaponTypeButton = Button(scaleRect(height,(100,200)),scaleRect(height,(300,50)),"change weapon type")
-        self.quitButton = Button(scaleRect(height,(880,100)),scaleRect(height,(300,50)),"Quit (doesnt save)")
-        self.saveButton = Button(scaleRect(height,(880,200)),scaleRect(height,(300,50)),"Save")
+        self.typeButton = Button(scaleRect(height,(100,50)),scaleRect(height,(200,50)),"change type")
+        self.weaponTypeButton = Button(scaleRect(height,(100,150)),scaleRect(height,(300,50)),"change weapon type")
+        self.quitButton = Button(scaleRect(height,(1180,50)),scaleRect(height,(200,50)),"Quit(noSave)")
+        self.saveButton = Button(scaleRect(height,(1180,150)),scaleRect(height,(200,50)),"Save")
         self.screen = screen
         self.height = height
         self.width = self.height/9*16
@@ -77,14 +77,7 @@ class LevelEditor:
             for j, cell in enumerate(row):
                 pos = (j*self.cellWidth,i*self.cellHeight)
                 rect = pygame.Rect(pos,self.cellSize)
-                if(cell == "o"):
-                    continue
-                elif(cell == "x"):
-                    self.screen.blit(self.platformImage,rect)
-                elif(cell == "P"):
-                    self.screen.blit(self.playerimage,rect)
-                elif(cell[0] == "w"):
-                    self.screen.blit(self.weaponImages[int(cell[1])],rect)
+                self.displayBlock(cell,rect)
                     
     def incType(self):
         if(self.blockType == "o"):
@@ -95,3 +88,13 @@ class LevelEditor:
             self.blockType = "w"
         elif(self.blockType == "w"):
             self.blockType = "o"
+
+    def displayBlock(self,cell : str,rect : pygame.Rect):
+        if(cell == "o"):
+            pass
+        elif(cell == "x"):
+            self.screen.blit(self.platformImage,rect)
+        elif(cell == "P"):
+            self.screen.blit(self.playerimage,rect)
+        elif(cell[0] == "w"):
+            self.screen.blit(self.weaponImages[int(cell[1])],rect)
