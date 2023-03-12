@@ -56,11 +56,12 @@ class LevelEditor:
         elif(wepaponTypeButtonPressed[0]):
             self.weaponType = incDecInt(self.weaponType,1,len(weapons) - 1)
         elif(saveButtonPressed[0]):
-            if(self.checkCanSave()):
+            savedata = self.checkCanSave()
+            if(savedata[0]):
                 self.saveHandler.saveMap(self.map, self.slotIndex)
                 levelHandler.logger.log("Saved Successfully",(self.width/2-100,50),2,pygame.Color(0,255,0),25)
             else:
-                levelHandler.logger.log("Cant Save",(self.width/2-100,50),2,pygame.Color(255,0,0),25)
+                levelHandler.logger.log(savedata[1],(self.width/2-100,50),2,pygame.Color(255,0,0),25)
         elif(quitButtonPressed[0]):
             levelHandler.backToMenu("")
         elif(saveIndexPlusButtonPressed[0]):
@@ -117,14 +118,23 @@ class LevelEditor:
         elif(cell[0] == "w"):
             self.screen.blit(self.weaponImages[int(cell[1])],rect)
     
-    def checkCanSave(self) -> bool:
-        return self.getPlayerCount() >= 2
+    def checkCanSave(self):
+        playerCount = self.getBlockCount("P")
+        weaponCount = self.getBlockCount("w")
+        canSave = playerCount >= 2 and weaponCount >= 1
+        if(playerCount < 2):
+            massage = "Not enuf players!"
+        elif(weaponCount < 1):
+            massage = "Not enuf guns!"
+        else:
+            massage = ""
+        return canSave, massage
     
-    def getPlayerCount(self) -> int:
+    def getBlockCount(self,str) -> int:
         players = 0
         for row in self.map:
             for cell in row:
-                if(cell == "P"):
+                if(cell.startswith(str)):
                     players += 1
         return players
         
