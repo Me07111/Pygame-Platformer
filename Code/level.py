@@ -39,6 +39,8 @@ class Level:
             self.pickupUpdate(player,i)
             self.shootUpdate(player,keys,i,gametime)
             self.lookDirUpdate(i,player,keys)
+            for powerUp in player.timedPowerups:
+                powerUp.update(delta)
             player.animate(delta)
             player.lookInDir()
             player.draw(self.screen)
@@ -68,7 +70,7 @@ class Level:
             self.bullets.remove(bullet)
         for player in self.players:
             if(pygame.sprite.collide_rect(bullet,player) > 0 and player != bullet.ignored):
-                player.takeDamage(bullet.damage)
+                player.takeDamage(bullet.damage * bullet.ignored.damageMultiplier)
                 self.bullets.remove(bullet)
         bullet.updateRot()
 
@@ -187,7 +189,7 @@ class Level:
                 elif(cell[0] == "u"):
                     type = powerUps[int(cell[1])]
                     powerUpPos = (pos.x + cellWidth/2,pos.y + cellHeight/2)
-                    powerUp = PowerUp(self.height, powerUpPos, type.get("name"),type.get("imagePath"),type.get("modifications"))
+                    powerUp = PowerUp(self.height, powerUpPos, type.get("name"),type.get("imagePath"),type.get("modifications"),type.get("isTimed"),type.get("time"))
                     self.powerups.add(powerUp)
     
     def closerToZero(self,numberToNegate : float,negateBy : float):

@@ -34,6 +34,8 @@ class Character(pygame.sprite.Sprite):
         self.name = name
         self.height = height
         self.lastFlip = False
+        self.timedPowerups = []
+        self.damageMultiplier = 1
 
     def takeDamage(self,damage : float):
         self.health -= damage

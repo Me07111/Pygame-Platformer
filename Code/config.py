@@ -181,22 +181,44 @@ powerUps = [
     {
     "name" : "Double Jump",
     "imagePath" : "Graphics/doubeJump.png",
+    "isTimed" : False,
+    "time" : 0,
     "modifications" :
-    {"maxJumps" : 2,
+    {"maxJumps" : 1,
     "jumpSpeedMod" : 0,
     "speedMod" : 0,
     "maxHealthMod" : 0,
-    "healthMod" : 0}
+    "healthMod" : 0,
+    "damageMultiplierMod" : 0
+    }
     },
     {
     "name" : "Big Jump",
     "imagePath" : "Graphics/bigJumpPowerup.png",
+    "isTimed" : True,
+    "time" : 5,
     "modifications" :
-    {"maxJumps" : 1,
+    {"maxJumps" : 0,
     "jumpSpeedMod" : 2,
     "speedMod" : 0,
     "maxHealthMod" : 0,
-    "healthMod" : 0}
+    "healthMod" : 0,
+    "damageMultiplierMod" : 0
+    }
+    },
+    {
+    "name" : "Speed",
+    "imagePath" : "Graphics/speedPowerUp.png",
+    "isTimed" : True,
+    "time" : 5,
+    "modifications" :
+    {"maxJumps" : 0,
+    "jumpSpeedMod" : 0,
+    "speedMod" : 100,
+    "maxHealthMod" : 0,
+    "healthMod" : 0,
+    "damageMultiplierMod" : 0
+    }
     }
 ]
 
