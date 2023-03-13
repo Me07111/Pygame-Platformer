@@ -1,9 +1,10 @@
 import pygame
 from player import Character
-from config import mappings,weapons,scaleValue
+from config import mappings,weapons,scaleValue, powerUps
 from platformBase import PlatformBase
 from weapon import Weapon
 from ui import Ui
+from powerup import PowerUp
 
 class Level:
     def __init__(self,screen : pygame.Surface ,width : int,height : int,gravity : float,clock : pygame.time.Clock,playercount : int,map : list, saveHandler):
@@ -21,6 +22,7 @@ class Level:
         self.GroundDrag = 0.1
         self.AirDrag = 0.01
         self.onGroundWeapons = pygame.sprite.Group()
+        self.powerups = pygame.sprite.Group()
         self.saveHandler = saveHandler
         self.generateMap(map)
 
@@ -44,6 +46,7 @@ class Level:
             self.bulletUpdate(bullet,delta)
         self.platforms.draw(self.screen)
         self.onGroundWeapons.draw(self.screen)
+        self.powerups.draw(self.screen)
         self.bullets.draw(self.screen)
         self.ui.update(self.players)
         self.checkWinCondition(player,levelHandler)
@@ -107,6 +110,10 @@ class Level:
             else:
                 player.weapon = collidingWeapons[0]
             self.onGroundWeapons.remove(collidingWeapons[0])
+        collidingPowerUps = pygame.sprite.spritecollide(player,self.powerups)
+        if(collidingPowerUps > 0):
+            collidingPowerUps[0].pickUp(player)
+            self.powerups.remove(collidingPowerUps[0])
 
     def movementUpdate(self,delta : float,keys,player,gameTime : float):
         #input
@@ -175,6 +182,11 @@ class Level:
                     weaponPos = pygame.math.Vector2(pos.x + cellWidth/2,pos.y + cellHeight/2)
                     weapon = Weapon(type[0],type[1],False,weaponPos,type[2],type[3],type[4],type[5],type[6],type[7],type[8],type[9],type[10],type[11],type[12],type[13],self.height)
                     self.onGroundWeapons.add(weapon)
+                elif(cell[0] == "w"):
+                    type = powerUps[int(cell[1])]
+                    powerUpPos = (pos.x + cellWidth/2,pos.y + cellHeight/2)
+                    powerUp = PowerUp(self.height, powerUpPos, type.get("name"),type.get("imagePath"),type.get("modifications"))
+                    self.powerups.add(powerUp)
     
     def closerToZero(self,numberToNegate : float,negateBy : float):
         if(numberToNegate >= 0):

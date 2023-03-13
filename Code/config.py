@@ -177,6 +177,19 @@ pygame.Vector2(),
 ]
 ]
 
+powerUps = [
+    {
+    "name" : "doubleJump",
+    "imagePath" : "Graphics/",
+    "modifications" :
+    {"maxJumps" : 2,
+    "jumpSpeedMod" : 0,
+    "speedMod" : 0,
+    "maxHealthMod" : 0,
+    "healthMod" : 0}
+    }
+]
+
 def renderText(surface : pygame.surface.Surface,text : str,fontType : str,size : int,color :pygame.Color,pos : tuple,backGroundColor :pygame.Color = None):
     font = pygame.font.SysFont(fontType,size)
     image = pygame.font.Font.render(font,text,False,color,backGroundColor)
