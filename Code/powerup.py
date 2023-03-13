@@ -32,8 +32,10 @@ class PowerUp(pygame.sprite.Sprite):
         player.maxJumps += self.modifications.get("maxJumps")
         player.jumpSpeed += self.modifications.get("jumpSpeedMod")
         player.speed += self.modifications.get("speedMod")
-        player.maxHealth += self.modifications.get("maxHealthMod")
-        player.health += self.modifications.get("healthMod")
+        if(self.modifications.get("maxHealthMod") > 0):
+            player.maxHealth += self.modifications.get("maxHealthMod")
+            player.health = player.maxHealth
+        player.heal(self.modifications.get("healthMod"))
         player.damageMultiplier += self.modifications.get("damageMultiplierMod")
         self.player = player
         player.timedPowerups.append(self)
@@ -43,6 +45,6 @@ class PowerUp(pygame.sprite.Sprite):
         self.player.jumpSpeed -= self.modifications.get("jumpSpeedMod")
         self.player.speed -= self.modifications.get("speedMod")
         self.player.maxHealth -= self.modifications.get("maxHealthMod")
-        self.player.health -= self.modifications.get("healthMod")
+        self.player.takeDamage(self.modifications.get("healthMod"))
         self.player.damageMultiplier -= self.modifications.get("damageMultiplierMod")
         self.player.timedPowerups.remove(self)
