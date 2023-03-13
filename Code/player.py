@@ -1,12 +1,12 @@
 import pygame
 from animator import Animator
-from config import renderText,scaleRect,scaleValue, spriteSheetPaths
+from config import renderText, scaleRect, scaleValue, spriteSheetPaths
 class Character(pygame.sprite.Sprite):
     def __init__(self,InPos,surface,keys,name : str,height : int):
         super().__init__()
         self.direction = pygame.math.Vector2(0,0)
         self.jumpSpeed = scaleValue(height,6.5)
-        self.maxJumps = 2
+        self.maxJumps = 1
         self.jumpIndex = self.maxJumps
         self.jumpDelay = 0.35
         self.lastJumpTime = -self.jumpDelay

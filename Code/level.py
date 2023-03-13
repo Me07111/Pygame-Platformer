@@ -44,6 +44,8 @@ class Level:
             player.draw(self.screen)
         for bullet in self.bullets:
             self.bulletUpdate(bullet,delta)
+        for powerUp in self.powerups.sprites():
+            powerUp.update(delta)
         self.platforms.draw(self.screen)
         self.onGroundWeapons.draw(self.screen)
         self.powerups.draw(self.screen)
@@ -110,8 +112,8 @@ class Level:
             else:
                 player.weapon = collidingWeapons[0]
             self.onGroundWeapons.remove(collidingWeapons[0])
-        collidingPowerUps = pygame.sprite.spritecollide(player,self.powerups)
-        if(collidingPowerUps > 0):
+        collidingPowerUps = pygame.sprite.spritecollide(player,self.powerups,False)
+        if(len(collidingPowerUps) > 0):
             collidingPowerUps[0].pickUp(player)
             self.powerups.remove(collidingPowerUps[0])
 
@@ -182,7 +184,7 @@ class Level:
                     weaponPos = pygame.math.Vector2(pos.x + cellWidth/2,pos.y + cellHeight/2)
                     weapon = Weapon(type[0],type[1],False,weaponPos,type[2],type[3],type[4],type[5],type[6],type[7],type[8],type[9],type[10],type[11],type[12],type[13],self.height)
                     self.onGroundWeapons.add(weapon)
-                elif(cell[0] == "w"):
+                elif(cell[0] == "u"):
                     type = powerUps[int(cell[1])]
                     powerUpPos = (pos.x + cellWidth/2,pos.y + cellHeight/2)
                     powerUp = PowerUp(self.height, powerUpPos, type.get("name"),type.get("imagePath"),type.get("modifications"))

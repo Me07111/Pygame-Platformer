@@ -180,7 +180,7 @@ pygame.Vector2(),
 powerUps = [
     {
     "name" : "doubleJump",
-    "imagePath" : "Graphics/",
+    "imagePath" : "Graphics/doubeJump.png",
     "modifications" :
     {"maxJumps" : 2,
     "jumpSpeedMod" : 0,
