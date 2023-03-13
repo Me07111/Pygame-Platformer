@@ -40,7 +40,7 @@ class LevelEditor:
             weaponImages.append(pygame.transform.smoothscale(pygame.image.load(weapon[1]),self.cellSize))
         powerupImages = []
         for powerUp in powerUps:
-            powerupImages.append(pygame.transform.smoothscale(clip(pygame.image.load(powerUp.get("imagePath")),0,0,80,80),self.cellSize))
+            powerupImages.append(pygame.transform.smoothscale(clip(pygame.image.load(powerUp.get("imagePath")),0,0,40,40),self.cellSize))
         self.subImages = [[],[platformImage],[playerimage],weaponImages,powerupImages]
         self.timeSincePressed = 10
 

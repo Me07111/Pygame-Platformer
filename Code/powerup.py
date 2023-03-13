@@ -10,7 +10,7 @@ class PowerUp(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = pos
         self.modifications = modifications
-        self.animator = Animator([self.origImage],(80,80),[0.1])
+        self.animator = Animator([self.origImage],(40,40),[1])
 
     def update(self,delta : float, *args: any, **kwargs: any) -> None:
         super().update(*args, **kwargs)
