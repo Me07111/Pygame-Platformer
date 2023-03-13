@@ -179,11 +179,21 @@ pygame.Vector2(),
 
 powerUps = [
     {
-    "name" : "doubleJump",
+    "name" : "Double Jump",
     "imagePath" : "Graphics/doubeJump.png",
     "modifications" :
     {"maxJumps" : 2,
     "jumpSpeedMod" : 0,
+    "speedMod" : 0,
+    "maxHealthMod" : 0,
+    "healthMod" : 0}
+    },
+    {
+    "name" : "Big Jump",
+    "imagePath" : "Graphics/bigJumpPowerup.png",
+    "modifications" :
+    {"maxJumps" : 1,
+    "jumpSpeedMod" : 2,
     "speedMod" : 0,
     "maxHealthMod" : 0,
     "healthMod" : 0}
