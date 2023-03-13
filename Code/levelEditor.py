@@ -1,6 +1,6 @@
 import pygame
 from button import Button
-from config import scaleRect, incDecInt, weapons, renderText
+from config import scaleRect, incDecInt, weapons, renderText, powerUps , clip
 class LevelEditor: 
     def __init__(self,mapSize : tuple[int,int],height : int ,screen : pygame.Surface,saveHandler,slotIndex : int,loaded : int = -1):
         if(loaded == -1):
@@ -16,10 +16,12 @@ class LevelEditor:
         self.slotIndex = slotIndex
         self.saveHandler = saveHandler
         self.cellSize = ()
-        self.blockType = "x"
-        self.weaponType = 0
+        self.blockType = 1
+        self.blockTypes = ["o","x","P","w","u"]
+        self.doesHaveSubTypes = [False,False,False,True,True]
+        self.subType = 0
         self.typeButton = Button(scaleRect(height,(100,50)),scaleRect(height,(200,50)),"change type")
-        self.weaponTypeButton = Button(scaleRect(height,(100,150)),scaleRect(height,(300,50)),"change weapon type")
+        self.subTypeButton = Button(scaleRect(height,(100,150)),scaleRect(height,(300,50)),"change block subtype")
         self.quitButton = Button(scaleRect(height,(1180,50)),scaleRect(height,(200,50)),"Quit(noSave)")
         self.saveButton = Button(scaleRect(height,(1180,150)),scaleRect(height,(200,50)),"Save")
         self.slotIndexPlusButton = Button(scaleRect(height,(1070,50)),scaleRect(height,(50,50)),"+")
@@ -31,30 +33,35 @@ class LevelEditor:
         self.cellWidth = self.width/mapSize[0]
         self.cellSize = (self.cellWidth,self.cellHeight)
         self.highlightedSquarePic = pygame.transform.smoothscale(pygame.image.load("Graphics/outline.png"),self.cellSize)
-        self.platformImage = pygame.transform.smoothscale(pygame.image.load("Graphics/Platform.png"),self.cellSize)
-        self.playerimage = pygame.transform.smoothscale(pygame.image.load("Graphics/Character.png"),self.cellSize)
-        self.weaponImages = []
+        platformImage = pygame.transform.smoothscale(pygame.image.load("Graphics/Platform.png"),self.cellSize)
+        playerimage = pygame.transform.smoothscale(pygame.image.load("Graphics/Character.png"),self.cellSize)
+        weaponImages = []
         for weapon in weapons:
-            self.weaponImages.append(pygame.transform.smoothscale(pygame.image.load(weapon[1]),self.cellSize))
+            weaponImages.append(pygame.transform.smoothscale(pygame.image.load(weapon[1]),self.cellSize))
+        powerupImages = []
+        for powerUp in powerUps:
+            powerupImages.append(pygame.transform.smoothscale(clip(pygame.image.load(powerUp.get("imagePath")),0,0,80,80),self.cellSize))
+        self.subImages = [[],[platformImage],[playerimage],weaponImages,powerupImages]
         self.timeSincePressed = 10
 
     def update(self,delta : float,gametime : float,levelHandler):
         mousePos = pygame.mouse.get_pos()
         mapArrayCoord = (int(mousePos[0]//self.cellSize[0]),int(mousePos[1]//self.cellSize[1]))
         typeButtonPressed = self.typeButton.update(self.screen,gametime)
-        if(self.blockType == "w"):
-            wepaponTypeButtonPressed = self.weaponTypeButton.update(self.screen,gametime)
+        if(self.doesHaveSubTypes[self.blockType]):
+            subTypeButtonPressed = self.subTypeButton.update(self.screen,gametime)
         else:
-            wepaponTypeButtonPressed = (False,False)
+            subTypeButtonPressed = (False,False)
         saveButtonPressed = self.saveButton.update(self.screen,gametime)
         quitButtonPressed = self.quitButton.update(self.screen,gametime)
         saveIndexPlusButtonPressed = self.slotIndexPlusButton.update(self.screen,gametime)
         saveIndexMinusButtonPressed = self.slotIndexMinusButton.update(self.screen,gametime)
-        isButtonHovered = typeButtonPressed[1] or wepaponTypeButtonPressed[1] or saveButtonPressed[1] or quitButtonPressed[1] or saveIndexPlusButtonPressed[1] or saveIndexMinusButtonPressed[1]
+        isButtonHovered = typeButtonPressed[1] or subTypeButtonPressed[1] or saveButtonPressed[1] or quitButtonPressed[1] or saveIndexPlusButtonPressed[1] or saveIndexMinusButtonPressed[1]
         if(typeButtonPressed[0]):
-            self.incType()
-        elif(wepaponTypeButtonPressed[0]):
-            self.weaponType = incDecInt(self.weaponType,1,len(weapons) - 1)
+            self.subType = 0
+            self.blockType = incDecInt(self.blockType,1,len(self.blockTypes) - 1)
+        elif(subTypeButtonPressed[0]):
+            self.subType = incDecInt(self.subType,1,len(self.subImages[self.blockType]) - 1)
         elif(saveButtonPressed[0]):
             savedata = self.checkCanSave()
             if(savedata[0]):
@@ -71,10 +78,7 @@ class LevelEditor:
         elif(isButtonHovered):
             pass
         elif(pygame.mouse.get_pressed()[0]):
-            if(self.blockType == "w"):
-                self.map[mapArrayCoord[1]][mapArrayCoord[0]] = f"{self.blockType}{self.weaponType}"
-            else:
-                self.map[mapArrayCoord[1]][mapArrayCoord[0]] = self.blockType
+            self.map[mapArrayCoord[1]][mapArrayCoord[0]] = self.typesToString(self.blockType,self.subType)
         else:
             pos = (mapArrayCoord[0]*self.cellSize[0],mapArrayCoord[1]*self.cellSize[1])
             rect = pygame.Rect(pos,self.cellSize)
@@ -88,35 +92,22 @@ class LevelEditor:
             for j, cell in enumerate(row):
                 pos = (j*self.cellWidth,i*self.cellHeight)
                 rect = pygame.Rect(pos,self.cellSize)
-                self.displayBlock(cell,rect)
+                types = self.stringToTypes(cell)
+                self.displayBlock(types[0],types[1],rect)
         
-        if(self.blockType != "w"):
-            cellstr = self.blockType
-        else:
-            cellstr = self.blockType + str(self.weaponType)
         cellRect = pygame.Rect((220,25),self.cellSize)
-        self.displayBlock(cellstr,cellRect)
+        self.displayBlock(self.blockType,self.subType,cellRect)
         renderText(self.screen,f"Map to save to:{self.slotIndex+1}","timesnewroman",20,pygame.Color(0,0,0),(965,45))
-                    
-    def incType(self):
-        if(self.blockType == "o"):
-            self.blockType = "x"
-        elif(self.blockType == "x"):
-            self.blockType = "P"
-        elif(self.blockType == "P"):
-            self.blockType = "w"
-        elif(self.blockType == "w"):
-            self.blockType = "o"
 
-    def displayBlock(self,cell : str,rect : pygame.Rect):
-        if(cell == "o"):
-            pass
-        elif(cell == "x"):
-            self.screen.blit(self.platformImage,rect)
-        elif(cell == "P"):
-            self.screen.blit(self.playerimage,rect)
-        elif(cell[0] == "w"):
-            self.screen.blit(self.weaponImages[int(cell[1])],rect)
+    def displayBlock(self,type : int,subtype,rect : pygame.Rect):
+        if(type == 0):
+            return
+        if(self.doesHaveSubTypes[type]):
+            image = self.subImages[type][subtype]
+        else:
+            image = self.subImages[type][0]
+        self.screen.blit(image,rect)
+        
     
     def checkCanSave(self):
         playerCount = self.getBlockCount("P")
@@ -137,4 +128,15 @@ class LevelEditor:
                 if(cell.startswith(str)):
                     players += 1
         return players
-        
+
+    def typesToString(self,type : int,subType : int) -> str:
+        if(self.doesHaveSubTypes[type]):
+            return self.blockTypes[type] + str(subType)     
+        else:
+            return self.blockTypes[type]
+
+    def stringToTypes(self, string : str):
+        if(len(string) < 2):
+            return self.blockTypes.index(string[0]),0
+        else:
+            return self.blockTypes.index(string[0]),int(string[1])

@@ -210,3 +210,8 @@ def incDecInt(value : int,change : int,max : int):
         return max
     else:
         return value + change
+
+def clip(surface : pygame.Surface, x, y, x_size, y_size): #Get a part of the image
+    clipRect = pygame.Rect(x,y,x_size,y_size) #Part of the image
+    surface.set_clip(clipRect) #Clip or you can call cropped
+    return surface.subsurface(surface.get_clip()) #Get subsurface

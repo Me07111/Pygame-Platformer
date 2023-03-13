@@ -6,7 +6,7 @@ class PowerUp(pygame.sprite.Sprite):
         super().__init__()
         self.height = height
         self.origImage = pygame.image.load(imagePath)
-        self.image = pygame.transform.scale(self.origImage,scaleRect(height,(40,40)))
+        self.image = pygame.transform.smoothscale(self.origImage,scaleRect(height,(40,40)))
         self.rect = self.image.get_rect()
         self.rect.center = pos
         self.modifications = modifications
@@ -15,7 +15,7 @@ class PowerUp(pygame.sprite.Sprite):
     def update(self,delta : float, *args: any, **kwargs: any) -> None:
         super().update(*args, **kwargs)
         self.origImage = self.animator.animate(0,delta)
-        self.image = pygame.transform.scale(self.origImage,scaleRect(self.height,(40,40)))
+        self.image = pygame.transform.smoothscale(self.origImage,scaleRect(self.height,(40,40)))
         
     
     def pickUp(self,player):
