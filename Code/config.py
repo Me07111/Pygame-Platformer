@@ -246,7 +246,7 @@ powerUps = [
     "maxHealthMod" : 30,
     "healthMod" : 0,
     "damageMultiplierMod" : 0
-    },
+    }
     },
     {
     "name" : "Damage",
@@ -260,7 +260,7 @@ powerUps = [
     "maxHealthMod" : 0,
     "healthMod" : 0,
     "damageMultiplierMod" : 0.5
-    },
+    }
     }
 ]
 

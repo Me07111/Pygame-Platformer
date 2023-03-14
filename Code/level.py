@@ -167,6 +167,7 @@ class Level:
         map = self.saveHandler.loadMap(mapIndex)
         cellHeight = self.height/len(map)
         cellWidth = self.width/len(map[0])
+        playerposes = []
         for i, row in enumerate(map):
             for j, cell in enumerate(row):
                 pos = pygame.math.Vector2(j*cellWidth,i*cellHeight)
@@ -178,8 +179,7 @@ class Level:
                 elif(cell == "P"):
                     if(playerAmount + 1 <= self.playerCount):
                         playerPos = pygame.math.Vector2(pos.x + cellWidth/2,pos.y + cellHeight/2)
-                        player = Character(playerPos,self.screen,mappings[playerAmount],f"Player {len(self.players) + 1}",self.height)
-                        self.players.append(player)
+                        playerposes.append(playerPos)
                         playerAmount += 1
                 elif(cell[0] == "w"):
                     type = weapons[int(cell[len(cell)-1])]
@@ -191,6 +191,9 @@ class Level:
                     powerUpPos = (pos.x + cellWidth/2,pos.y + cellHeight/2)
                     powerUp = PowerUp(self.height, powerUpPos, type.get("name"),type.get("imagePath"),type.get("modifications"),type.get("isTimed"),type.get("time"))
                     self.powerups.add(powerUp)
+        playerposes.sort(key=getX)
+        for i, player in enumerate(playerposes):
+            self.players.append(Character(player,self.screen,mappings[i],f"Player {i + 1}",self.height))
     
     def closerToZero(self,numberToNegate : float,negateBy : float):
         if(numberToNegate >= 0):
@@ -201,3 +204,6 @@ class Level:
             return 0
         else:
             return (abs(numberToNegate) - negateBy) * index
+    
+def getX(vect : pygame.Vector2) -> int:
+    return vect.x
