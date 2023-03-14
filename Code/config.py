@@ -246,7 +246,21 @@ powerUps = [
     "maxHealthMod" : 30,
     "healthMod" : 0,
     "damageMultiplierMod" : 0
-    }
+    },
+    },
+    {
+    "name" : "Damage",
+    "imagePath" : "Graphics/DamagePowerup.png",
+    "isTimed" : True,
+    "time" : 10,
+    "modifications" :
+    {"maxJumps" : 0,
+    "jumpSpeedMod" : 0,
+    "speedMod" : 0,
+    "maxHealthMod" : 0,
+    "healthMod" : 0,
+    "damageMultiplierMod" : 0.5
+    },
     }
 ]
 
