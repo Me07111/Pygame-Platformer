@@ -37,6 +37,7 @@ class PowerUp(pygame.sprite.Sprite):
             player.health = player.maxHealth
         player.heal(self.modifications.get("healthMod"))
         player.damageMultiplier += self.modifications.get("damageMultiplierMod")
+        player.isInvincible = self.modifications.get("isInvincible")
         self.player = player
         player.timedPowerups.append(self)
     
@@ -47,4 +48,5 @@ class PowerUp(pygame.sprite.Sprite):
         self.player.maxHealth -= self.modifications.get("maxHealthMod")
         self.player.takeDamage(self.modifications.get("healthMod"))
         self.player.damageMultiplier -= self.modifications.get("damageMultiplierMod")
+        self.player.isInvincible = False
         self.player.timedPowerups.remove(self)

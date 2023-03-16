@@ -34,7 +34,7 @@ class LevelSelect:
                     if(i*4 + j +1 == 16):
                         text = "Level Editor"
                     else:   
-                        text = f"Level {i*4 + j}"
+                        text = f"Level {i*4 + j + 1}"
                     button = Button(scaleRect(height,(200 + 270*j,100 + i * 175)),scaleRect(height,(200,50)),text,pygame.Color(255,255,255),scaleValue(height,20))
                     self.buttons.append(button)
 

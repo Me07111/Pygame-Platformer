@@ -36,11 +36,13 @@ class Character(pygame.sprite.Sprite):
         self.lastFlip = False
         self.timedPowerups = []
         self.damageMultiplier = 1
+        self.isInvincible = False
 
     def takeDamage(self,damage : float):
-        self.health -= damage
-        if(self.health <= 0):
-            self.health = 0
+        if(not self.isInvincible):
+            self.health -= damage
+            if(self.health <= 0):
+                self.health = 0
             
     def heal(self,healAmount : float):
         self.health += healAmount

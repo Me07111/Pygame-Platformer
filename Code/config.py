@@ -189,7 +189,8 @@ powerUps = [
     "speedMod" : 0,
     "maxHealthMod" : 0,
     "healthMod" : 0,
-    "damageMultiplierMod" : 0
+    "damageMultiplierMod" : 0,
+    "isInvincible" : False
     }
     },
     {
@@ -203,7 +204,8 @@ powerUps = [
     "speedMod" : 0,
     "maxHealthMod" : 0,
     "healthMod" : 0,
-    "damageMultiplierMod" : 0
+    "damageMultiplierMod" : 0,
+    "isInvincible" : False
     }
     },
     {
@@ -217,7 +219,8 @@ powerUps = [
     "speedMod" : 100,
     "maxHealthMod" : 0,
     "healthMod" : 0,
-    "damageMultiplierMod" : 0
+    "damageMultiplierMod" : 0,
+    "isInvincible" : False
     }
     },
     {
@@ -231,7 +234,8 @@ powerUps = [
     "speedMod" : 0,
     "maxHealthMod" : 0,
     "healthMod" : 30,
-    "damageMultiplierMod" : 0
+    "damageMultiplierMod" : 0,
+    "isInvincible" : False
     }
     },
     {
@@ -245,7 +249,8 @@ powerUps = [
     "speedMod" : 0,
     "maxHealthMod" : 30,
     "healthMod" : 0,
-    "damageMultiplierMod" : 0
+    "damageMultiplierMod" : 0,
+    "isInvincible" : False
     }
     },
     {
@@ -259,7 +264,23 @@ powerUps = [
     "speedMod" : 0,
     "maxHealthMod" : 0,
     "healthMod" : 0,
-    "damageMultiplierMod" : 0.5
+    "damageMultiplierMod" : 0.5,
+    "isInvincible" : False
+    }
+    },
+    {
+    "name" : "Shield",
+    "imagePath" : "Graphics/ShieldPoweup.png",
+    "isTimed" : True,
+    "time" : 5,
+    "modifications" :
+    {"maxJumps" : 0,
+    "jumpSpeedMod" : 0,
+    "speedMod" : 0,
+    "maxHealthMod" : 0,
+    "healthMod" : 0,
+    "damageMultiplierMod" : 0,
+    "isInvincible" : True
     }
     }
 ]
