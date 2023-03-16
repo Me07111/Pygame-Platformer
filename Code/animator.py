@@ -29,6 +29,7 @@ class Animator:
 
         if(self.TimeSinceLastFrame >= self.animSpeeds[animIndex]):
             self.TimeSinceLastFrame = 0
+
             if(self.frameIndex < animLength - 1):
                 self.frameIndex += 1
                 if(self.animIndexOverride != -1 and self.frameIndex == animLength - 1):

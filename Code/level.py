@@ -5,6 +5,7 @@ from platformBase import PlatformBase
 from weapon import Weapon
 from ui import Ui
 from powerup import PowerUp
+from launchPad import LaunchPad
 
 class Level:
     def __init__(self,screen : pygame.Surface ,width : int,height : int,gravity : float,clock : pygame.time.Clock,playercount : int,map : list, saveHandler):
@@ -23,6 +24,7 @@ class Level:
         self.AirDrag = 0.01
         self.onGroundWeapons = pygame.sprite.Group()
         self.powerups = pygame.sprite.Group()
+        self.launchPads = pygame.sprite.Group()
         self.saveHandler = saveHandler
         self.generateMap(map)
 
@@ -41,6 +43,7 @@ class Level:
             self.lookDirUpdate(i,player,keys)
             for powerUp in player.timedPowerups:
                 powerUp.update(delta)
+            self.updateLaunchPadColls(player)
             player.animate(delta)
             player.lookInDir()
             player.draw(self.screen)
@@ -48,12 +51,19 @@ class Level:
             self.bulletUpdate(bullet,delta)
         for powerUp in self.powerups.sprites():
             powerUp.update(delta)
+        self.launchPads.update(delta)
+        self.launchPads.draw
         self.platforms.draw(self.screen)
         self.onGroundWeapons.draw(self.screen)
         self.powerups.draw(self.screen)
         self.bullets.draw(self.screen)
         self.ui.update(self.players)
         self.checkWinCondition(player,levelHandler)
+
+    def updateLaunchPadColls(self,player):
+        collidingPads = pygame.sprite.spritecollide(player,self.launchPads)
+        if(len(collidingPads) > 0):
+            collidingPads[0].onCollision(player)
 
     def checkWinCondition(self,player,levelHandler):
         alivePlayers = []
@@ -191,6 +201,9 @@ class Level:
                     powerUpPos = (pos.x + cellWidth/2,pos.y + cellHeight/2)
                     powerUp = PowerUp(self.height, powerUpPos, type.get("name"),type.get("imagePath"),type.get("modifications"),type.get("isTimed"),type.get("time"))
                     self.powerups.add(powerUp)
+                elif(cell[0] == "L"):
+                    launchPad = LaunchPad((pos.x + cellWidth/2,pos.y + cellHeight/2),5,self.height)
+                    self.launchPads.add(launchPad)
         playerposes.sort(key=getX)
         for i, player in enumerate(playerposes):
             self.players.append(Character(player,self.screen,mappings[i],f"Player {i + 1}",self.height))
