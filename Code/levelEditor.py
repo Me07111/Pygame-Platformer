@@ -17,8 +17,8 @@ class LevelEditor:
         self.saveHandler = saveHandler
         self.cellSize = ()
         self.blockType = 1
-        self.blockTypes = ["o","x","P","w","u"]
-        self.doesHaveSubTypes = [False,False,False,True,True]
+        self.blockTypes = ["o","x","P","w","u","L"]
+        self.doesHaveSubTypes = [False,False,False,True,True,False]
         self.subType = 0
         self.typeButton = Button(scaleRect(height,(100,50)),scaleRect(height,(200,50)),"change type")
         self.subTypeButton = Button(scaleRect(height,(100,150)),scaleRect(height,(300,50)),"change block subtype")
@@ -36,12 +36,14 @@ class LevelEditor:
         platformImage = pygame.transform.smoothscale(pygame.image.load("Graphics/Platform.png"),self.cellSize)
         playerimage = pygame.transform.smoothscale(pygame.image.load("Graphics/Character.png"),self.cellSize)
         weaponImages = []
+        jumpPadImage = pygame.transform.smoothscale(pygame.image.load("Graphics/JumpPad.png"),self.cellSize)
+        weaponImages = []
         for weapon in weapons:
             weaponImages.append(pygame.transform.smoothscale(pygame.image.load(weapon[1]),self.cellSize))
         powerupImages = []
         for powerUp in powerUps:
             powerupImages.append(pygame.transform.smoothscale(clip(pygame.image.load(powerUp.get("imagePath")),0,0,40,40),self.cellSize))
-        self.subImages = [[],[platformImage],[playerimage],weaponImages,powerupImages]
+        self.subImages = [[],[platformImage],[playerimage],weaponImages,powerupImages,[jumpPadImage]]
         self.timeSincePressed = 10
 
     def update(self,delta : float,gametime : float,levelHandler):

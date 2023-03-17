@@ -50,7 +50,7 @@ class Character(pygame.sprite.Sprite):
             self.health = self.maxHealth
 
     def launch(self,direction : tuple,speed : float):
-        self.launchVector = direction
+        self.launchVector = pygame.Vector2(direction)
         self.launchSpeed = speed
         self.launched = True
     

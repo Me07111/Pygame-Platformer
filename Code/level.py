@@ -52,7 +52,7 @@ class Level:
         for powerUp in self.powerups.sprites():
             powerUp.update(delta)
         self.launchPads.update(delta)
-        self.launchPads.draw
+        self.launchPads.draw(self.screen)
         self.platforms.draw(self.screen)
         self.onGroundWeapons.draw(self.screen)
         self.powerups.draw(self.screen)
@@ -61,7 +61,7 @@ class Level:
         self.checkWinCondition(player,levelHandler)
 
     def updateLaunchPadColls(self,player):
-        collidingPads = pygame.sprite.spritecollide(player,self.launchPads)
+        collidingPads = pygame.sprite.spritecollide(player,self.launchPads,False)
         if(len(collidingPads) > 0):
             collidingPads[0].onCollision(player)
 
@@ -202,7 +202,8 @@ class Level:
                     powerUp = PowerUp(self.height, powerUpPos, type.get("name"),type.get("imagePath"),type.get("modifications"),type.get("isTimed"),type.get("time"))
                     self.powerups.add(powerUp)
                 elif(cell[0] == "L"):
-                    launchPad = LaunchPad((pos.x + cellWidth/2,pos.y + cellHeight/2),5,self.height)
+                    print(int(cell[1:len(cell)-1]))
+                    launchPad = LaunchPad((pos.x + cellWidth/2,pos.y + cellHeight/2),int(cell[1:len(cell)]),self.height)
                     self.launchPads.add(launchPad)
         playerposes.sort(key=getX)
         for i, player in enumerate(playerposes):

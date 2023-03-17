@@ -15,4 +15,4 @@ class LaunchPad(pygame.sprite.Sprite):
     def update(self,delta):
         self.image = self.animator.animate(0,delta)
     def onCollision(self,player):
-        player.launch((0,1),self.jumpPower)
+        player.launch((0,-1),self.jumpPower)
