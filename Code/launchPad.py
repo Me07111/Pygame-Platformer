@@ -19,5 +19,6 @@ class LaunchPad(pygame.sprite.Sprite):
         self.timeSinceLastLaunch += delta
     def onCollision(self,player):
         if(self.timeSinceLastLaunch > self.coolDown):
-            player.launch((0,-1),self.jumpPower)
             self.timeSinceLastLaunch = 0
+            player.launch((0,-1),self.jumpPower)
+            self.animator.playAnim(1)
