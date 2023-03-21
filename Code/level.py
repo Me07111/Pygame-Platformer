@@ -203,7 +203,7 @@ class Level:
                     self.powerups.add(powerUp)
                 elif(cell[0] == "L"):
                     print(int(cell[1:len(cell)-1]))
-                    launchPad = LaunchPad((pos.x + cellWidth/2,pos.y + cellHeight/2),int(cell[1:len(cell)]),self.height)
+                    launchPad = LaunchPad((pos.x + cellWidth/2,pos.y + cellHeight/2),int(cell[1:len(cell)]),5,self.height)
                     self.launchPads.add(launchPad)
         playerposes.sort(key=getX)
         for i, player in enumerate(playerposes):

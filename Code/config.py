@@ -298,10 +298,10 @@ def scaleValue(height : int,value : int):
     scaler = height / 720
     return int(value * scaler)
 
-def incDecInt(value : int,change : int,max : int):
+def incDecInt(value : int,change : int,max : int,min : int = 0):
     if(value + change > max):
-        return 0
-    elif(value + change < 0):
+        return min
+    elif(value + change < min):
         return max
     else:
         return value + change

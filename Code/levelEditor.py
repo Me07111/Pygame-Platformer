@@ -1,6 +1,7 @@
 import pygame
 from button import Button
 from config import scaleRect, incDecInt, weapons, renderText, powerUps , clip
+from numberPicker import NumberPicker
 class LevelEditor: 
     def __init__(self,mapSize : tuple[int,int],height : int ,screen : pygame.Surface,saveHandler,slotIndex : int,loaded : int = -1):
         if(loaded == -1):
@@ -18,10 +19,9 @@ class LevelEditor:
         self.cellSize = ()
         self.blockType = 1
         self.blockTypes = ["o","x","P","w","u","L"]
-        self.doesHaveSubTypes = [False,False,False,True,True,False]
+        self.doesHaveSubTypes = ["no","no","no","sub","sub","par"]
+        self.parMaxes = [0,0,0,0,0,10000]
         self.subType = 0
-        self.typeButton = Button(scaleRect(height,(100,50)),scaleRect(height,(200,50)),"change type")
-        self.subTypeButton = Button(scaleRect(height,(100,150)),scaleRect(height,(300,50)),"change block subtype")
         self.quitButton = Button(scaleRect(height,(1180,50)),scaleRect(height,(200,50)),"Quit(noSave)")
         self.saveButton = Button(scaleRect(height,(1180,150)),scaleRect(height,(200,50)),"Save")
         self.slotIndexPlusButton = Button(scaleRect(height,(1070,50)),scaleRect(height,(50,50)),"+")
@@ -45,25 +45,31 @@ class LevelEditor:
             powerupImages.append(pygame.transform.smoothscale(clip(pygame.image.load(powerUp.get("imagePath")),0,0,40,40),self.cellSize))
         self.subImages = [[],[platformImage],[playerimage],weaponImages,powerupImages,[jumpPadImage]]
         self.timeSincePressed = 10
+        self.typePicker = NumberPicker(self.screen,0,len(self.blockTypes)-1,scaleRect(height,(140,50)),scaleRect(height,(200,50)),False)
+        self.subTypePicker = NumberPicker(self.screen,0,0,scaleRect(height,(220,150)),scaleRect(height,(300,50)),amount=1)
 
     def update(self,delta : float,gametime : float,levelHandler):
         mousePos = pygame.mouse.get_pos()
         mapArrayCoord = (int(mousePos[0]//self.cellSize[0]),int(mousePos[1]//self.cellSize[1]))
-        typeButtonPressed = self.typeButton.update(self.screen,gametime)
-        if(self.doesHaveSubTypes[self.blockType]):
-            subTypeButtonPressed = self.subTypeButton.update(self.screen,gametime)
-        else:
-            subTypeButtonPressed = (False,False)
         saveButtonPressed = self.saveButton.update(self.screen,gametime)
         quitButtonPressed = self.quitButton.update(self.screen,gametime)
         saveIndexPlusButtonPressed = self.slotIndexPlusButton.update(self.screen,gametime)
         saveIndexMinusButtonPressed = self.slotIndexMinusButton.update(self.screen,gametime)
-        isButtonHovered = typeButtonPressed[1] or subTypeButtonPressed[1] or saveButtonPressed[1] or quitButtonPressed[1] or saveIndexPlusButtonPressed[1] or saveIndexMinusButtonPressed[1]
-        if(typeButtonPressed[0]):
-            self.subType = 0
-            self.blockType = incDecInt(self.blockType,1,len(self.blockTypes) - 1)
-        elif(subTypeButtonPressed[0]):
-            self.subType = incDecInt(self.subType,1,len(self.subImages[self.blockType]) - 1)
+        typeUpd = self.typePicker.update(gametime)
+        newType,typePressed,typeHovered = typeUpd[0],typeUpd[1],typeUpd[2]
+        subTypeUpd = self.subTypePicker.update(gametime)
+        newSubType,subTypePressed,subTypeHovered = subTypeUpd[0],subTypeUpd[1],subTypeUpd[2]
+        isButtonHovered =subTypeHovered or typeHovered or saveButtonPressed[1] or quitButtonPressed[1] or saveIndexPlusButtonPressed[1] or saveIndexMinusButtonPressed[1]
+        if(typePressed):
+            self.blockType = newType
+            if(self.doesHaveSubTypes[self.blockType] == "sub" or self.doesHaveSubTypes[self.blockType] == "no"):
+                self.subTypePicker.max = len(self.subImages[self.blockType]) - 1
+                self.subTypePicker.amount = 1
+            else:
+                self.subTypePicker.max = self.parMaxes[self.blockType]
+                self.subTypePicker.amount = 10
+        elif(subTypePressed):
+            self.subType = newSubType
         elif(saveButtonPressed[0]):
             savedata = self.checkCanSave()
             if(savedata[0]):
@@ -97,14 +103,14 @@ class LevelEditor:
                 types = self.stringToTypes(cell)
                 self.displayBlock(types[0],types[1],rect)
         
-        cellRect = pygame.Rect((220,25),self.cellSize)
+        cellRect = pygame.Rect((90,35),self.cellSize)
         self.displayBlock(self.blockType,self.subType,cellRect)
         renderText(self.screen,f"Map to save to:{self.slotIndex+1}","timesnewroman",20,pygame.Color(0,0,0),(965,45))
 
     def displayBlock(self,type : int,subtype,rect : pygame.Rect):
         if(type == 0):
             return
-        if(self.doesHaveSubTypes[type]):
+        if(self.doesHaveSubTypes[type] == "sub"):
             image = self.subImages[type][subtype]
         else:
             image = self.subImages[type][0]
@@ -132,7 +138,7 @@ class LevelEditor:
         return players
 
     def typesToString(self,type : int,subType : int) -> str:
-        if(self.doesHaveSubTypes[type]):
+        if(self.doesHaveSubTypes[type] == "sub" or self.doesHaveSubTypes[type] == "par"):
             return self.blockTypes[type] + str(subType)     
         else:
             return self.blockTypes[type]
