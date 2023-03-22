@@ -55,10 +55,8 @@ class LevelEditor:
         quitButtonPressed = self.quitButton.update(self.screen,gametime)
         saveIndexPlusButtonPressed = self.slotIndexPlusButton.update(self.screen,gametime)
         saveIndexMinusButtonPressed = self.slotIndexMinusButton.update(self.screen,gametime)
-        typeUpd = self.typePicker.update(gametime)
-        newType,typePressed,typeHovered = typeUpd[0],typeUpd[1],typeUpd[2]
-        subTypeUpd = self.subTypePicker.update(gametime)
-        newSubType,subTypePressed,subTypeHovered = subTypeUpd[0],subTypeUpd[1],subTypeUpd[2]
+        newType,typePressed,typeHovered = self.typePicker.update(gametime)
+        newSubType,subTypePressed,subTypeHovered = self.subTypePicker.update(gametime)
         isButtonHovered =subTypeHovered or typeHovered or saveButtonPressed[1] or quitButtonPressed[1] or saveIndexPlusButtonPressed[1] or saveIndexMinusButtonPressed[1]
         if(typePressed):
             self.blockType = newType
@@ -86,7 +84,8 @@ class LevelEditor:
         elif(isButtonHovered):
             pass
         elif(pygame.mouse.get_pressed()[0]):
-            self.map[mapArrayCoord[1]][mapArrayCoord[0]] = self.typesToString(self.blockType,self.subType)
+            if(mapArrayCoord[0] >= 0 and mapArrayCoord[1] >= 0 and mapArrayCoord[1] < len(self.map) and mapArrayCoord[0] < len(self.map[0])):
+                self.map[mapArrayCoord[1]][mapArrayCoord[0]] = self.typesToString(self.blockType,self.subType)
         else:
             pos = (mapArrayCoord[0]*self.cellSize[0],mapArrayCoord[1]*self.cellSize[1])
             rect = pygame.Rect(pos,self.cellSize)

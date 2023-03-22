@@ -9,13 +9,13 @@ class LaunchPad(pygame.sprite.Sprite):
         self.launchAnim = pygame.image.load("Graphics/JumpPadLaunch.png")
         self.image = self.idleImage
         self.jumpPower = scaleValue(self.height,jumpPower)
-        self.animator = Animator([self.idleImage,self.launchAnim],(40,40),[0.1,0.1])
+        self.animator = Animator([self.idleImage,self.launchAnim],(40,40),[0.1,0.03])
         self.rect = pygame.Rect(pos,scaleRect(self.height,(40,40)))
         self.rect.center = pos
         self.coolDown = coolDown
         self.timeSinceLastLaunch = 100
     def update(self,delta):
-        self.image = self.animator.animate(0,delta)
+        self.image = pygame.transform.smoothscale(self.animator.animate(0,delta),scaleRect(self.height,(40,40)))
         self.timeSinceLastLaunch += delta
     def onCollision(self,player):
         if(self.timeSinceLastLaunch > self.coolDown):

@@ -18,6 +18,7 @@ class Animator:
             animLength = self.animLengths[animIndex]
         else:
             animLength = self.animLengths[self.animIndexOverride]
+            animIndex = self.animIndexOverride
 
         if(animIndex != self.previousAnim):
             self.frameIndex = 0
@@ -37,6 +38,8 @@ class Animator:
                     self.frameIndex = 0
             else:
                 self.frameIndex = 0
+        if(self.animIndexOverride != -1):
+            print(self.animations[animIndex],self.frameIndex*self.frameSize[0],0,self.frameSize[0],self.frameSize[1])
         return clip(self.animations[animIndex],self.frameIndex*self.frameSize[0],0,self.frameSize[0],self.frameSize[1])
         
 

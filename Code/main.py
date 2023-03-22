@@ -14,7 +14,7 @@ else:
 screen = pygame.display.set_mode([width, height])
 clock = pygame.time.Clock()
 Framerate  = 60
-#time passed since the game has started in secondswww
+#time passed since the game has started in seconds
 gameTime = 0
 # Run until the user asks to quit
 mainMenu = MainMenu(screen,width,height,clock)
