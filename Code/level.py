@@ -143,7 +143,7 @@ class Level:
                 player.lastJumpTime = gameTime
         #launch update
         if(player.launched == True):
-            player.direction += player.launchVector * player.launchSpeed * delta
+            player.direction.y = player.launchVector.y * player.launchSpeed * delta
             player.launched = False
 
         #vertical update
