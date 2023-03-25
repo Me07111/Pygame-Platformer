@@ -1,4 +1,4 @@
-from config import healthBarColors,healthBarPoses,healthBarSize,weaponUiPoses,weaponUitextSize,uiFontType,renderText
+from config import healthBarColors,healthBarPoses,healthBarSize,weaponUiPoses,weaponUitextSize,uiFontType,renderer
 import pygame
 class Ui:
     def __init__(self,screen):
@@ -13,8 +13,8 @@ class Ui:
             healthBarSize.x*(players[i].health/players[i].maxHealth),
             healthBarSize.y
             )
-            pygame.draw.rect(self.screen,healthBarColors[i],rect)
+            renderer.rects.append((healthBarColors[i],rect))
             if(players[i].weapon != None):
                 text = f"{players[i].weapon.ammo}"
-                renderText(self.screen,text,uiFontType,weaponUitextSize,healthBarColors[i],weaponUiPoses[i])
+                renderer.renderText(self.screen,text,uiFontType,weaponUitextSize,healthBarColors[i],weaponUiPoses[i])
         

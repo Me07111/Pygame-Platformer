@@ -1,4 +1,4 @@
-from config import renderText
+from config import renderer
 import pygame
 class Logger:
     def __init__(self,screen : pygame.Surface):
@@ -13,7 +13,7 @@ class Logger:
     def update(self,deltaTime : float):
         self.timeSinceLogged += deltaTime
         if(self.timeSinceLogged < self.timeToLogFor):
-            renderText(self.screen,self.logText,"timesnewroman",self.size,self.color,self.pos)
+            renderer.renderText(self.screen,self.logText,"timesnewroman",self.size,self.color,self.pos)
 
     def log(self,text : str,pos,timeToLogFor : int = 1,color : pygame.Color = pygame.Color(0,0,0),size : tuple = (100,20)):
         self.timeSinceLogged = 0

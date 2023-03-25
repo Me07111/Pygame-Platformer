@@ -1,7 +1,7 @@
 import pygame
 from button import Button
 from levelSelct import LevelSelect
-from config import mappings,renderText,scaleRect,scaleValue
+from config import mappings,scaleRect,scaleValue,renderer
 from numberPicker import NumberPicker
 class MainMenu:
     def __init__(self,screen,width : int,height : int,clock):
@@ -18,8 +18,8 @@ class MainMenu:
         self.playerCount = 2
     
     def update(self,delta : float,gametime : float,levelHandler):
-        renderText(self.screen,"Menu","timesnewroman",scaleValue(self.height,100),pygame.Color(255,0,0),(self.width/2 - scaleValue(self.height,130),scaleValue(self.height,20)))
-        renderText(self.screen,self.winnerText,"timesnewroman",scaleValue(self.height,30),pygame.Color(0,255,0),(self.width/2 - scaleValue(self.height,170),self.height/2 - scaleValue(self.height,200)))
+        renderer.renderText(self.screen,"Menu","timesnewroman",scaleValue(self.height,100),pygame.Color(255,0,0),(self.width/2 - scaleValue(self.height,130),scaleValue(self.height,20)))
+        renderer.renderText(self.screen,self.winnerText,"timesnewroman",scaleValue(self.height,30),pygame.Color(0,255,0),(self.width/2 - scaleValue(self.height,170),self.height/2 - scaleValue(self.height,200)))
         if(self.quit.update(self.screen,gametime)[0]):
             pygame.quit()
         if(self.play.update(self.screen,gametime)[0]):

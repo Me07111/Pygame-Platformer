@@ -1,6 +1,6 @@
 import pygame
-
-
+from renderer import Renderer
+renderer = Renderer(None)
 player1Mappings = [
 pygame.K_a,
 pygame.K_d,
@@ -284,11 +284,6 @@ powerUps = [
     }
     }
 ]
-
-def renderText(surface : pygame.surface.Surface,text : str,fontType : str,size : int,color :pygame.Color,pos : tuple,backGroundColor :pygame.Color = None):
-    font = pygame.font.SysFont(fontType,size)
-    image = pygame.font.Font.render(font,text,False,color,backGroundColor)
-    surface.blit(image,pos)
 
 def scaleRect(height : int,rect : tuple):
     scaler = height / 720

@@ -1,6 +1,6 @@
 import pygame
 from animator import Animator
-from config import renderText, scaleRect, scaleValue, spriteSheetPaths
+from config import  scaleRect, scaleValue, spriteSheetPaths, renderer
 class Character(pygame.sprite.Sprite):
     def __init__(self,InPos,surface,keys,name : str,height : int):
         super().__init__()
@@ -111,7 +111,7 @@ class Character(pygame.sprite.Sprite):
             self.origImage = self.animator.animate(0,delta)
 
     def draw(self,screen):
-        screen.blit(self.image,self.rect.topleft)
-        renderText(screen,self.name,"timesnewroman",20,pygame.color.Color(0,0,0),(self.rect.topleft[0],self.rect.topleft[1] - 20))
+        renderer.pics.append((self.image,self.rect.topleft))
+        renderer.renderText(screen,self.name,"timesnewroman",20,pygame.color.Color(0,0,0),(self.rect.topleft[0],self.rect.topleft[1] - 20))
         if(self.weapon != None):
-            screen.blit(self.weapon.image,self.weapon.rect.topleft)
+            renderer.pics.append((self.weapon.image,self.weapon.rect.topleft))

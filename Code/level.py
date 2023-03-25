@@ -1,6 +1,6 @@
 import pygame
 from player import Character
-from config import mappings,weapons,scaleValue, powerUps
+from config import mappings,weapons,scaleValue, powerUps , renderer
 from platformBase import PlatformBase
 from weapon import Weapon
 from ui import Ui
@@ -46,17 +46,17 @@ class Level:
             self.updateLaunchPadColls(player)
             player.animate(delta)
             player.lookInDir()
-            player.draw(self.screen)
+            renderer.sprites.append(player)
         for bullet in self.bullets:
             self.bulletUpdate(bullet,delta)
         for powerUp in self.powerups.sprites():
             powerUp.update(delta)
         self.launchPads.update(delta)
-        self.launchPads.draw(self.screen)
-        self.platforms.draw(self.screen)
-        self.onGroundWeapons.draw(self.screen)
-        self.powerups.draw(self.screen)
-        self.bullets.draw(self.screen)
+        renderer.sprites.append(self.launchPads)
+        renderer.sprites.append(self.platforms)
+        renderer.sprites.append(self.onGroundWeapons)
+        renderer.sprites.append(self.powerups)
+        renderer.sprites.append(self.bullets)
         self.ui.update(self.players)
         self.checkWinCondition(player,levelHandler)
 

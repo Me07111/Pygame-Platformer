@@ -1,6 +1,8 @@
 import pygame
 from mainMenu import MainMenu
 from levelhandler import LevelHandler
+from renderer import Renderer
+from config import renderer
 pygame.init()
 pygame.font.init()
 # Set up the drawing window
@@ -17,6 +19,7 @@ Framerate  = 60
 #time passed since the game has started in seconds
 gameTime = 0
 # Run until the user asks to quit
+renderer.screen = screen
 mainMenu = MainMenu(screen,width,height,clock)
 levelHandler = LevelHandler(mainMenu,screen)
 running = True
@@ -31,6 +34,7 @@ while running:
     delta = clock.tick(60) / 1000
     gameTime += delta
     levelHandler.update(delta,gameTime)
+    renderer.update()
     # Flip the display
     pygame.display.flip()
 

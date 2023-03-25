@@ -1,6 +1,6 @@
 import pygame
 from button import Button
-from config import scaleRect, incDecInt, weapons, renderText, powerUps , clip
+from config import scaleRect, incDecInt, weapons, powerUps , clip, renderer
 from numberPicker import NumberPicker
 from saveHandler import SaveHandler
 class LevelEditor: 
@@ -95,7 +95,7 @@ class LevelEditor:
         else:
             pos = (mapArrayCoord[0]*self.cellSize[0],mapArrayCoord[1]*self.cellSize[1])
             rect = pygame.Rect(pos,self.cellSize)
-            self.screen.blit(self.highlightedSquarePic,rect)
+            renderer.pics.append((self.highlightedSquarePic,rect))
         self.display()
             
     
@@ -110,7 +110,7 @@ class LevelEditor:
         
         cellRect = pygame.Rect((90,35),self.cellSize)
         self.displayBlock(self.blockType,self.subType,cellRect)
-        renderText(self.screen,f"Map to save to:{self.slotIndex+1}","timesnewroman",20,pygame.Color(0,0,0),(965,45))
+        renderer.renderText(self.screen,f"Map to save to:{self.slotIndex+1}","timesnewroman",20,pygame.Color(0,0,0),(965,45))
 
     def displayBlock(self,type : int,subtype,rect : pygame.Rect):
         if(type == 0):
@@ -119,7 +119,7 @@ class LevelEditor:
             image = self.subImages[type][subtype]
         else:
             image = self.subImages[type][0]
-        self.screen.blit(image,rect)
+        renderer.pics.append((image,rect))
         
     
     def checkCanSave(self):

@@ -1,6 +1,6 @@
 from button import Button
 import pygame
-from config import incDecInt,renderText
+from config import incDecInt,renderer
 class NumberPicker:
     def __init__(self,screen,minimum,maximum,pos,size,doesDisplayNumber = True,amount = 1) -> None:
         self.screen = screen
@@ -31,5 +31,5 @@ class NumberPicker:
             self.value = incDecInt(self.value,self.amount,self.max,self.min)
             wasPressed = True
         if(self.doesDisplayNumber):
-            renderText(self.screen,str(self.value),"timesnewroman",int(self.size[1]/2),pygame.Color(0,0,0),(self.pos[0] - self.size[0] / 6,self.pos[1]))
+            renderer.renderText(self.screen,str(self.value),"timesnewroman",int(self.size[1]/2),pygame.Color(0,0,0),(self.pos[0] - self.size[0] / 6,self.pos[1]))
         return self.value,wasPressed,isHovered
