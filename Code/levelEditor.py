@@ -2,6 +2,7 @@ import pygame
 from button import Button
 from config import scaleRect, incDecInt, weapons, renderText, powerUps , clip
 from numberPicker import NumberPicker
+from saveHandler import SaveHandler
 class LevelEditor: 
     def __init__(self,mapSize : tuple[int,int],height : int ,screen : pygame.Surface,saveHandler,slotIndex : int,loaded : int = -1):
         if(loaded == -1):
@@ -26,6 +27,7 @@ class LevelEditor:
         self.saveButton = Button(scaleRect(height,(1180,150)),scaleRect(height,(200,50)),"Save")
         self.slotIndexPlusButton = Button(scaleRect(height,(1070,50)),scaleRect(height,(50,50)),"+")
         self.slotIndexMinusButton = Button(scaleRect(height,(870,50)),scaleRect(height,(50,50)),"-")
+        self.loadButton = Button(scaleRect(height,(1180,250)),scaleRect(height,(200,50)),"Load")
         self.screen = screen
         self.height = height
         self.width = self.height/9*16
@@ -47,6 +49,7 @@ class LevelEditor:
         self.timeSincePressed = 10
         self.typePicker = NumberPicker(self.screen,0,len(self.blockTypes)-1,scaleRect(height,(140,50)),scaleRect(height,(200,50)),False)
         self.subTypePicker = NumberPicker(self.screen,0,0,scaleRect(height,(220,150)),scaleRect(height,(300,50)),amount=1)
+        self.saveHandler = SaveHandler()
 
     def update(self,delta : float,gametime : float,levelHandler):
         mousePos = pygame.mouse.get_pos()
@@ -57,7 +60,8 @@ class LevelEditor:
         saveIndexMinusButtonPressed = self.slotIndexMinusButton.update(self.screen,gametime)
         newType,typePressed,typeHovered = self.typePicker.update(gametime)
         newSubType,subTypePressed,subTypeHovered = self.subTypePicker.update(gametime)
-        isButtonHovered =subTypeHovered or typeHovered or saveButtonPressed[1] or quitButtonPressed[1] or saveIndexPlusButtonPressed[1] or saveIndexMinusButtonPressed[1]
+        loadPressed,LoadHovered = self.loadButton.update(self.screen,gametime)
+        isButtonHovered = LoadHovered or subTypeHovered or typeHovered or saveButtonPressed[1] or quitButtonPressed[1] or saveIndexPlusButtonPressed[1] or saveIndexMinusButtonPressed[1]
         if(typePressed):
             self.blockType = newType
             if(self.doesHaveSubTypes[self.blockType] == "sub" or self.doesHaveSubTypes[self.blockType] == "no"):
@@ -75,6 +79,8 @@ class LevelEditor:
                 levelHandler.logger.log("Saved Successfully",(self.width/2-100,50),2,pygame.Color(0,255,0),25)
             else:
                 levelHandler.logger.log(savedata[1],(self.width/2-100,50),2,pygame.Color(255,0,0),25)
+        elif(loadPressed):
+            self.map = self.saveHandler.loadMap(self.slotIndex)
         elif(quitButtonPressed[0]):
             levelHandler.backToMenu("")
         elif(saveIndexPlusButtonPressed[0]):
