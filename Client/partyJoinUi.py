@@ -1,8 +1,9 @@
 import pygame
 from button import Button
-from config import mappings,scaleRect,scaleValue,renderer
-from numberPicker import NumberPicker
+from config import scaleRect,scaleValue,renderer
 from partyClient import PartyClient
+from empty import Empty
+
 class partyJoinUi:
     def __init__(self,screen,width : int,height : int,clock):
         self.screen = screen
@@ -14,10 +15,15 @@ class partyJoinUi:
         self.join = Button((width/2,height/2+scaleValue(height,400)),scaleRect(self.height,(200,50)),"Join",pygame.Color(0,255,0),buttonTextSize,pygame.Color(0,0,0))
         self.winnerText = ""
         self.clock = clock
-        self.client = PartyClient("192.168.1.197",12345)
+        self.client = Empty()
+        self.client.__class__ = PartyClient
         self.isConn = False
+        self.isInited = False
     
     def update(self,delta : float,gametime : float,levelHandler):
+        if(not self.isInited):
+            self.client.__init__("192.168.1.197",12345)
+            self.isInited = True
         renderer.renderText(self.screen,self.winnerText,"timesnewroman",scaleValue(self.height,30),pygame.Color(0,255,0),(self.width/2 - scaleValue(self.height,170),self.height/2 - scaleValue(self.height,200)))
         if(self.quit.update(self.screen,gametime)[0]):
             levelHandler.backToMenu(self.winnerText)
