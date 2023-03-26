@@ -1,6 +1,6 @@
 import pygame
 from player import Character
-from config import mappings,weapons,scaleValue, powerUps , renderer
+from config import mappings,weapons,scaleValue, powerUps,renderer
 from platformBase import PlatformBase
 from weapon import Weapon
 from ui import Ui
@@ -8,7 +8,7 @@ from powerup import PowerUp
 from launchPad import LaunchPad
 
 class Level:
-    def __init__(self,screen : pygame.Surface ,width : int,height : int,gravity : float,clock : pygame.time.Clock,playercount : int,map : list, saveHandler):
+    def __init__(self,screen : pygame.Surface ,width : int,height : int,gravity : float,clock : pygame.time.Clock,playercount : int,map : int, saveHandler):
         self.screen = screen
         self.clock = clock
         self.ui = Ui(screen)
