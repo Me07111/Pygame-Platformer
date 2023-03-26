@@ -7,6 +7,7 @@ class PartyClient:
         self.port = port
         self.bufferSize = 1024
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.index = 0
         self.socket.settimeout(5)
         self.connectToServer()
 
@@ -22,6 +23,7 @@ class PartyClient:
     def connectToParty(self, partyName):
         self.socket.send(f"join${partyName}".encode())
         response = self.socket.recv(self.bufferSize).decode()
+        self.index = int(response.split("$")[2])
         return response
 
     def sendUpdToServer(self, input):

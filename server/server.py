@@ -3,6 +3,7 @@ import threading
 import json
 
 def getPartyInfo(clientSocket):
+    print(parties)
     for partyName, partySockets in parties.items():
         if clientSocket in partySockets:
             return partyName, partySockets.index(clientSocket)
@@ -31,30 +32,32 @@ def handleClient(clientSocket, clientAddress):
         
         # Parse input
         inputParts = data.decode().split("$")
+        print(inputParts)
         command = inputParts[0].lower()
         
         # Process command
         if command == "create":
             partyName = inputParts[1]
             if partyName not in parties:
-                parties[partyName] = [clientSocket]
-                clientSocket.send(f"Created party {partyName}${inputParts[2]}".encode())
+                parties[partyName] = [[clientSocket],inputParts[2]]
+                clientSocket.send(f"Created party {partyName}".encode())
             else:
                 clientSocket.send(f"Party {partyName} already exists".encode())
         elif command == "join":
             partyName = inputParts[1]
             if partyName in parties:
-                parties[partyName].append(clientSocket)
-                clientSocket.send(f"Joined party {partyName}".encode())
+                parties[partyName][0].append(clientSocket)
+                partyName, partyIndex = getPartyInfo(clientSocket)
+                clientSocket.send(f"Succsessfully joined {partyName}!${parties[partyName][1]}${partyIndex}".encode())
             else:
                 clientSocket.send(f"Party {partyName} does not exist".encode())
         elif command == "upd":
             input = json.loads(inputParts[1])
             partyName, partyIndex = getPartyInfo(clientSocket)
             print(partyName)
-            for i, socket in enumerate(parties[partyName]):
+            for i, socket in enumerate(parties[partyName][0]):
                 if (i != partyIndex):
-                    socket.send(f"{partyIndex} {input}")
+                    socket.send(f"{partyIndex}${input}")
         else:
             clientSocket.send("Invalid command".encode())
 
