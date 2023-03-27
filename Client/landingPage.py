@@ -22,7 +22,7 @@ class landingPage:
             levelHandler.backToMenu(self.winnerText)
         if(self.client.index == 0):
             if(self.start.update(self.screen,gametime)[0]):
-                playerCount = self.client.sendCommand("landUpd",isStarted = True)
+                playerCount = int(self.client.sendCommand("landUpd",isStarted = True))
                 if playerCount >= 2:
                     levelHandler.setLevel(NetworkedLevel(self.screen,self.width,self.height,25,self.clock,playerCount,self.client.map,self))
             else:

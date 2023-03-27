@@ -13,8 +13,11 @@ class PartyClient:
         self.map = []
 
     def connectToServer(self):
-        print("nice")
-        self.socket.connect((self.ipAddress, self.port))
+        try:
+            self.socket.connect((self.ipAddress, self.port))
+            return True
+        except OSError:
+            return False
 
     def disconnect(self):
         self.socket.close()
@@ -32,6 +35,7 @@ class PartyClient:
             string = command
             for key, value in kwargs.items():
                 string += f"${value}"
+                print(string)
             self.socket.send(string.encode())
             return self.socket.recv(self.bufferSize).decode()
         else:

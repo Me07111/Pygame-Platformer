@@ -16,7 +16,7 @@ class partyJoinUi:
         self.create = Button((width/2 + scaleValue(height,250),height/2+scaleValue(height,100)),scaleRect(self.height,(200,50)),"Create",pygame.Color(0,255,0),buttonTextSize,pygame.Color(0,0,0))
         self.join = Button((width/2,height/2+scaleValue(height,400)),scaleRect(self.height,(200,50)),"Join",pygame.Color(0,255,0),buttonTextSize,pygame.Color(0,0,0))
         self.mapPicker = NumberPicker(self.screen,1,13,(width/2,height/4),(200,50))
-        self.winnerText = ""
+        self.winnerText = "w"
         self.clock = clock
         self.client = PartyClient("192.168.1.197",12345)
         self.isConn = False
@@ -26,8 +26,10 @@ class partyJoinUi:
     
     def update(self,delta : float,gametime : float,levelHandler):
         if(not self.isConn):
-            self.client.connectToServer()
-            self.isConn = True
+            if(self.client.connectToServer()):
+                self.isConn = True
+            else:
+                levelHandler.backToMenu(self.winnerText)
         renderer.renderText(self.screen,self.winnerText,"timesnewroman",scaleValue(self.height,30),pygame.Color(0,255,0),(self.width/2 - scaleValue(self.height,170),self.height/2 - scaleValue(self.height,200)))
         self.mapIndex = self.mapPicker.update(gametime)[0] -1 
         if(self.quit.update(self.screen,gametime)[0]):
