@@ -1,7 +1,7 @@
 import pygame
 from button import Button
 from config import scaleRect,scaleValue,renderer
-from partyClient import PartyClient
+from networkedLevel import NetworkedLevel
 class landingPage:
     def __init__(self,screen,width : int,height : int,clock,client):
         self.screen = screen
@@ -17,11 +17,12 @@ class landingPage:
         self.isConn = False
 
     def update(self,delta : float,gametime : float,levelHandler):
+        self.client.sendLandupd(False)
         if(self.quit.update(self.screen,gametime)[0]):
             levelHandler.backToMenu(self.winnerText)
         if(self.client.index == 0):
             if(self.create.update(self.screen,gametime)[0]):
-                self.client.startGame()
-            
-        elif(self.isConn):
-            print(self.client.sendUpdToServer([True,False,False,False,True]))
+                playerCount = self.client.sendLandupd(True)
+                levelHandler.setLevel(NetworkedLevel(self.screen,self.width,self.height,25,self.clock,playerCount,self.client.map,self))
+            else:
+                self.client.sendLandupd(False)

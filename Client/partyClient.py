@@ -9,31 +9,50 @@ class PartyClient:
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.index = 0
         self.socket.settimeout(5)
+        self.map = []
 
     def connectToServer(self):
+        print("nice")
         self.socket.connect((self.ipAddress, self.port))
 
     def disconnect(self):
         self.socket.close()
 
     def makeParty(self, partyName, map):
+        self.map = map
         jsonMap = json.dumps(map)
-        self.socket.send(f"create${partyName}${jsonMap}".encode())
-        response = self.socket.recv(self.bufferSize).decode()
+        try:
+            self.socket.send(f"create${partyName}${jsonMap}".encode())
+            response = self.socket.recv(self.bufferSize).decode()
+        except OSError:
+            return False
+        print(response)
         return response
 
     def connectToParty(self, partyName):
-        self.socket.send(f"join${partyName}".encode())
-        response = self.socket.recv(self.bufferSize).decode()
+        try:
+            self.socket.send(f"join${partyName}".encode())
+            response = self.socket.recv(self.bufferSize).decode()
+        except OSError:
+            return False
         self.index = int(response.split("$")[2])
+        self.map = json.loads(response.split("$")[1])
         return response
 
     def sendLandupd(self,isGameStarted):
-        response = self.socket.send(f"landUpd${isGameStarted}".encode())
+        try:
+            self.socket.send(f"landUpd${isGameStarted}".encode())
+            response = self.socket.recv(self.bufferSize).decode()
+        except OSError:
+            return False
         return int(response.decode())
     
     def sendUpdToServer(self, input):
-        data = json.dumps(input)
-        self.socket.send(f"upd${data}".encode())
+        try:
+            data = json.dumps(input)
+            self.socket.send(f"upd${data}".encode())
+        except OSError:
+            return False
         response = json.loads(self.socket.recv(self.bufferSize).decode())
         return response
+    

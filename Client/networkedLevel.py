@@ -7,8 +7,8 @@ from ui import Ui
 from powerup import PowerUp
 from launchPad import LaunchPad
 
-class Level:
-    def __init__(self,screen : pygame.Surface ,width : int,height : int,gravity : float,clock : pygame.time.Clock,playercount : int,map : list[list[str]], saveHandler,client):
+class NetworkedLevel:
+    def __init__(self,screen : pygame.Surface ,width : int,height : int,gravity : float,clock : pygame.time.Clock,playercount : int,map : list[list[str]],client):
         self.screen = screen
         self.clock = clock
         self.ui = Ui(screen)
@@ -25,7 +25,6 @@ class Level:
         self.onGroundWeapons = pygame.sprite.Group()
         self.powerups = pygame.sprite.Group()
         self.launchPads = pygame.sprite.Group()
-        self.saveHandler = saveHandler
         self.client = client
         self.generateMap(map)
 
@@ -194,6 +193,7 @@ class Level:
         playerposes = []
         for i, row in enumerate(map):
             for j, cell in enumerate(row):
+                cell = cell.lower()
                 pos = pygame.math.Vector2(j*cellWidth,i*cellHeight)
                 if(cell == "o"):
                     continue

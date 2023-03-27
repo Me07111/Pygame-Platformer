@@ -13,7 +13,7 @@ def getPartyInfo(clientSocket):
 # Set up constants
 ipAddress = "192.168.1.197"
 port = 12345
-bufferSize = 1024
+bufferSize = 4096
 
 # Create server socket
 serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -33,15 +33,16 @@ def handleClient(clientSocket, clientAddress):
         
         # Parse input
         inputParts = data.decode().split("$")
-        print(inputParts)
         command = inputParts[0].lower()
         
         # Process command
         if command == "create":
             partyName = inputParts[1]
             if partyName not in parties:
-                parties[partyName] = Party([clientSocket],inputParts[2])
+                parties[partyName] = Party([clientSocket],inputParts[2],[[False,False,False,False,False]])
                 clientSocket.send(f"Created party {partyName}".encode())
+                print(f"created party{parties[partyName]}")
+                print(len(parties[partyName].map),len(parties[partyName].map[0]),"\n",parties[partyName].map)
             else:
                 clientSocket.send(f"Party {partyName} already exists".encode())
         elif command == "join":
@@ -77,5 +78,6 @@ while True:
     clientSocket, clientAddress = serverSocket.accept()
     
     # Create new thread to handle client
+    print("connection accepted")
     clientThread = threading.Thread(target=handleClient, args=(clientSocket, clientAddress))
     clientThread.start()
