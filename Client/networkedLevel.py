@@ -65,7 +65,7 @@ class NetworkedLevel:
     def handleInput(self,keys) -> list[list[bool]]:
         mapping = mappings[0]
         input = [keys[mapping[0]],keys[mapping[1]],keys[mapping[2]],keys[mapping[3]],keys[mapping[4]]]
-        response = self.client.sendUpdToServer(self, input)
+        response = self.client.sendCommand("upd", inputy = input)
         arr = []
         for i in range(self.playerCount):
             if(i == self.client.index):

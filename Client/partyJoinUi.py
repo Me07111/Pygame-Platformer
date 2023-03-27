@@ -22,6 +22,7 @@ class partyJoinUi:
         self.isConn = False
         self.mapIndex = 0
         self.saveHandler = SaveHandler()
+        self.partyName = "party"
     
     def update(self,delta : float,gametime : float,levelHandler):
         if(not self.isConn):
@@ -33,11 +34,14 @@ class partyJoinUi:
             levelHandler.backToMenu(self.winnerText)
         if(self.create.update(self.screen,gametime)[0]):
             map = self.saveHandler.loadMap(self.mapIndex)
-            if(self.client.makeParty("party",map) == False):
+            result = self.client.sendCommand("create",name = self.partyName, mapy = map)
+            print(result)
+            if(result == False):
                 levelHandler.backToMenu("Server disconnected")
-            elif(self.client.makeParty("party",map).split(" ")[0] == "Succsessfully"):
+            elif(result.split("$")[0] == "S"):
                 levelHandler.setLevel(landingPage(self.screen,self.width,self.height,self.clock,self.client))
             self.isConn = True
         if(self.join.update(self.screen,gametime)[0]):
-            if(self.client.connectToParty("party") == False):
+            if(self.client.sendCommand("join",name = self.partyName) == False):
                 levelHandler.backToMenu("Server disconnected")
+                levelHandler.setLevel(landingPage(self.screen,self.width,self.height,self.clock,self.client))

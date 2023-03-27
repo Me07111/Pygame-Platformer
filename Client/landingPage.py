@@ -17,12 +17,13 @@ class landingPage:
         self.isConn = False
 
     def update(self,delta : float,gametime : float,levelHandler):
-        self.client.sendLandupd(False)
+        self.client.sendCommand("landUpd",isStarted = False)
         if(self.quit.update(self.screen,gametime)[0]):
             levelHandler.backToMenu(self.winnerText)
         if(self.client.index == 0):
-            if(self.create.update(self.screen,gametime)[0]):
-                playerCount = self.client.sendLandupd(True)
-                levelHandler.setLevel(NetworkedLevel(self.screen,self.width,self.height,25,self.clock,playerCount,self.client.map,self))
+            if(self.start.update(self.screen,gametime)[0]):
+                playerCount = self.client.sendCommand("landUpd",isStarted = True)
+                if playerCount >= 2:
+                    levelHandler.setLevel(NetworkedLevel(self.screen,self.width,self.height,25,self.clock,playerCount,self.client.map,self))
             else:
-                self.client.sendLandupd(False)
+                self.client.sendCommand("landUpd",isStarted = False)

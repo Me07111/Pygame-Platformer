@@ -48,8 +48,8 @@ def handleClient(clientSocket, clientAddress):
                 partyName = inputParts[1]
                 if partyName not in parties:
                     parties[partyName] = Party([clientSocket],inputParts[2],[[False,False,False,False,False]])
-                    clientSocket.send(f"Created party {partyName}".encode())
-                    print(f"created party{parties[partyName]}")
+                    clientSocket.send(f"S${partyName}".encode())
+                    print(f"S${parties[partyName]}")
                     print(len(parties[partyName].map),len(parties[partyName].map[0]),"\n",parties[partyName].map)
                 else:
                     clientSocket.send(f"Party {partyName} already exists".encode())
@@ -77,6 +77,8 @@ def handleClient(clientSocket, clientAddress):
                         arr.append(input)
                 arr = json.dumps(arr)
                 clientSocket.send(arr.encode())
+            elif command == "ping":
+                clientSocket.send("pong".encode())
             else:
                 clientSocket.send("Invalid command".encode())
 
