@@ -5,7 +5,7 @@ class PartyClient:
     def __init__(self, ipAddress, port):
         self.ipAddress = ipAddress
         self.port = port
-        self.bufferSize = 4096
+        self.bufferSize = 16384
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.index = 0
         self.playerCount = 1
