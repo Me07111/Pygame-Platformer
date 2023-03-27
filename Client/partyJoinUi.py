@@ -5,6 +5,7 @@ from partyClient import PartyClient
 from numberPicker import NumberPicker
 from saveHandler import SaveHandler
 from landingPage import landingPage
+import json
 
 class partyJoinUi:
     def __init__(self,screen,width : int,height : int,clock):
@@ -14,7 +15,7 @@ class partyJoinUi:
         buttonTextSize = scaleValue(height,20)
         self.quit = Button((width/2-scaleValue(height,250),height/2+scaleValue(height,100)),scaleRect(self.height,(200,50)),"Quit",pygame.Color(255,0,0),buttonTextSize,pygame.Color(0,0,0))
         self.create = Button((width/2 + scaleValue(height,250),height/2+scaleValue(height,100)),scaleRect(self.height,(200,50)),"Create",pygame.Color(0,255,0),buttonTextSize,pygame.Color(0,0,0))
-        self.join = Button((width/2,height/2+scaleValue(height,400)),scaleRect(self.height,(200,50)),"Join",pygame.Color(0,255,0),buttonTextSize,pygame.Color(0,0,0))
+        self.join = Button((width/2,height/2+scaleValue(height,250)),scaleRect(self.height,(200,50)),"Join",pygame.Color(0,255,0),buttonTextSize,pygame.Color(0,0,0))
         self.mapPicker = NumberPicker(self.screen,1,13,(width/2,height/4),(200,50))
         self.winnerText = "w"
         self.clock = clock
@@ -44,6 +45,8 @@ class partyJoinUi:
                 levelHandler.setLevel(landingPage(self.screen,self.width,self.height,self.clock,self.client))
             self.isConn = True
         if(self.join.update(self.screen,gametime)[0]):
-            if(self.client.sendCommand("join",name = self.partyName) == False):
+            success = self.client.sendCommand("join",name = self.partyName).split("$")
+            if(success[0] != "S"):
                 levelHandler.backToMenu("Server disconnected")
+                self.client.map = json.loads(success[2])
                 levelHandler.setLevel(landingPage(self.screen,self.width,self.height,self.clock,self.client))

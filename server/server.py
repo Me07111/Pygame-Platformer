@@ -37,11 +37,16 @@ def handleClient(clientSocket, clientAddress):
                     for socket in parties[partyName].sockets:
                         socket.close()
                     del parties[partyName]
+                elif(partyName is not None) and index != 0:
+                    parties[partyName].plyercount -= 1
+                    parties[partyName].sockets.pop(index)
+                    parties[partyName].inputs.pop(index)
                 break
             
             # Parse input
             inputParts = data.decode().split("$")
             command = inputParts[0].lower()
+            print(command)
             
             # Process command
             if command == "create":
@@ -59,13 +64,14 @@ def handleClient(clientSocket, clientAddress):
                     parties[partyName].sockets.append(clientSocket)
                     partyName, index = getPartyInfo(clientSocket)
                     parties[partyName].inputs.append([False,False,False,False,False])
+                    parties[partyName].playercount += 1
                     clientSocket.send(f"Succsessfully joined {partyName}!${index}".encode())
                 else:
                     clientSocket.send(f"Party {partyName} does not exist".encode())
-            elif command == "landUpd":
+            elif command == "landupd":
                 partyName, index = getPartyInfo(clientSocket)
                 parties[partyName].isGameStarted = bool(inputParts[1])
-                returnVal = str(parties[partyName].playerCount)
+                returnVal = str(parties[partyName].playercount)
                 clientSocket.send(returnVal.encode()) 
             elif command == "upd":
                 input = json.loads(inputParts[1])
