@@ -1,10 +1,9 @@
 from dataclasses import dataclass,field
-import socket
+from player import Player
 
 @dataclass
 class Party:
-    sockets : list[socket.socket]
-    map : list[list[str]]
-    inputs : list[list[bool]] = field(default_factory=[[False,False,False,False,False]])
-    playerCount : int = 1
+    players : list[Player]
+    Map : list[list[str]]
+    playercount : int = 1
     isGameStarted : bool = False

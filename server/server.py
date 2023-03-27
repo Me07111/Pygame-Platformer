@@ -2,18 +2,19 @@ import socket
 import threading
 import json
 from party import Party
+from player import Player
 
 def getPartyInfo(clientSocket):
-    print(parties)
-    for partyName, partys in parties.items():
-        if clientSocket in partys.sockets:
-            return partyName, partys.sockets.index(clientSocket)
+    for i, partyName, party in enumerate(parties.items()):
+        for player in party.players:
+            if player.socket == clientSocket:
+                return partyName, i
     return None, None
 
 # Set up constants
 ipAddress = "192.168.1.197"
 port = 12345
-bufferSize = 4096
+bufferSize = 16384
 thread = None
 
 # Create server socket
@@ -34,13 +35,12 @@ def handleClient(clientSocket, clientAddress):
                 print("except")
                 partyName, index = getPartyInfo(clientSocket)
                 if partyName is not None and index == 0:
-                    for socket in parties[partyName].sockets:
-                        socket.close()
+                    for player in parties[partyName].players:
+                        player.socket.close()
                     del parties[partyName]
                 elif(partyName is not None) and index != 0:
                     parties[partyName].plyercount -= 1
-                    parties[partyName].sockets.pop(index)
-                    parties[partyName].inputs.pop(index)
+                    parties[partyName].players.pop(index)
                 break
             
             # Parse input
@@ -52,20 +52,22 @@ def handleClient(clientSocket, clientAddress):
             if command == "create":
                 partyName = inputParts[1]
                 if partyName not in parties:
-                    parties[partyName] = Party([clientSocket],inputParts[2],[[False,False,False,False,False]])
+                    host = Player(clientSocket,[False*5])
+                    parties[partyName] = Party([host],inputParts[2])
+                    print(parties[partyName].Map)
                     clientSocket.send(f"S${partyName}".encode())
-                    print(f"S${parties[partyName]}")
-                    print(len(parties[partyName].map),len(parties[partyName].map[0]),"\n",parties[partyName].map)
                 else:
                     clientSocket.send(f"Party {partyName} already exists".encode())
             elif command == "join":
                 partyName = inputParts[1]
                 if partyName in parties:
-                    parties[partyName].sockets.append(clientSocket)
+                    player = Player(clientSocket,[False*5])
+                    parties[partyName].players.append(player)
                     partyName, index = getPartyInfo(clientSocket)
-                    parties[partyName].inputs.append([False,False,False,False,False])
                     parties[partyName].playercount += 1
-                    clientSocket.send(f"Succsessfully joined {partyName}!${index}".encode())
+                    print(parties[partyName].Map)
+                    jsonMap = json.dumps(parties[partyName].Map)
+                    clientSocket.sendall(f"S${partyName}!${index}${jsonMap}".encode())
                 else:
                     clientSocket.send(f"Party {partyName} does not exist".encode())
             elif command == "landupd":
@@ -76,9 +78,10 @@ def handleClient(clientSocket, clientAddress):
             elif command == "upd":
                 input = json.loads(inputParts[1])
                 partyName, index = getPartyInfo(clientSocket)
-                parties[partyName].inputs[index] = input
+                parties[partyName].players[index].input = input
                 arr = []
-                for i, input in enumerate(parties[partyName].inputs):
+                for i, player in enumerate(parties[partyName].players):
+                    input = player.input
                     if(i != index):
                         arr.append(input)
                 arr = json.dumps(arr)
