@@ -1,5 +1,5 @@
 import socket
-from networkLib import sendMulti,recvMulti
+import json
 
 class PartyClient:
     def __init__(self, ipAddress, port):
@@ -24,23 +24,21 @@ class PartyClient:
     
     def ping(self):
         try:
-            sendMulti("ping",self.socket)
-            if  (self.socket,self.bufferSize) == "pong":
+            self.socket.send("ping".encode())
+            if(self.socket.recv(self.bufferSize).decode() == "pong"):
                 return True
-        except (OSError, socket.timeout):
+        except OSError:
             return False
     
-    def sendCommand(self, command: str, **kwargs):
-        if self.ping():
+    def sendCommand(self,command : str,**kwargs):
+        if (self.ping()):
             string = command
             for key, value in kwargs.items():
                 string += f"${value}"
-            send_result = sendMulti(string, self.socket)
-            if send_result is False:
-                return False
-            answer = recvMulti(self.socket, self.bufferSize)
-            if answer is False:
-                return False
-            return answer
+                print(string)
+            self.socket.send(string.encode())
+            answer = self.socket.recv(self.bufferSize)
+            print(answer)
+            return answer.decode()
         else:
             return False

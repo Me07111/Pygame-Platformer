@@ -35,21 +35,20 @@ class partyJoinUi:
         self.mapIndex = self.mapPicker.update(gametime)[0] -1 
         if(self.quit.update(self.screen,gametime)[0]):
             levelHandler.backToMenu(self.winnerText)
-        if(self.create.update(self.screen,gametime)[0]):
+        elif(self.create.update(self.screen,gametime)[0]):
             map = self.saveHandler.loadMap(self.mapIndex)
             result = self.client.sendCommand("create",name = self.partyName, mapy = map)
             print(result)
-            if(result == False):
-                levelHandler.backToMenu("Server disconnected")
-            elif(result.split("$")[0] == "S"):
+            if(result.split("$")[0] == "S"):
                 levelHandler.setLevel(landingPage(self.screen,self.width,self.height,self.clock,self.client))
             self.isConn = True
-        if(self.join.update(self.screen,gametime)[0]):
+        elif(self.join.update(self.screen,gametime)[0]):
             success = self.client.sendCommand("join",name = self.partyName)
             print(success)
-            if(not success):
-                levelHandler.backToMenu("Server disconnected")
-            elif(success.split("$")[0] == "S"):
-                self.client.map = json.loads(success.split("$")[3])
+            if(success.split("$")[0] == "S"):
+                self.client.map = json.loads(success.split("$")[2])
                 print("map:",self.client.map)
                 levelHandler.setLevel(landingPage(self.screen,self.width,self.height,self.clock,self.client))
+        else:
+            if(not self.client.ping()):
+                levelHandler.backToMenu("server Disconnected")
