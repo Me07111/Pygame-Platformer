@@ -3,12 +3,15 @@ import threading
 import json
 from party import Party
 from player import Player
+from sys import getsizeof
 
 def getPartyInfo(clientSocket):
-    for i, partyName, party in enumerate(parties.items()):
+    i = 0
+    for partyName, party in parties.items():
         for player in party.players:
             if player.socket == clientSocket:
                 return partyName, i
+        i += 1
     return None, None
 
 # Set up constants
@@ -67,7 +70,8 @@ def handleClient(clientSocket, clientAddress):
                     parties[partyName].playercount += 1
                     print(parties[partyName].Map)
                     jsonMap = json.dumps(parties[partyName].Map)
-                    clientSocket.sendall(f"S${partyName}!${index}${jsonMap}".encode())
+                    print(getsizeof(f"S${partyName}!${index}${jsonMap}".encode()))
+                    print("sent",clientSocket.send(f"S${partyName}!${index}${jsonMap}".encode()),"bytes")
                 else:
                     clientSocket.send(f"Party {partyName} does not exist".encode())
             elif command == "landupd":
