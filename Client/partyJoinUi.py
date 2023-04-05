@@ -1,4 +1,3 @@
-import pygame
 from button import Button
 from config import scaleRect,scaleValue,renderer
 from partyClient import PartyClient
@@ -6,6 +5,8 @@ from numberPicker import NumberPicker
 from saveHandler import SaveHandler
 from landingPage import landingPage
 import json
+import socket
+import pygame
 
 class partyJoinUi:
     def __init__(self,screen,width : int,height : int,clock):
@@ -19,7 +20,9 @@ class partyJoinUi:
         self.mapPicker = NumberPicker(self.screen,1,13,(width/2,height/4),(200,50))
         self.winnerText = "w"
         self.clock = clock
-        self.client = PartyClient("192.168.1.197",12345)
+        name = socket.gethostname()
+        ip = socket.gethostbyname(name)
+        self.client = PartyClient(ip,12345)
         self.isConn = False
         self.mapIndex = 0
         self.saveHandler = SaveHandler()
@@ -36,9 +39,8 @@ class partyJoinUi:
         if(self.quit.update(self.screen,gametime)[0]):
             levelHandler.backToMenu(self.winnerText)
         elif(self.create.update(self.screen,gametime)[0]):
-            map = self.saveHandler.loadMap(self.mapIndex)
-            result = self.client.sendCommand("create",name = self.partyName, mapy = map)
-            print(result)
+            self.client.map = self.saveHandler.loadMap(self.mapIndex)
+            result = self.client.sendCommand("create",name = self.partyName, mapy = self.client.map)
             if(result.split("$")[0] == "S"):
                 levelHandler.setLevel(landingPage(self.screen,self.width,self.height,self.clock,self.client))
             self.isConn = True

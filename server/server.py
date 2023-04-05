@@ -15,7 +15,9 @@ def getPartyInfo(clientSocket):
     return None, None
 
 # Set up constants
-ipAddress = "192.168.1.197"
+hostname = socket.gethostname()
+ipAddress = socket.gethostbyname(hostname)
+print(ipAddress)
 port = 12345
 bufferSize = 16384
 thread = None

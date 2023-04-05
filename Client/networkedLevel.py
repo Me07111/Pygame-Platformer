@@ -6,9 +6,10 @@ from weapon import Weapon
 from ui import Ui
 from powerup import PowerUp
 from launchPad import LaunchPad
+import json
 
 class NetworkedLevel:
-    def __init__(self,screen : pygame.Surface ,width : int,height : int,gravity : float,clock : pygame.time.Clock,playercount : int,map : list[list[str]],client):
+    def __init__(self,screen : pygame.Surface ,width : int,height : int,gravity : float,clock : pygame.time.Clock,playercount : int,client):
         self.screen = screen
         self.clock = clock
         self.ui = Ui(screen)
@@ -26,7 +27,7 @@ class NetworkedLevel:
         self.powerups = pygame.sprite.Group()
         self.launchPads = pygame.sprite.Group()
         self.client = client
-        self.generateMap(map)
+        self.generateMap(client.map)
 
     def update(self,delta : float,gametime : float,levelHandler):
         keys = pygame.key.get_pressed()
@@ -64,8 +65,10 @@ class NetworkedLevel:
 
     def handleInput(self,keys) -> list[list[bool]]:
         mapping = mappings[0]
-        input = [keys[mapping[0]],keys[mapping[1]],keys[mapping[2]],keys[mapping[3]],keys[mapping[4]]]
-        response = self.client.sendCommand("upd", inputy = input)
+        input = json.dumps([keys[mapping[0]],keys[mapping[1]],keys[mapping[2]],keys[mapping[3]],keys[mapping[4]]])
+        strRes = self.client.sendCommand("upd", inputy = input)
+        print(strRes)
+        response = json.loads(strRes)
         arr = []
         for i in range(self.playerCount):
             if(i == self.client.index):
