@@ -61,7 +61,7 @@ class NetworkedLevel:
         renderer.sprites.append(self.powerups)
         renderer.sprites.append(self.bullets)
         self.ui.update(self.players)
-        self.checkWinCondition(player,levelHandler)
+        self.checkWinCondition(levelHandler)
 
     def handleInput(self,keys) -> list[list[bool]]:
         mapping = mappings[0]
@@ -82,7 +82,7 @@ class NetworkedLevel:
         if(len(collidingPads) > 0):
             collidingPads[0].onCollision(player)
 
-    def checkWinCondition(self,player,levelHandler):
+    def checkWinCondition(self,levelHandler):
         alivePlayers = []
         for player in self.players:
             if(player.health > 0):
@@ -223,6 +223,7 @@ class NetworkedLevel:
                     launchPad = LaunchPad((pos.x + cellWidth/2,pos.y + cellHeight/2),int(cell[1:len(cell)]),5,self.height)
                     self.launchPads.add(launchPad)
         playerposes.sort(key=getX)
+        print(f"player poses length:{len(playerposes)}")
         for i, player in enumerate(playerposes):
             self.players.append(Character(player,self.screen,mappings[i],f"Player {i + 1}",self.height))
     

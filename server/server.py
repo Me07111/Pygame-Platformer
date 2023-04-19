@@ -79,7 +79,8 @@ def handleClient(clientSocket, clientAddress):
             elif command == "landupd":
                 partyName, index = getPartyInfo(clientSocket)
                 parties[partyName].isGameStarted = bool(inputParts[1])
-                returnVal = str(parties[partyName].playercount)
+                print(f"playercount= {parties[partyName].playercount}")
+                returnVal = f"{parties[partyName].playercount}${parties[partyName].isGameStarted}"
                 clientSocket.send(returnVal.encode()) 
             elif command == "upd":
                 input = json.loads(inputParts[1])
@@ -87,7 +88,7 @@ def handleClient(clientSocket, clientAddress):
                 parties[partyName].players[index].input = input
                 arr = []
                 for i, player in enumerate(parties[partyName].players):
-                    input = player.input
+                    input = player.inputs
                     if(i != index):
                         arr.append(input)
                 arr = json.dumps(arr)

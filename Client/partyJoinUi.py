@@ -42,13 +42,15 @@ class partyJoinUi:
             self.client.map = self.saveHandler.loadMap(self.mapIndex)
             result = self.client.sendCommand("create",name = self.partyName, mapy = self.client.map)
             if(result.split("$")[0] == "S"):
+                self.client.index = 0
                 levelHandler.setLevel(landingPage(self.screen,self.width,self.height,self.clock,self.client))
             self.isConn = True
         elif(self.join.update(self.screen,gametime)[0]):
             success = self.client.sendCommand("join",name = self.partyName)
             print(success)
             if(success.split("$")[0] == "S"):
-                self.client.map = json.loads(success.split("$")[2])
+                self.client.index = success.split("$")[2]
+                self.client.map = json.loads(success.split("$")[3])
                 print("map:",self.client.map)
                 levelHandler.setLevel(landingPage(self.screen,self.width,self.height,self.clock,self.client))
         else:
