@@ -18,13 +18,15 @@ class landingPage:
 
     def update(self,delta : float,gametime : float,levelHandler):
         answer = self.client.sendCommand("landUpd",isStarted = False)
-        playerCount = int(answer.split("$")[0])
         print(f"answer of LandUp:{answer}")
-        print(playerCount)
-        if(answer == False):
+        if(not answer):
+            print("levelhander.bacToMenu Called")
             levelHandler.backToMenu(self.winnerText)
-        elif(answer.split("$")[1] == "True"):
+            return
+        else:
             playerCount = int(answer.split("$")[0])
+            print(playerCount)
+        if(answer.split("$")[1] == "True"):
             levelHandler.setLevel(NetworkedLevel(self.screen,self.width,self.height,25,self.clock,playerCount,self.client))
         if(self.quit.update(self.screen,gametime)[0]):
             levelHandler.backToMenu(self.winnerText)
