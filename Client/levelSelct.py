@@ -5,9 +5,8 @@ import pygame
 import math
 from levelEditor import LevelEditor
 from saveHandler import SaveHandler
-from partyJoinUi import partyJoinUi
 class LevelSelect:
-    def __init__(self,screen,width : float,height : float,clock,playerCount : int):
+    def __init__(self,screen,width : float,height : float,clock,playerCount : int,levelHandler):
         self.screen = screen
         self.saveHandler = SaveHandler()
         self.levels = [
@@ -25,15 +24,17 @@ class LevelSelect:
             Level(screen,width,height,25,clock,playerCount,11,self.saveHandler),
             Level(screen,width,height,25,clock,playerCount,12,self.saveHandler),
             Level(screen,width,height,25,clock,playerCount,13,self.saveHandler),
-            partyJoinUi(screen,width,height,clock),
-            LevelEditor((32,18),height,screen,self.saveHandler,0)
+            LevelEditor((32,18),height,screen,self.saveHandler,0),
+            levelHandler.mainMenu,
         ]
         self.buttons = []
         for i in range(math.ceil(len(self.levels) / 4)):
             for j in range(4):
                 if(len(self.levels) - 1 >= i*4 + j):
-                    if(i*4 + j +1 == 16):
+                    if(i*4 + j +1 == 15):
                         text = "Level Editor"
+                    elif(i*4 + j +1 == 16):
+                        text = "Back to menu"
                     else:   
                         text = f"Level {i*4 + j + 1}"
                     button = Button(scaleRect(height,(200 + 270*j,100 + i * 175)),scaleRect(height,(200,50)),text,pygame.Color(255,255,255),scaleValue(height,20))

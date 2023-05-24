@@ -25,6 +25,6 @@ class MainMenu:
         if(doQuit):
             pygame.quit()
         if(self.play.update(self.screen,gametime)[0]):
-            levelHandler.setLevel(LevelSelect(self.screen,self.width,self.height,self.clock,self.playerCount))
+            levelHandler.setLevel(LevelSelect(self.screen,self.width,self.height,self.clock,self.playerCount,levelHandler))
         self.playerCount = self.playerCountPicker.update(gametime)[0]
         

@@ -19,8 +19,9 @@ class LevelEditor:
         self.saveHandler = saveHandler
         self.cellSize = ()
         self.blockType = 1
+        self.blockColour = 0
         self.blockTypes = ["o","x","P","w","u","L"]
-        self.doesHaveSubTypes = ["no","no","no","sub","sub","par"]
+        self.doesHaveSubTypes = ["no","sub","no","sub","sub","par"]
         self.parMaxes = [0,0,0,0,0,10000]
         self.subType = 0
         self.quitButton = Button(scaleRect(height,(1180,50)),scaleRect(height,(200,50)),"Quit(noSave)")
@@ -42,16 +43,23 @@ class LevelEditor:
         weaponImages = []
         for weapon in weapons:
             weaponImages.append(pygame.transform.smoothscale(pygame.image.load(weapon[1]),self.cellSize))
+        platformImages = []
+        for i in range (0,16):
+            text = f"Graphics/platform{i}.png"
+            print(text)
+            platformImages.append(pygame.transform.smoothscale(pygame.image.load(text),self.cellSize))
+        print(platformImages.__len__())
         powerupImages = []
         for powerUp in powerUps:
             powerupImages.append(pygame.transform.smoothscale(clip(pygame.image.load(powerUp.get("imagePath")),0,0,40,40),self.cellSize))
-        self.subImages = [[],[platformImage],[playerimage],weaponImages,powerupImages,[jumpPadImage]]
+        self.subImages = [[],platformImages,[playerimage],weaponImages,powerupImages,[jumpPadImage]]
         self.timeSincePressed = 10
         self.typePicker = NumberPicker(self.screen,0,len(self.blockTypes)-1,scaleRect(height,(140,50)),scaleRect(height,(200,50)),False)
         self.subTypePicker = NumberPicker(self.screen,0,0,scaleRect(height,(220,150)),scaleRect(height,(300,50)),amount=1)
         self.saveHandler = SaveHandler()
 
     def update(self,delta : float,gametime : float,levelHandler):
+        print("subtype",self.subType)
         mousePos = pygame.mouse.get_pos()
         mapArrayCoord = (int(mousePos[0]//self.cellSize[0]),int(mousePos[1]//self.cellSize[1]))
         saveButtonPressed = self.saveButton.update(self.screen,gametime)
@@ -67,9 +75,11 @@ class LevelEditor:
             if(self.doesHaveSubTypes[self.blockType] == "sub" or self.doesHaveSubTypes[self.blockType] == "no"):
                 self.subTypePicker.max = len(self.subImages[self.blockType]) - 1
                 self.subTypePicker.amount = 1
+                self.subType = 1
             else:
                 self.subTypePicker.max = self.parMaxes[self.blockType]
                 self.subTypePicker.amount = 10
+                self.subType = 10
         elif(subTypePressed):
             self.subType = newSubType
         elif(saveButtonPressed[0]):
@@ -152,4 +162,4 @@ class LevelEditor:
         if(len(string) < 2):
             return self.blockTypes.index(string[0]),0
         else:
-            return self.blockTypes.index(string[0]),int(string[1])
+            return self.blockTypes.index(string[0]),int(string[1:])

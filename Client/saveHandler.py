@@ -1,11 +1,13 @@
 import json
+import os
 class SaveHandler:
     def __init__(self):
         self.maps = self.loadMaps(False)
 
 
     def loadMaps(self,save : bool) -> list[list[list[str]]]:
-        loadedMap = open("save.json")
+        print(os.getcwd())
+        loadedMap = open("save.json","r")
         maps = json.loads(loadedMap.read())
         loadedMap.close()
         if(save):

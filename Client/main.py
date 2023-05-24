@@ -1,7 +1,6 @@
 import pygame
 from mainMenu import MainMenu
 from levelhandler import LevelHandler
-from renderer import Renderer
 from config import renderer
 pygame.init()
 pygame.font.init()

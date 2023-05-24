@@ -31,6 +31,8 @@ class Level:
     def update(self,delta : float,gametime : float,levelHandler):
         keys = pygame.key.get_pressed()
         for i, player in enumerate(self.players):
+            if(player.rect.centery > self.height):
+                player.health = 0
             if(player.health == 0):
                 continue
             if(player.isOnGround):
@@ -183,8 +185,8 @@ class Level:
                 pos = pygame.math.Vector2(j*cellWidth,i*cellHeight)
                 if(cell == "o"):
                     continue
-                elif(cell == "x"):
-                    platform = PlatformBase(pos,cellWidth,cellHeight,pygame.color.Color(255,255,255,255),self.screen)
+                elif(cell[0] == "x"):
+                    platform = PlatformBase(pos,cellWidth,cellHeight,cell[1:],self.screen)
                     self.platforms.add(platform)
                 elif(cell == "P"):
                     if(playerAmount + 1 <= self.playerCount):
