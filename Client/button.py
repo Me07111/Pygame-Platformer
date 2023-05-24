@@ -16,6 +16,7 @@ class Button:
         self.lastTimePressed = -cooldown
     
     def update(self,screen,gameTime : float) -> tuple[bool,bool]:
+        pygame.init()
         mousePos = pygame.mouse.get_pos()
         if(pygame.Rect.collidepoint(self.rect,mousePos[0],mousePos[1])):
             if(pygame.mouse.get_pressed(3)[0] and gameTime - self.lastTimePressed > self.cooldown):

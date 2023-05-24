@@ -51,7 +51,7 @@ def handleClient(clientSocket, clientAddress):
             # Parse input
             inputParts = data.decode().split("$")
             command = inputParts[0].lower()
-            print(command)
+            print("command",inputParts)
             
             # Process command
             if command == "create":
@@ -78,9 +78,13 @@ def handleClient(clientSocket, clientAddress):
                     clientSocket.send(f"Party {partyName} does not exist".encode())
             elif command == "landupd":
                 partyName, index = getPartyInfo(clientSocket)
-                parties[partyName].isGameStarted = bool(inputParts[1])
+                if(inputParts[1] == "False"):
+                    parties[partyName].isGameStarted = False
+                else:
+                    parties[partyName].isGameStarted = True
                 print(f"playercount= {parties[partyName].playercount}")
                 returnVal = f"{parties[partyName].playercount}${parties[partyName].isGameStarted}"
+                print(returnVal)
                 clientSocket.send(returnVal.encode()) 
             elif command == "upd":
                 input = json.loads(inputParts[1])
