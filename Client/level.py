@@ -201,7 +201,7 @@ class Level:
                 elif(cell[0] == "u"):
                     type = powerUps[int(cell[1])]
                     powerUpPos = (pos.x + cellWidth/2,pos.y + cellHeight/2)
-                    powerUp = PowerUp(self.height, powerUpPos, type.get("name"),type.get("imagePath"),type.get("modifications"),type.get("isTimed"),type.get("time"))
+                    powerUp = PowerUp(self.height, powerUpPos,int(cell[1]), type.get("name"),type.get("imagePath"),type.get("modifications"),type.get("isTimed"),type.get("time"))
                     self.powerups.add(powerUp)
                 elif(cell[0] == "L"):
                     print(int(cell[1:len(cell)-1]))

@@ -37,6 +37,7 @@ class Character(pygame.sprite.Sprite):
         self.timedPowerups = []
         self.damageMultiplier = 1
         self.isInvincible = False
+        self.activeEffects = []
 
     def takeDamage(self,damage : float):
         if(not self.isInvincible):

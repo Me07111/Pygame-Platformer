@@ -36,6 +36,13 @@ healthBarPoses = [
     pygame.math.Vector2(940,120)
 ]
 
+powerUpUiPoses = [
+    pygame.math.Vector2(40,80),
+    pygame.math.Vector2(940,80),
+    pygame.math.Vector2(40,160),
+    pygame.math.Vector2(940,160)
+]
+
 weaponUiPoses= [
     pygame.math.Vector2(40 + healthBarSize.x + 10 ,40),
     pygame.math.Vector2(840,40),

@@ -2,7 +2,7 @@ from config import scaleRect
 import pygame
 from animator import Animator
 class PowerUp(pygame.sprite.Sprite):
-    def __init__(self,height : int,pos,name : str,imagePath : str,modifications : dict,isTimed : bool = False,time : int = 0):
+    def __init__(self,height : int,pos,id : int,name : str,imagePath : str,modifications : dict,isTimed : bool = False,time : int = 0,):
         super().__init__()
         self.height = height
         self.origImage = pygame.image.load(imagePath)
@@ -16,6 +16,7 @@ class PowerUp(pygame.sprite.Sprite):
         self.isPickedUp = False
         self.player = None
         self.timeSincePickUp = 0
+        self.id = id
 
     def update(self,delta : float, *args: any, **kwargs: any) -> None:
         super().update(*args, **kwargs)
@@ -29,6 +30,7 @@ class PowerUp(pygame.sprite.Sprite):
     
     def pickUp(self,player):
         self.isPickedUp = True
+        player.activeEffects.append(self.id)
         player.maxJumps += self.modifications.get("maxJumps")
         player.jumpSpeed += self.modifications.get("jumpSpeedMod")
         player.speed += self.modifications.get("speedMod")
@@ -39,7 +41,8 @@ class PowerUp(pygame.sprite.Sprite):
         player.damageMultiplier += self.modifications.get("damageMultiplierMod")
         player.isInvincible = self.modifications.get("isInvincible")
         self.player = player
-        player.timedPowerups.append(self)
+        if(self.isTimed):
+            player.timedPowerups.append(self)
     
     def timerDone(self):
         self.player.maxJumps -= self.modifications.get("maxJumps")
@@ -50,3 +53,4 @@ class PowerUp(pygame.sprite.Sprite):
         self.player.damageMultiplier -= self.modifications.get("damageMultiplierMod")
         self.player.isInvincible = False
         self.player.timedPowerups.remove(self)
+        self.player.activeEffects.remove(self.id)
